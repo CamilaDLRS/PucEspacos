@@ -1,6 +1,5 @@
 require('dotenv').config();
 import express from 'express';
-import * as https from 'https';
 
 const port = process.env.PORT;
 const app = express();
@@ -11,9 +10,7 @@ app.use(express.json());
 app.get('/', (req, res) => { res.send('Ping!') });
 
 try {
-  const server = https.createServer(app);
-
-  server.listen(port, () => {
+  app.listen(port, () => {
     console.log(`Puc Espaços app is running on port ${port}, database ${process.env.DB_HOST || ''}`);
   });
 
