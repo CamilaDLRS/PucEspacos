@@ -1,20 +1,20 @@
-import app from "./shared/infra/rotas";
+import app from "./shared/infra/routes/index.routes";
 
 require('dotenv').config();
 
-const porta = process.env.PORT;
+const port = process.env.PORT;
 
 try {
-  app.listen(porta, () => {
-    console.log(`Puc Espaços esta rodando na porta ${porta}, com o banco ${process.env.DB_HOST || ''}`);
+  app.listen(port, () => {
+    console.log(`Puc Espaços app is running on port ${port}, database ${process.env.DB_HOST || ''}`);
   });
 
   process.on('SIGINT', () => {
-    console.log('Aplicativo Puc Espaços parou por SIGINT sinal.');
+    console.log('Puc Espaços app stopped by SIGINT signal.');
     process.exit(0); 
   });
 
 } catch (error) {
-  console.log(`Errou ao inicializar o aplicativo Puc Espaços.`, error);
+  console.log(`Error at initiate the Puc Espaços app.`, error);
 }
 
