@@ -1,14 +1,17 @@
 import express from "express";
+import { UsersController } from "../../../modules/controllers/users.controller";
 
 const userRouter = express.Router();
 
-userRouter.get("/", (req, res) => {
-  res.send("READ!");
-});
+userRouter.get(
+  "/:id",
+  UsersController.getById
+);
 
-userRouter.get("/list", (req, res) => {
-  res.send("READ ALL!");
-});
+userRouter.get(
+  "/",
+  UsersController.getAll
+);
 
 userRouter.post("/", (req, res) => {
   res.send("CREATE!");

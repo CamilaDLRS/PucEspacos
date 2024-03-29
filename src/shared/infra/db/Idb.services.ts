@@ -5,5 +5,5 @@ export interface IdbServices {
 
   execute(sql: string): Promise<any>;
 
-  executeWithParams(sql: string, bindParams: any, options: any): Promise<any>;
+  executeWithParams(sql: string, bindParams: any, options?: any): Promise<any>;
 }

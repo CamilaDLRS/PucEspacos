@@ -12,9 +12,9 @@ class MysqlDbServices implements IdbServices {
     try {
       this.connection = await createConnection({
         host: "localhost",
+        port: 3306,
         user: "root",
-        password: "",
-        database: "puc_espacos",
+        database: "puc_espacos"
       });
       console.log("Connected to MySQL database");
     } catch (error: any) {
@@ -40,8 +40,8 @@ class MysqlDbServices implements IdbServices {
 
   async execute(sql: string): Promise<any> {
     try {
-      const rows = await this.connection!.query(sql);
-      return rows;
+      const result = await this.connection!.query(sql);
+      return result[0];
     } catch (error: any) {
       console.error("Error executing SQL query:", error.message);
       throw error;
@@ -54,8 +54,8 @@ class MysqlDbServices implements IdbServices {
     options: any
   ): Promise<any> {
     try {
-      const rows = await this.connection!.execute(sql, bindParams);
-      return rows;
+      const result = await this.connection!.execute(sql, bindParams);
+      return result[0];
     } catch (error: any) {
       console.error("Error executing SQL query with params:", error.message);
       throw error;

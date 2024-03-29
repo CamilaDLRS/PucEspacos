@@ -1,8 +1,6 @@
 import app from "./shared/infra/routes/index.routes";
 
-require('dotenv').config();
-
-const port = process.env.PORT;
+const port:number = 5001;
 
 try {
   app.listen(port, () => {
@@ -17,4 +15,3 @@ try {
 } catch (error) {
   console.log(`Error at initiate the Puc Espaços app.`, error);
 }
-
