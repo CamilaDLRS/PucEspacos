@@ -18,8 +18,9 @@ userRouter.post(
   UsersController.createUser
 );
 
-userRouter.put("/", (req, res) => {
-  res.send("EDIT!");
-});
+userRouter.patch(
+  "/:id",
+  UsersController.updateUser
+);
 
 export default userRouter;

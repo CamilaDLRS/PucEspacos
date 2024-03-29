@@ -35,4 +35,19 @@ export class UsersController {
       await ExpressHandlers.handleError(req, res, error);
     }
   }
+
+  public static async updateUser(req : Request, res : Response) {
+    try {
+      const id = req.params.id;
+      const schoolId = (req.body.schoolId);
+      const isActive = (req.body.isActive);
+      const userType = (req.body.userType);
+
+      await UsersServices.updateUser(id, schoolId, isActive, userType);
+      const user = await UsersServices.getById(id);
+      await ExpressHandlers.handleResponse(req, res, user, "Usuário editado com sucesso!");
+    } catch (error) {
+      await ExpressHandlers.handleError(req, res, error);
+    }
+  }
 }

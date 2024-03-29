@@ -4,7 +4,7 @@ import { ApiError } from "./apiError";
 import { InternalCode } from "../../shared/utils/internalCodes";
 
 export class ExpressHandlers {
-  public static async handleResponse(req: Request, res: Response, data: any, message? : string) {
+  public static async handleResponse(req: Request, res: Response, data?: any, message? : string) {
     res.status(200).send(new ApiResponse(200, message, data));
   }
 
