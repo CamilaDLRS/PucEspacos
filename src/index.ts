@@ -4,7 +4,7 @@ const port:number = 5001;
 
 try {
   app.listen(port, () => {
-    console.log(`Puc Espaços app is running on port ${port}, database ${process.env.DB_HOST || ''}`);
+    console.log(`Puc Espaços app is running on port ${port}`);
   });
 
   process.on('SIGINT', () => {

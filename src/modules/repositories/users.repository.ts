@@ -25,7 +25,6 @@ export class UsersRepository {
   }
 
   public static async getById(id: string): Promise<User | null> {
-
     const sql = `SELECT * FROM tb_usuarios WHERE usuario_id = ?`;
     const bindParams = [id];
 
@@ -39,5 +38,30 @@ export class UsersRepository {
     else {
       return null;
     }
+  }
+
+  public static async getByEmail(email: string): Promise<User | null> {
+    const sql = `SELECT * FROM tb_usuarios WHERE email = ?`;
+    const bindParams = [email];
+
+    await this.CONNECTION.connect();
+    const rows = await this.CONNECTION.executeWithParams(sql, bindParams);
+    await this.CONNECTION.disconnect();
+
+    if (rows[0]) {
+      return User.fromDataRow(rows[0]);
+    }
+    else {
+      return null;
+    }
+  }
+
+  public static async createUser(user : User): Promise<void> {
+    const sql = `INSERT INTO TB_USUARIOS (usuario_id, escola_id, email, senha, nome_usuario, tipo_usuario, esta_ativo, data_hora_criacao, data_hora_alteracao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    const bindParams = [user.userId, user.schoolId, user.email, user.password, user.name, user.userType, user.isActive, user.createdDate, user.updatedDate];
+
+    await this.CONNECTION.connect();
+    await this.CONNECTION.executeWithParams(sql, bindParams);
+    await this.CONNECTION.disconnect();
   }
 }

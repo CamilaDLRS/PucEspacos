@@ -25,4 +25,14 @@ export class UsersController {
       await ExpressHandlers.handleError(req, res, error);
     }
   }
+
+  public static async createUser(req : Request, res : Response) {
+    try {
+      const user = User.fromBody(req.body);
+      await UsersServices.createUser(user);
+      await ExpressHandlers.handleResponse(req, res, user, "Usuário criado com sucesso!");
+    } catch (error : any) {
+      await ExpressHandlers.handleError(req, res, error);
+    }
+  }
 }

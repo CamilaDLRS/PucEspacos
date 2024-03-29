@@ -13,9 +13,10 @@ userRouter.get(
   UsersController.getAll
 );
 
-userRouter.post("/", (req, res) => {
-  res.send("CREATE!");
-});
+userRouter.post(
+  "/",
+  UsersController.createUser
+);
 
 userRouter.put("/", (req, res) => {
   res.send("EDIT!");

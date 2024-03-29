@@ -17,7 +17,7 @@ export enum InternalCode {
     
     [InternalCode.INVALID_LOGIN_CREDENTIALS]: 'Email ou senha invalida.',
     [InternalCode.USER_DISABLED]: 'Usuário desativado.',
-    [InternalCode.USER_NOT_FOUND]: 'Usuário não encontrado.',
+    [InternalCode.USER_NOT_FOUND]: 'Usuário(s) não encontrado(s).',
     [InternalCode.EMAIL_ALREADY_EXISTS_AUTH]: 'Este Email já está cadastrado.',
     [InternalCode.REGISTER_ALREADY_EXISTS]: 'Registro com este identificador já existe na base.', 
     [InternalCode.REGISTER_NOT_FOUND]: 'Registro com este identificador não encontrado.',

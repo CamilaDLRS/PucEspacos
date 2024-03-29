@@ -4,7 +4,7 @@ import { UserTypes } from '../enums/usersTypes.enum';
 export class User {
 
   userId: string;
-  schoolId: string;
+  schoolId: string | null;
   email: string;
   password: string;
   name: string;
@@ -15,39 +15,50 @@ export class User {
   updatedDate: Date;
 
   constructor(
-    _userId: string,
-    _schoolId: string,
-    _email: string,
-    _password: string,
-    _name: string,
-    _userType: UserTypes,
-    _isActive: boolean,
-    _createdDate: Date,
-    _updatedDate: Date
+    schoolId: string | null,
+    email: string,
+    password: string,
+    name: string,
+    userType: UserTypes,
+    isActive: boolean,
+    userId?: string,
+    createdDate?: Date,
+    updatedDate?: Date
   ) {
-    this.schoolId = _schoolId;
-    this.email = _email;
-    this.password = _password;
-    this.name = _name;
-    this.userType = _userType;
-    this.isActive = _isActive;
+    this.schoolId = schoolId;
+    this.email = email;
+    this.password = password;
+    this.name = name;
+    this.userType = userType;
+    this.isActive = isActive;
 
-    this.userId = _userId || uuid.v4();
-    this.createdDate = _createdDate || new Date();
-    this.updatedDate = _updatedDate || new Date();
+    this.userId = userId || uuid.v4();
+    this.createdDate = createdDate || new Date();
+    this.updatedDate = updatedDate || new Date();
   }
 
   static fromDataRow(dataRow: any): User {
     return new User(
-      dataRow.usuario_id,
       dataRow.escola_id,
       dataRow.email,
       dataRow.senha,
       dataRow.nome_usuario,
       dataRow.tipo_usuario,
       dataRow.esta_ativo,
+      dataRow.usuario_id,
       new Date(dataRow.data_hora_criacao),
       new Date(dataRow.data_hora_alteracao)
+    );
+  }
+
+  static fromBody(body : any): User {
+    return new User(
+      body.schoolId,
+      body.email,
+      body.password,
+      body.name,
+      body.userType,
+      body.isActive
     );
   }
 }
