@@ -13,6 +13,7 @@ class MysqlDbServices implements IdbServices {
       this.connection = await createConnection({
         host: "localhost",
         port: 3306,
+        password: process.env.PASSWORD,
         user: "root",
         database: "puc_espacos"
       });

@@ -1,6 +1,6 @@
 import app from "./shared/infra/routes/index.routes";
-
-const port:number = 5001;
+require('dotenv').config();
+const port: number = 5001;
 
 try {
   app.listen(port, () => {
@@ -9,8 +9,9 @@ try {
 
   process.on('SIGINT', () => {
     console.log('Puc Espaços app stopped by SIGINT signal.');
-    process.exit(0); 
+    process.exit(0);
   });
+
 
 } catch (error) {
   console.log(`Error at initiate the Puc Espaços app.`, error);
