@@ -49,11 +49,7 @@ class MysqlDbServices implements IdbServices {
     }
   }
 
-  async executeWithParams(
-    sql: string,
-    bindParams: any,
-    options: any
-  ): Promise<any> {
+  async executeWithParams(sql: string, bindParams: any, options: any): Promise<any> {
     try {
       const result = await this.connection!.execute(sql, bindParams);
       return result[0];

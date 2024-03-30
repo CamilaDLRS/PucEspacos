@@ -1,12 +1,11 @@
 import express from "express"
 import { AssetsController } from "../../../modules/controllers/assets.controller";
 
+const assetsRouter = express.Router();
 
-const assetRouter = express.Router();
-
-assetRouter.get(
+assetsRouter.get(
   "/",
   AssetsController.getAll
 )
 
-export default assetRouter;
+export default assetsRouter;

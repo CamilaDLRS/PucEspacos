@@ -56,22 +56,49 @@ export class UsersRepository {
     }
   }
 
-  public static async createUser(user : User): Promise<void> {
-    const sql = `INSERT INTO TB_USUARIOS (usuario_id, escola_id, email, senha, nome_usuario, tipo_usuario, esta_ativo, data_hora_criacao, data_hora_alteracao)
+  public static async create(user: User): Promise<void> {
+    const sql = `INSERT INTO tb_usuarios (
+                  usuario_id, 
+                  escola_id, 
+                  email, senha, 
+                  nome_usuario, 
+                  tipo_usuario, 
+                  esta_ativo, 
+                  data_hora_criacao, 
+                  data_hora_alteracao)
                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-    const bindParams = [user.userId, user.schoolId, user.email, user.password, user.name, user.userType, user.isActive, user.createdDate, user.updatedDate];
+    const bindParams = [
+      user.userId,
+      user.schoolId,
+      user.email,
+      user.password,
+      user.name,
+      user.userType,
+      user.isActive,
+      user.createdDate,
+      user.updatedDate
+    ];
 
     await this.CONNECTION.connect();
     await this.CONNECTION.executeWithParams(sql, bindParams);
     await this.CONNECTION.disconnect();
   }
 
-  public static async updateUser(user : User): Promise<void> {
-    const sql = `UPDATE TB_USUARIOS  
-                 SET escola_id = ?, esta_ativo = ?, tipo_usuario = ? 
+  public static async update(user: User): Promise<void> {
+    const sql = `UPDATE tb_usuarios SET  
+                  escola_id = ?, 
+                  esta_ativo = ?, 
+                  tipo_usuario = ?, 
+                  data_hora_alteracao = ?
                  WHERE usuario_id = ?`;
 
-    const bindParams = [user.schoolId, user.isActive, user.userType, user.userId];
+    const bindParams = [
+      user.schoolId, 
+      user.isActive, 
+      user.userType, 
+      new Date(), 
+      user.userId
+    ];
 
     await this.CONNECTION.connect();
     await this.CONNECTION.executeWithParams(sql, bindParams);

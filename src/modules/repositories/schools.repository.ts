@@ -1,25 +1,25 @@
 import { IdbServices } from "../../shared/infra/db/Idb.services";
 import MysqlDbServices from "../../shared/infra/db/mysql/mysqlDB.services";
-import { Asset } from "../entities/asset.entity";
+import { School } from "../entities/school.entity";
 
-export class AssetsRepository {
+export class SchoolsRepository {
 
   private static readonly CONNECTION: IdbServices = new MysqlDbServices();
 
-  public static async getAll(): Promise<Asset[]> {
+  public static async getAll(): Promise<School[]> {
 
-    const sql = `SELECT * FROM tb_ativos;`;
+    const sql = `SELECT * FROM tb_escolas;`;
     await this.CONNECTION.connect();
     const rows = await this.CONNECTION.execute(sql);
     await this.CONNECTION.disconnect();
 
-    if (rows && rows.length > 0){
-      const assets: Asset[] = rows.map((row: any) => {
-        return Asset.fromDataRow(row);
+    if (rows && rows.length > 0) {
+      const schools: School[] = rows.map((row: any) => {
+        return School.fromDataRow(row);
       });
-      return assets;
+      return schools;
     }
-    else{
+    else {
       return [];
     }
   }

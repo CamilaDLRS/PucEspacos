@@ -1,21 +1,26 @@
 import express from "express";
+import { FacilitiesController } from "../../../modules/controllers/facilities.controller";
 
 const facilityRouter = express.Router();
 
-facilityRouter.get("/", (req, res) => {
-  res.send("READ!");
-});
+facilityRouter.get(
+  "/:id",
+  FacilitiesController.getById
+);
 
-facilityRouter.get("/list", (req, res) => {
-  res.send("READ ALL!");
-});
+facilityRouter.get(
+  "/",
+  FacilitiesController.getAll
+);
 
-facilityRouter.post("/", (req, res) => {
-  res.send("CREATE!");
-});
+facilityRouter.post(
+  "/",
+  FacilitiesController.create
+);
 
-facilityRouter.put("/", (req, res) => {
-  res.send("EDIT!");
-});
+facilityRouter.put(
+  "/",
+  FacilitiesController.update
+);
 
 export default facilityRouter;

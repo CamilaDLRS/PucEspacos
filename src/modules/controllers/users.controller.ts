@@ -8,8 +8,8 @@ export class UsersController {
   public static async getAll(req: Request, res: Response) {
     try {
       const users: User[] = await UsersServices.getAll();
-      await ExpressHandlers.handleResponse(req, res, users);
 
+      await ExpressHandlers.handleResponse(req, res, users);
     } catch (error: any) {
       await ExpressHandlers.handleError(req, res, error);
     }
@@ -19,32 +19,34 @@ export class UsersController {
     try {
       const id = (req.params.id);
       const user = await UsersServices.getById(id);
-      await ExpressHandlers.handleResponse(req, res, user);
 
+      await ExpressHandlers.handleResponse(req, res, user);
     } catch (error: any) {
       await ExpressHandlers.handleError(req, res, error);
     }
   }
 
-  public static async createUser(req : Request, res : Response) {
+  public static async create(req : Request, res : Response) {
     try {
       const user = User.fromBody(req.body);
-      await UsersServices.createUser(user);
+      await UsersServices.create(user);
+
       await ExpressHandlers.handleResponse(req, res, user, "Usuário criado com sucesso!");
     } catch (error : any) {
       await ExpressHandlers.handleError(req, res, error);
     }
   }
 
-  public static async updateUser(req : Request, res : Response) {
+  public static async update(req : Request, res : Response) {
     try {
       const id = req.params.id;
       const schoolId = (req.body.schoolId);
       const isActive = (req.body.isActive);
       const userType = (req.body.userType);
 
-      await UsersServices.updateUser(id, schoolId, isActive, userType);
+      await UsersServices.update(id, schoolId, isActive, userType);
       const user = await UsersServices.getById(id);
+      
       await ExpressHandlers.handleResponse(req, res, user, "Usuário editado com sucesso!");
     } catch (error) {
       await ExpressHandlers.handleError(req, res, error);

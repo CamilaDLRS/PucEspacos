@@ -1,26 +1,26 @@
 import express from "express";
 import { UsersController } from "../../../modules/controllers/users.controller";
 
-const userRouter = express.Router();
+const usersRouter = express.Router();
 
-userRouter.get(
+usersRouter.get(
   "/:id",
   UsersController.getById
 );
 
-userRouter.get(
+usersRouter.get(
   "/",
   UsersController.getAll
 );
 
-userRouter.post(
+usersRouter.post(
   "/",
-  UsersController.createUser
+  UsersController.create
 );
 
-userRouter.patch(
+usersRouter.patch(
   "/:id",
-  UsersController.updateUser
+  UsersController.update
 );
 
-export default userRouter;
+export default usersRouter;

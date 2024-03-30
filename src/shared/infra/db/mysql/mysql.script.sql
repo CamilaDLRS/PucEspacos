@@ -40,7 +40,6 @@ CREATE TABLE tb_espacos (
     tipo_espaco_id Varchar(40),
     esta_ativo Bool,
     nome_espaco Varchar(50),
-    numero Varchar(5),
     capacidade Int,
     observacao Varchar(300),
     data_hora_alteracao Datetime,
@@ -112,8 +111,8 @@ SET @amarelo_uuid = UUID();
 SET @azul_uuid = UUID();
 SET @verde_uuid = UUID();
 SET @laranja_uuid = UUID();
-SET @vermelho1_uuid = UUID();
-SET @vermelho2_uuid = UUID();
+SET @vermelho5_uuid = UUID();
+SET @vermelho6_uuid = UUID();
 SET @usina_piloto_uuid = UUID();
 SET @eletrica_uuid = UUID();
 SET @mecanica_uuid = UUID();
@@ -143,6 +142,16 @@ SET @pedro_id = UUID();
 SET @ana_id = UUID();
 SET @andre_id = UUID();
 
+-- Definição das constantes para espaco_id
+SET @espaco1 = UUID();
+SET @espaco2 = UUID();
+SET @espaco3 = UUID();
+
+-- Definição das constantes para reserva_id
+SET @reserva1 = UUID();
+SET @reserva2 = UUID();
+SET @reserva3 = UUID();
+
 # ------------------------------Inserções---------------------------------------------------
 
 -- Inserção Campus
@@ -167,8 +176,8 @@ VALUES
 	(@amarelo_uuid, @curitiba_uuid, @educacao_humanidades_id, '1 - Amarelo', NOW(), NOW()),
 	(@verde_uuid, @curitiba_uuid, @medicina_ciencias_vida_id, '3 - Verde', NOW(), NOW()),
 	(@laranja_uuid, @curitiba_uuid, @negocios_id, '4 - Laranja', NOW(), NOW()),
-	(@vermelho1_uuid, @curitiba_uuid, @direito_id, '5 - Vermelho', NOW(), NOW()),
-	(@vermelho2_uuid, @curitiba_uuid, @medicina_ciencias_vida_id, '6 - Vermelho', NOW(), NOW()),
+	(@vermelho5_uuid, @curitiba_uuid, @direito_id, '5 - Vermelho', NOW(), NOW()),
+	(@vermelho6_uuid, @curitiba_uuid, @medicina_ciencias_vida_id, '6 - Vermelho', NOW(), NOW()),
 	(@usina_piloto_uuid, @curitiba_uuid, @politecnica_id, '7 - Usina Piloto', NOW(), NOW()),
 	(@eletrica_uuid, @curitiba_uuid, @politecnica_id, '8 - Elétrica', NOW(), NOW()),
 	(@mecanica_uuid, @curitiba_uuid, @politecnica_id, '9 - Mecânica', NOW(), NOW());
@@ -190,9 +199,11 @@ VALUES
     (@sala_aula_uuid, 'Sala de Aula');
     
 -- Inserção Espaços
-INSERT INTO tb_espacos (espaco_id, bloco_id, tipo_espaco_id, esta_ativo, nome_espaco, numero, capacidade, observacao, data_hora_alteracao, data_hora_criacao)
+INSERT INTO tb_espacos (espaco_id, bloco_id, tipo_espaco_id, esta_ativo, nome_espaco, capacidade, observacao, data_hora_alteracao, data_hora_criacao)
 VALUES 
-	(@espaco1, @azul_uuid,  @sala_aula_uuid, 1, 'Sala Grace Hopper', '001', 50, 'Nenhuma observação', NOW(), NOW());
+	(@espaco1, @azul_uuid,  @sala_aula_uuid, 1, 'Sala Grace Hopper', 80, 'Nenhuma observação', NOW(), NOW()),
+    (@espaco2, @azul_uuid,  @sala_aula_uuid, 1, 'Sala de Aula 17', 30, 'Nenhuma observação', NOW(), NOW()),
+    (@espaco3, @vermelho5_uuid,  @sala_aula_uuid, 1, 'Araça 303', 80, 'Nenhuma observação', NOW(), NOW());
 
 -- Inserção Ativos
 INSERT INTO tb_ativos (ativo_id, descricao_ativo)
@@ -206,7 +217,7 @@ VALUES
     (@mesa_id, 'Mesas');
 
 -- Inserção Usuáios Sem Escola
-INSERT INTO tb_usuarios (usuario_id, email, senha, nome_usuario, tipo_usuario, esta_ativo, data_hora_criacao, data_hora_alteracao)
+INSERT INTO tb_usuarios ( email, usuario_id, senha, nome_usuario, tipo_usuario, esta_ativo, data_hora_criacao, data_hora_alteracao)
 VALUES 
 	(@maria_id, 'maria@pucpr.edu.br', 'senha456', 'Maria', 'DOCENTE', 1, NOW(), NOW()),
 	(@pedro_id, 'pedro@pucpr.edu.br', 'senha789', 'Pedro', 'DISCENTE', 1, NOW(), NOW()),
@@ -221,15 +232,30 @@ VALUES
 -- Inserção Reserva
 INSERT INTO tb_reservas (reserva_id, usuario_solicitante_id, usuario_responsavel_id, espaco_id, status_reserva, finalidade, data_hora_inicio_reserva, data_hora_fim_reserva, data_hora_criacao, data_hora_alteracao)
 VALUES 
-	(UUID(), 'usuario_solicitante_id_aqui', 'usuario_responsavel_id_aqui', 'espaco_id_aqui', 'SOLICITADO', 'AULA', NOW(), NOW() + INTERVAL 1 HOUR, NOW(), NOW());
+	(@reserva1, @maria_id, null, @espaco1, 'SOLICITADO', 'AULA', '2024-03-24 07:50:00', '2024-03-24 09:20:00', NOW(), NOW()),
+    (@reserva2, @pedro_id, @maria_id, @espaco2, 'SOLICITADO', 'AULA', '2024-03-27 13:25:00', '2024-03-27 16:00:00', NOW(), NOW());
+    
+    
+-- Comandos Seleção
+-- Ver Status das minhas reservas
+select u.nome_usuario, r.status_reserva
+from tb_usuarios u, tb_reservas r
+where r.usuario_solicitante_id = u.usuario_id AND
+	  u.usuario_id = @maria_id;
 
+-- Ver quantas reservas que sou responsavel
+select u.nome_usuario, count(*)
+from tb_usuarios u, tb_reservas r
+where r.usuario_responsavel_id = u.usuario_id AND
+	  u.usuario_id = @maria_id;
+      
+-- Comandos Atualizar
+-- Desativar Usuario
+update tb_usuarios
+set esta_ativo = false
+where usuario_id = @maria_id;
 
-
-
-
-
-
-
+select * from tb_escolas;
 
 
 

@@ -1,5 +1,5 @@
 import *  as uuid from 'uuid';
-import { UserTypes } from '../enums/usersTypes.enum';
+import { UserType } from '../enums/userType.enum';
 
 export class User {
 
@@ -8,7 +8,7 @@ export class User {
   email: string;
   password: string;
   name: string;
-  userType: UserTypes;
+  userType: UserType;
   isActive: boolean;
 
   createdDate: Date;
@@ -19,7 +19,7 @@ export class User {
     email: string,
     password: string,
     name: string,
-    userType: UserTypes,
+    userType: UserType,
     isActive: boolean,
     userId?: string,
     createdDate?: Date,
