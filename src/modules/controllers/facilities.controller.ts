@@ -4,6 +4,7 @@ import { Facility } from "../entities/facility.entity";
 import { FacilitiesServices } from "../services/facilities.services";
 import { InternalCode } from "../../shared/utils/internalCodes";
 import { Request, Response } from "express";
+import { FacilityType } from "../entities/facilityType.entity";
 
 export class FacilitiesController {
 
@@ -33,7 +34,7 @@ export class FacilitiesController {
       const facility = Facility.fromBody(req.body);
       await FacilitiesServices.create(facility);
 
-      await ExpressHandlers.handleResponse(req, res, facility, "Espaço criado com sucesso!"); 
+      await ExpressHandlers.handleResponse(req, res, facility, "Espaço criado com sucesso!");
     } catch (error: any) {
       await ExpressHandlers.handleError(req, res, error);
     }
@@ -51,6 +52,16 @@ export class FacilitiesController {
       */
       throw new ApiError(404, InternalCode.NOT_IMPLEMENTED);
     } catch (error) {
+      await ExpressHandlers.handleError(req, res, error);
+    }
+  }
+
+  public static async getAllTypes(req: Request, res: Response){
+    try{
+      const facilityTypes: FacilityType[] = await FacilitiesServices.getAllTypes();
+
+      await ExpressHandlers.handleResponse(req, res, facilityTypes);
+    }catch(error: any){
       await ExpressHandlers.handleError(req, res, error);
     }
   }

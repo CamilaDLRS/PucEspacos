@@ -3,6 +3,12 @@ import { FacilitiesController } from "../../../modules/controllers/facilities.co
 
 const facilityRouter = express.Router();
 
+
+facilityRouter.get(
+  "/types/",
+  FacilitiesController.getAllTypes
+)
+
 facilityRouter.get(
   "/:id",
   FacilitiesController.getById
@@ -22,5 +28,6 @@ facilityRouter.put(
   "/",
   FacilitiesController.update
 );
+
 
 export default facilityRouter;

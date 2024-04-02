@@ -1,5 +1,4 @@
 import app from "./shared/infra/routes/index.routes";
-require('dotenv').config();
 const port: number = 5001;
 
 try {

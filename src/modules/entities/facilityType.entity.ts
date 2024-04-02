@@ -10,11 +10,4 @@ export class FacilityType {
     this.facilityTypeId = facilityTypeId;
     this.facilityTypeDescription = facilityTypeDescription;
   }
-
-  static fromDataRow(dataRow: any): FacilityType {
-    return new FacilityType(
-      dataRow.tipo_espaco_id,
-      dataRow.descricao_tipo_espaco
-    )
-  }
 }
