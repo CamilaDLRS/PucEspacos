@@ -7,7 +7,7 @@ export class User {
   schoolId: string | null;
   email: string;
   password: string;
-  name: string;
+  userName: string;
   userType: UserType;
   isActive: boolean;
 
@@ -18,7 +18,7 @@ export class User {
     schoolId: string | null,
     email: string,
     password: string,
-    name: string,
+    userName: string,
     userType: UserType,
     isActive: boolean,
     userId?: string,
@@ -28,27 +28,13 @@ export class User {
     this.schoolId = schoolId;
     this.email = email;
     this.password = password;
-    this.name = name;
+    this.userName = userName;
     this.userType = userType;
     this.isActive = isActive;
 
     this.userId = userId || uuid.v4();
     this.createdDate = createdDate || new Date();
     this.updatedDate = updatedDate || new Date();
-  }
-
-  static fromDataRow(dataRow: any): User {
-    return new User(
-      dataRow.escola_id,
-      dataRow.email,
-      dataRow.senha,
-      dataRow.nome_usuario,
-      dataRow.tipo_usuario,
-      dataRow.esta_ativo,
-      dataRow.usuario_id,
-      new Date(dataRow.data_hora_criacao),
-      new Date(dataRow.data_hora_alteracao)
-    );
   }
 
   static fromBody(body : any): User {

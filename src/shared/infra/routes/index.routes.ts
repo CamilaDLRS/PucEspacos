@@ -7,7 +7,6 @@ import assetRouter from './assets.routes';
 import buildingRouter from './buildings.routes';
 import campusesRouter from './campuses.routes';
 import schoolsRouter from './schools.routes';
-import facilityTypeRouter from './facilityTypes.routes';
 
 const app = express();
 
@@ -22,5 +21,4 @@ app.use('/campuses', campusesRouter);
 app.use('/facilities', facilityRouter);
 app.use('/schools', schoolsRouter);
 app.use('/users', userRouter);
-app.use('/facilityTypes', facilityTypeRouter);
 export default app;

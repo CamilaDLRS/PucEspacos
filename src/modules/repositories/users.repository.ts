@@ -8,16 +8,13 @@ export class UsersRepository {
 
   public static async getAll(): Promise<User[]> {
 
-    const sql = `SELECT * FROM tb_usuarios;`;
+    const sql = `SELECT * FROM tbUsers;`;
     await this.CONNECTION.connect();
     const rows = await this.CONNECTION.execute(sql);
     await this.CONNECTION.disconnect();
 
     if (rows && rows.length > 0) {
-      const users: User[] = rows.map((row: any) => {
-        return User.fromDataRow(row);
-      });
-      return users;
+      return rows as User[];
     }
     else {
       return [];
@@ -25,7 +22,7 @@ export class UsersRepository {
   }
 
   public static async getById(id: string): Promise<User | null> {
-    const sql = `SELECT * FROM tb_usuarios WHERE usuario_id = ?`;
+    const sql = `SELECT * FROM tbUsers WHERE userId = ?`;
     const bindParams = [id];
 
     await this.CONNECTION.connect();
@@ -33,7 +30,7 @@ export class UsersRepository {
     await this.CONNECTION.disconnect();
 
     if (rows[0]) {
-      return User.fromDataRow(rows[0]);
+      return rows[0] as User;
     }
     else {
       return null;
@@ -41,15 +38,15 @@ export class UsersRepository {
   }
 
   public static async getByEmail(email: string): Promise<User | null> {
-    const sql = `SELECT * FROM tb_usuarios WHERE email = ?`;
+    const sql = `SELECT * FROM tbUsers WHERE email = ?`;
     const bindParams = [email];
 
     await this.CONNECTION.connect();
     const rows = await this.CONNECTION.executeWithParams(sql, bindParams);
     await this.CONNECTION.disconnect();
 
-    if (rows[0]) {
-      return User.fromDataRow(rows[0]);
+    if (rows[0]) { 
+      return rows[0] as User;
     }
     else {
       return null;
@@ -57,22 +54,23 @@ export class UsersRepository {
   }
 
   public static async create(user: User): Promise<void> {
-    const sql = `INSERT INTO tb_usuarios (
-                  usuario_id, 
-                  escola_id, 
-                  email, senha, 
-                  nome_usuario, 
-                  tipo_usuario, 
-                  esta_ativo, 
-                  data_hora_criacao, 
-                  data_hora_alteracao)
+    const sql = `INSERT INTO tbUsers (
+                  userId, 
+                  schoolId, 
+                  email, 
+                  password, 
+                  userName, 
+                  userType, 
+                  isActive, 
+                  createdDate, 
+                  updatedDate)
                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
     const bindParams = [
       user.userId,
       user.schoolId,
       user.email,
       user.password,
-      user.name,
+      user.userName,
       user.userType,
       user.isActive,
       user.createdDate,
@@ -85,12 +83,12 @@ export class UsersRepository {
   }
 
   public static async update(user: User): Promise<void> {
-    const sql = `UPDATE tb_usuarios SET  
-                  escola_id = ?, 
-                  esta_ativo = ?, 
-                  tipo_usuario = ?, 
-                  data_hora_alteracao = ?
-                 WHERE usuario_id = ?`;
+    const sql = `UPDATE tbUsers SET  
+                  schoolId = ?,
+                  isActive = ?, 
+                  userType = ?, 
+                  updatedDate = ?
+                 WHERE userId = ?`;
 
     const bindParams = [
       user.schoolId, 

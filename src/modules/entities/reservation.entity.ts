@@ -41,22 +41,6 @@ export class Reservation {
     this.updatedDate = updatedDate || new Date();
   }
 
-  static fromDataRow(dataRow: any): Reservation {
-    return new Reservation(
-      dataRow.usuario_responsavel_id,
-      dataRow.usuario_solicitante_id,
-      dataRow.espaco_id,
-      dataRow.status_reserva,
-      dataRow.finalidade,
-      dataRow.data_hora_inicio_reserva,
-      dataRow.data_hora_fim_reserva,
-
-      dataRow.reserva_id,
-      new Date(dataRow.data_hora_criacao),
-      new Date(dataRow.data_hora_alteracao)
-    );
-  }
-
   static fromBody(body: any): Reservation {
     return new Reservation(
       body.responsibleUser,

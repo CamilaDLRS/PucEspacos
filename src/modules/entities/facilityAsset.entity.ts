@@ -1,4 +1,4 @@
-export class FacilityAssets {
+export class FacilityAsset {
 
   facilityId: string;
   assetId: string;
@@ -20,16 +20,5 @@ export class FacilityAssets {
 
     this.createdDate = createdDate || new Date();
     this.updatedDate = updatedDate || new Date();
-  }
-
-  static fromDataRow(dataRow: any): FacilityAssets {
-    return new FacilityAssets(
-      dataRow.espaco_id,
-      dataRow.ativo_id,
-      dataRow.quantidade,
-
-      new Date(dataRow.data_hora_criacao),
-      new Date(dataRow.data_hora_alteracao)
-    );
   }
 }

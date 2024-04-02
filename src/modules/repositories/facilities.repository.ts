@@ -1,6 +1,7 @@
 import { IdbServices } from "../../shared/infra/db/Idb.services";
 import MysqlDbServices from "../../shared/infra/db/mysql/mysqlDB.services";
 import { Facility } from "../entities/facility.entity";
+import { FacilityType } from "../entities/facilityType.entity";
 
 export class FacilitiesRepository {
 
@@ -8,16 +9,13 @@ export class FacilitiesRepository {
 
   public static async getAll(): Promise<Facility[]> {
 
-    const sql = `SELECT * FROM tb_espacos;`;
+    const sql = `SELECT * FROM tbFacilities;`;
     await this.CONNECTION.connect();
     const rows = await this.CONNECTION.execute(sql);
     await this.CONNECTION.disconnect();
 
     if (rows && rows.length > 0) {
-      const facilities: Facility[] = rows.map((row: any) => {
-        return Facility.fromDataRow(row);
-      })
-      return facilities;
+      return rows as Facility[];
     }
     else {
       return [];
@@ -26,7 +24,7 @@ export class FacilitiesRepository {
 
   public static async getById(id: string): Promise<Facility | null> {
 
-    const sql = `SELECT * FROM tb_espacos WHERE espaco_id = ?;`;
+    const sql = `SELECT * FROM tbFacilities WHERE facilityId = ?;`;
     const bindParams = [id];
 
     await this.CONNECTION.connect();
@@ -34,7 +32,7 @@ export class FacilitiesRepository {
     await this.CONNECTION.disconnect();
 
     if (rows[0]) {
-      return Facility.fromDataRow(rows[0]);
+      return rows[0] as Facility;
     }
     else {
       return null;
@@ -42,16 +40,16 @@ export class FacilitiesRepository {
   }
 
   public static async create(facility: Facility): Promise<void> {
-    const sql = `INSERT INTO tb_espacos (
-                  espaco_id, 
-                  bloco_id, 
-                  tipo_espaco_id, 
-                  esta_ativo, 
-                  nome_espaco, 
-                  capacidade, 
-                  observacao, 
-                  data_hora_alteracao, 
-                  data_hora_criacao)
+    const sql = `INSERT INTO tbFacilities (
+                  facilityId,
+                  buildingId, 
+                  facilityTypeId, 
+                  isActive, 
+                  facilityName, 
+                  capacity, 
+                  note, 
+                  updatedDate, 
+                  createdDate)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     const bindParams = [
       facility.facilityId,
@@ -71,15 +69,15 @@ export class FacilitiesRepository {
   }
 
   public static async update(facility: Facility): Promise<void> {
-    const sql = `UPDATE tb_espacos SET  
-                  bloco_id = ?,
-                  tipo_espaco = ?, 
-                  esta_ativo = ?,
-                  nome_espaco = ?,
-                  capacidade = ?,
-                  observacao = ?,
-                  data_hora_alteracao = ?,
-                 WHERE escola_id = ?;`;
+    const sql = `UPDATE tbFacilities SET
+                  buildingId = ?,
+                  facilityTypeId = ?, 
+                  isActive = ?,
+                  facilityName = ?,
+                  capacity = ?,
+                  note = ?,
+                  updatedDate = ?,
+                 WHERE facilityId = ?;`;
 
     const bindParams = [
       facility.buildingId,
@@ -95,5 +93,20 @@ export class FacilitiesRepository {
     await this.CONNECTION.connect();
     await this.CONNECTION.executeWithParams(sql, bindParams);
     await this.CONNECTION.disconnect();
+  }
+
+  public static async getAllTypes(): Promise<FacilityType[]> {
+
+    const sql = `SELECT * FROM tbFacilityTypes;`;
+    await this.CONNECTION.connect();
+    const rows = await this.CONNECTION.execute(sql);
+    await this.CONNECTION.disconnect
+
+    if (rows && rows.length > 0) {
+      return rows as FacilityType[];      
+    }
+    else {
+      return [];
+    }
   }
 }

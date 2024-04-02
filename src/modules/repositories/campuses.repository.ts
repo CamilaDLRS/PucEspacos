@@ -9,16 +9,13 @@ export class CampusesRepository {
 
   public static async getAll(): Promise<Campus[]> {
 
-    const sql = `SELECT * FROM tb_campi;`;
+    const sql = `SELECT * FROM tbCampuses;`;
     await this.CONNECTION.connect();
     const rows = await this.CONNECTION.execute(sql);
     await this.CONNECTION.disconnect();
 
     if (rows && rows.length > 0) {
-      const campuses: Campus[] = rows.map((row: any) => {
-        return Campus.fromDataRow(row);
-      })
-      return campuses;
+      return rows as Campus[];
     }
     else{
       return [];

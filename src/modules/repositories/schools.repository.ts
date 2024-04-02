@@ -8,16 +8,13 @@ export class SchoolsRepository {
 
   public static async getAll(): Promise<School[]> {
 
-    const sql = `SELECT * FROM tb_escolas;`;
+    const sql = `SELECT * FROM tbSchools;`;
     await this.CONNECTION.connect();
     const rows = await this.CONNECTION.execute(sql);
     await this.CONNECTION.disconnect();
 
     if (rows && rows.length > 0) {
-      const schools: School[] = rows.map((row: any) => {
-        return School.fromDataRow(row);
-      });
-      return schools;
+      return rows as School[];
     }
     else {
       return [];

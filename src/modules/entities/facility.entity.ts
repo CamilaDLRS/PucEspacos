@@ -36,20 +36,6 @@ export class Facility {
     this.updatedDate = updatedDate || new Date();
   }
 
-  static fromDataRow(dataRow: any): Facility {
-    return new Facility(
-      dataRow.bloco_id,
-      dataRow.tipo_espaco_id,
-      dataRow.esta_ativo,
-      dataRow.nome_espaco,
-      dataRow.capacidade,
-      dataRow.observacao,
-      dataRow.espaco_id,
-      new Date(dataRow.data_hora_criacao),
-      new Date(dataRow.data_hora_alteracao)
-    );
-  }
-
   static fromBody(body : any): Facility {
     return new Facility(
       body.buildingId,
