@@ -1,8 +1,8 @@
 import { ExpressHandlers } from "../../shared/utils/expressHandles";
 import { FacilitiesServices } from "../services/facilities.services";
 import { Request, Response } from "express";
-import { FacilityDto } from "../dtos/facility/facility.dto";
-import { FacilityTypeDto } from "../dtos/facility/facilityType.dto";
+import { FacilityDto } from "../dtos/facility.dto";
+import { FacilityTypeDto } from "../dtos/facilityType.dto";
 
 export class FacilitiesController {
 

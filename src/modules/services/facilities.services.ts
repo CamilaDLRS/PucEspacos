@@ -1,8 +1,8 @@
 import { ApiError } from "../../shared/utils/apiError";
 import { InternalCode } from "../../shared/utils/internalCodes";
-import { FacilityDto } from "../dtos/facility/facility.dto";
-import { FacilityAssetDto } from "../dtos/facility/facilityAsset.dto";
-import { FacilityTypeDto } from "../dtos/facility/facilityType.dto";
+import { FacilityDto } from "../dtos/facility.dto";
+import { FacilityAssetDto } from "../dtos/facilityAsset.dto";
+import { FacilityTypeDto } from "../dtos/facilityType.dto";
 import { FacilitiesRepository } from "../repositories/facilities.repository";
 import *  as uuid from 'uuid';
 

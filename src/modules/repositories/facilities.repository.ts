@@ -1,8 +1,8 @@
 import { IdbServices } from "../../shared/infra/db/Idb.services";
 import MysqlDbServices from "../../shared/infra/db/mysql/mysqlDB.services";
-import { FacilityDto } from "../dtos/facility/facility.dto";
-import { FacilityAssetDto } from "../dtos/facility/facilityAsset.dto";
-import { FacilityTypeDto } from "../dtos/facility/facilityType.dto";
+import { FacilityDto } from "../dtos/facility.dto";
+import { FacilityAssetDto } from "../dtos/facilityAsset.dto";
+import { FacilityTypeDto } from "../dtos/facilityType.dto";
 
 export class FacilitiesRepository {
 

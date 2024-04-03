@@ -1,12 +1,12 @@
 import { IdbServices } from "../../shared/infra/db/Idb.services";
 import MysqlDbServices from "../../shared/infra/db/mysql/mysqlDB.services";
-import { User } from "../entities/user.entity";
+import { UserDto } from "../dtos/user.dto";
 
 export class UsersRepository {
 
   private static readonly CONNECTION: IdbServices = new MysqlDbServices();
 
-  public static async getAll(): Promise<User[]> {
+  public static async getAll(): Promise<UserDto[]> {
 
     const sql = `SELECT * FROM tbUsers;`;
     await this.CONNECTION.connect();
@@ -14,8 +14,8 @@ export class UsersRepository {
     await this.CONNECTION.disconnect();
 
     if (rows && rows.length > 0) {
-      const users: User[] = rows.map((row: any) => {
-        return new User(row)
+      const users: UserDto[] = rows.map((row: any) => {
+        return new UserDto(row, row.userId)
       });
       return users;   
     }
@@ -24,7 +24,7 @@ export class UsersRepository {
     }
   }
 
-  public static async getById(id: string): Promise<User | null> {
+  public static async getById(id: string): Promise<UserDto | null> {
     const sql = `SELECT * FROM tbUsers WHERE userId = ?`;
     const bindParams = [id];
 
@@ -33,14 +33,14 @@ export class UsersRepository {
     await this.CONNECTION.disconnect();
 
     if (rows[0]) {
-      return new User(rows[0]);
+      return new UserDto(rows[0], rows[0].userId);
     }
     else {
       return null;
     }
   }
 
-  public static async getByEmail(email: string): Promise<User | null> {
+  public static async getByEmail(email: string): Promise<UserDto | null> {
     const sql = `SELECT * FROM tbUsers WHERE email = ?`;
     const bindParams = [email];
 
@@ -49,14 +49,14 @@ export class UsersRepository {
     await this.CONNECTION.disconnect();
 
     if (rows[0]) { 
-      return new User(rows[0]);
+      return new UserDto(rows[0]);
     }
     else {
       return null;
     }
   }
 
-  public static async create(user: User): Promise<void> {
+  public static async create(user: UserDto): Promise<void> {
     const sql = `INSERT INTO tbUsers (
                   userId, 
                   schoolId, 
@@ -76,8 +76,8 @@ export class UsersRepository {
       user.userName,
       user.userType,
       user.isActive,
-      user.createdDate,
-      user.updatedDate
+      new Date(),
+      new Date()
     ];
 
     await this.CONNECTION.connect();
@@ -85,7 +85,7 @@ export class UsersRepository {
     await this.CONNECTION.disconnect();
   }
 
-  public static async update(user: User): Promise<void> {
+  public static async update(user: UserDto): Promise<void> {
     const sql = `UPDATE tbUsers SET  
                   schoolId = ?,
                   isActive = ?, 

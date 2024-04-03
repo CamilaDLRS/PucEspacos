@@ -6,7 +6,7 @@ YupPassword(yup);
 
 export const createUserSchema = yup.object({
   body: yup.object({
-    name: yup
+    userName: yup
       .string()
       .required("Campo nome é obrigatório."),
     password: yup
@@ -15,14 +15,18 @@ export const createUserSchema = yup.object({
       .test({
         message: 'A senha deve conter no mínimo: \n8 caracteres\n1 letra maiúscula\n1 letra minúscula\n1 número\n1 caractere especial',
         test: (value) => {
-          yup
-            .string()
-            .min(8)
-            .minLowercase(1)
-            .minUppercase(1)
-            .minNumbers(1)
-            .minSymbols(1)
-            .validateSync(value);
+          try {
+            yup.string()
+              .min(8)
+              .minLowercase(1)
+              .minUppercase(1)
+              .minNumbers(1)
+              .minSymbols(1)
+              .validateSync(value);
+            return true;
+          } catch (error) {
+            return false;
+          }
         }
       }),
     passwordConfirmation: yup
