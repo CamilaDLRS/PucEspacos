@@ -39,7 +39,7 @@ CREATE TABLE tbFacilities (
     buildingId Varchar(40),
     facilityTypeId Varchar(40),
     isActive Bool,
-    facilityName Varchar(50) UNIQUE,
+    facilityName Varchar(50),
     capacity Int,
     note Varchar(300),
     updatedDate Datetime,
