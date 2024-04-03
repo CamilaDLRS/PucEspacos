@@ -18,11 +18,4 @@ export class Campus {
     this.createdDate = createdDate || new Date();
     this.updatedDate = updatedDate || new Date();
   }
-  
-  static fromBody(body: any): Campus {
-    return new Campus(
-      body.campusId,
-      body.nome_campus,
-    )
-  }
 }

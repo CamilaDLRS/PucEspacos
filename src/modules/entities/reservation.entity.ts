@@ -36,20 +36,8 @@ export class Reservation {
       this.checkinDate = checkinDate,
       this.checkoutDate = checkoutDate,
 
-      this.reservationId = reservationId || uuid.v4();
+    this.reservationId = reservationId || uuid.v4();
     this.createdDate = createdDate || new Date();
     this.updatedDate = updatedDate || new Date();
-  }
-
-  static fromBody(body: any): Reservation {
-    return new Reservation(
-      body.responsibleUser,
-      body.requestingUser,
-      body.facilityId,
-      body.reservationStatus,
-      body.reservationPurpose,
-      body.checkinDate,
-      body.checkoutDate
-    )
   }
 }

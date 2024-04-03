@@ -14,7 +14,10 @@ export class UsersRepository {
     await this.CONNECTION.disconnect();
 
     if (rows && rows.length > 0) {
-      return rows as User[];
+      const users: User[] = rows.map((row: any) => {
+        return new User(row)
+      });
+      return users;   
     }
     else {
       return [];
@@ -30,7 +33,7 @@ export class UsersRepository {
     await this.CONNECTION.disconnect();
 
     if (rows[0]) {
-      return rows[0] as User;
+      return new User(rows[0]);
     }
     else {
       return null;
@@ -46,7 +49,7 @@ export class UsersRepository {
     await this.CONNECTION.disconnect();
 
     if (rows[0]) { 
-      return rows[0] as User;
+      return new User(rows[0]);
     }
     else {
       return null;

@@ -8,7 +8,9 @@ export enum InternalCode {
 
   REGISTER_ALREADY_EXISTS = 'REGISTER_ALREADY_EXISTS',
   REGISTER_NOT_FOUND = 'REGISTER_NOT_FOUND',
-  NOT_IMPLEMENTED = 'NOT_IMPLEMENTED'
+  NOT_IMPLEMENTED = 'NOT_IMPLEMENTED',
+
+  INVALID_REQUEST = 'INVALID_REQUEST'
 }
 
 export const ErrorMessage: Record<InternalCode, string> = {
@@ -21,5 +23,5 @@ export const ErrorMessage: Record<InternalCode, string> = {
 
   [InternalCode.REGISTER_NOT_FOUND]: 'Registro não encontrado.',
   [InternalCode.NOT_IMPLEMENTED]: 'Código ainda não implementado.',
-
+  [InternalCode.INVALID_REQUEST]: 'Requisição inválida, verifique os paramêtros e corpo.'
 };

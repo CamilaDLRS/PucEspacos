@@ -1,5 +1,6 @@
 import *  as uuid from 'uuid';
 import { UserType } from '../enums/userType.enum';
+import { UpdateUserDto } from '../dtos/user/updateUser.dto';
 
 export class User {
 
@@ -14,37 +15,23 @@ export class User {
   createdDate: Date;
   updatedDate: Date;
 
-  constructor(
-    schoolId: string | null,
-    email: string,
-    password: string,
-    userName: string,
-    userType: UserType,
-    isActive: boolean,
-    userId?: string,
-    createdDate?: Date,
-    updatedDate?: Date
-  ) {
-    this.schoolId = schoolId;
-    this.email = email;
-    this.password = password;
-    this.userName = userName;
-    this.userType = userType;
-    this.isActive = isActive;
+  constructor(data: any) {
+    this.schoolId = data.schoolId;
+    this.email = data.email;
+    this.password = data.password;
+    this.userName = data.userName;
+    this.userType = data.userType;
+    this.isActive = data.isActive;
 
-    this.userId = userId || uuid.v4();
-    this.createdDate = createdDate || new Date();
-    this.updatedDate = updatedDate || new Date();
+    this.userId = data.userId || uuid.v4();
+    this.createdDate = data.createdDate || new Date();
+    this.updatedDate = data.updatedDate || new Date();
   }
 
-  static fromBody(body : any): User {
-    return new User(
-      body.schoolId,
-      body.email,
-      body.password,
-      body.name,
-      body.userType,
-      body.isActive
-    );
+  public update(updateDto: UpdateUserDto) : void {
+    this.schoolId = updateDto.schoolId;
+    this.isActive = updateDto.isActive;
+    this.userType = updateDto.userType;
+    this.updatedDate = new Date();
   }
 }

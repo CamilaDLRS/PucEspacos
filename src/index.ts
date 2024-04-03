@@ -1,5 +1,7 @@
 import app from "./shared/infra/routes/index.routes";
-const port: number = 5001;
+require('dotenv').config();
+
+const port: number = parseInt(String(process.env.PORT)) || 5001;
 
 try {
   app.listen(port, () => {

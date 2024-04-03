@@ -1,7 +1,7 @@
 import { ApiError } from "../../shared/utils/apiError";
 import { InternalCode } from "../../shared/utils/internalCodes";
+import { UpdateUserDto } from "../dtos/user/updateUser.dto";
 import { User } from "../entities/user.entity";
-import { UserType } from "../enums/userType.enum";
 
 import { UsersRepository } from "../repositories/users.repository";
 
@@ -35,16 +35,14 @@ export class UsersServices {
     await UsersRepository.create(user);
   }
 
-  public static async update(id: string, schoolId: string | null, isActive: boolean, userType: UserType): Promise<void> {
-    const user = await UsersRepository.getById(id);
+  public static async update(userDto: UpdateUserDto): Promise<void> {
+    
+    const user = await UsersRepository.getById(userDto.userId);
 
     if (!user) {
       throw new ApiError(404, InternalCode.REGISTER_NOT_FOUND);
     }
-
-    user.schoolId = schoolId;
-    user.isActive = isActive;
-    user.userType = userType;
+    user.update(userDto);
 
     await UsersRepository.update(user);
   }
