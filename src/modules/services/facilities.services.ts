@@ -9,8 +9,8 @@ import *  as uuid from 'uuid';
 
 export class FacilitiesServices {
 
-  public static async getAll(): Promise<FacilityDto[]> {
-    const facilities: FacilityDto[] = await FacilitiesRepository.getAll();
+  public static async getAll(buildingId? : string, facilityTypeId? : string): Promise<FacilityDto[]> {
+    const facilities: FacilityDto[] = await FacilitiesRepository.getAll(buildingId, facilityTypeId);
 
     if (facilities.length == 0) {
       throw new ApiError(404, InternalCode.REGISTER_NOT_FOUND);

@@ -8,7 +8,7 @@ export class FacilitiesController {
 
   public static async getAll(req: Request, res: Response) {
     try {
-      const facilities: FacilityDto[] = await FacilitiesServices.getAll();
+      const facilities: FacilityDto[] = await FacilitiesServices.getAll(req.body.buildingId, req.body.facilityTypeId);
 
       await ExpressHandlers.handleResponse(req, res, facilities);
     } catch (error: any) {

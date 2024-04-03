@@ -8,11 +8,24 @@ export class FacilitiesRepository {
 
   private static readonly CONNECTION: IdbServices = new MysqlDbServices();
 
-  public static async getAll(): Promise<FacilityDto[]> {
+  public static async getAll(buildingId? : string, facilityTypeId? : string): Promise<FacilityDto[]> {
 
-    const sql = `SELECT * FROM tbFacilities;`;
+    let sql = `SELECT * FROM tbFacilities f`;
+    const bindParams = [];
+
+    if (buildingId && facilityTypeId) {
+      sql += ` WHERE f.buildingId = ? AND f.facilityTypeId = ?`;
+      bindParams.push(buildingId, facilityTypeId);
+    } else if (buildingId) {
+      sql += ` WHERE f.buildingId = ?`;
+      bindParams.push(buildingId);
+    } else if (facilityTypeId) {
+      sql += ` WHERE f.facilityTypeId = ?`;
+      bindParams.push(facilityTypeId);
+    }
+
     await this.CONNECTION.connect();
-    const rows = await this.CONNECTION.execute(sql);
+    const rows = await this.CONNECTION.executeWithParams(sql, bindParams);
     await this.CONNECTION.disconnect();
 
     if (rows && rows.length > 0) {
@@ -39,7 +52,7 @@ export class FacilitiesRepository {
       return new FacilityDto(rows[0], id);
     }
     else {
-      return null;
+      return null; 
     }
   }
 
