@@ -26,6 +26,19 @@ export class UsersController {
     }
   }
 
+  public static async signIn(req: Request, res: Response) {
+    try {
+      const email: string = String(req.query.email);
+      const password: string = String(req.query.password);
+
+      const user: UserDto = await UsersServices.signIn(email, password);
+
+      await ExpressHandlers.handleResponse(req, res, user);
+    } catch (error: any) {
+      await ExpressHandlers.handleError(req, res, error);
+    }
+  }
+
   public static async create(req: Request, res: Response) {
     try {
       let user: UserDto = new UserDto(req.body);

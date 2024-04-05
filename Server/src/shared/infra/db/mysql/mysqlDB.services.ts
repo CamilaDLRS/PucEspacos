@@ -11,11 +11,11 @@ class MysqlDbServices implements IdbServices {
   async connect(): Promise<void> {
     try {
       this.connection = await createConnection({
-        host: String(process.env.DB_HOST) || "localhost",
-        port: parseInt(String(process.env.DB_PORT)) || 3306,
-        user: String(process.env.DB_USER) || "root",
-        password: String(process.env.DB_PASSWORD) || "",
-        database: String(process.env.DB_NAME) || "pucEspacos"
+        host:"localhost",
+        port:  3306,
+        user: "root",
+        password: "",
+        database:  "pucEspacos"
       });
       console.log("Connected to MySQL database");
     } catch (error: any) {

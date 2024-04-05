@@ -67,3 +67,16 @@ export const updateUserSchema = yup.object({
       .required("Tipo do usuário é obrigatório.")
   })
 });
+
+
+export const signInUserSchema = yup.object({
+  query: yup.object({  
+    email: yup
+      .string()
+      .email()
+      .required("Email é obrigatório."),
+    password: yup
+      .string()
+      .required("Senha é obrigatório.")
+  })
+});

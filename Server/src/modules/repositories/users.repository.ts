@@ -40,6 +40,22 @@ export class UsersRepository {
     }
   }
 
+  public static async signIn(email: string, password: string): Promise<UserDto | null> {
+    const sql = `SELECT * FROM tbUsers WHERE email = ? AND password = ?`;
+    const bindParams = [email, password];
+
+    await this.CONNECTION.connect();
+    const rows = await this.CONNECTION.executeWithParams(sql, bindParams);
+    await this.CONNECTION.disconnect();
+
+    if (rows[0]) {
+      return new UserDto(rows[0], rows[0].userId);
+    }
+    else {
+      return null;
+    }
+  }
+
   public static async getByEmail(email: string): Promise<UserDto | null> {
     const sql = `SELECT * FROM tbUsers WHERE email = ?`;
     const bindParams = [email];

@@ -26,6 +26,16 @@ export class UsersServices {
     return user;
   }
 
+  public static async signIn(email: string, password: string): Promise<UserDto> {
+    const user = await UsersRepository.signIn(email, password);
+
+    if (!user) {
+      throw new ApiError(401, InternalCode.INVALID_LOGIN_CREDENTIALS);
+    }
+
+    return user;
+  }
+
   public static async create(user: UserDto): Promise<string> {
     if (await UsersRepository.getByEmail(user.email)) {
       throw new ApiError(409, InternalCode.EMAIL_ALREADY_EXISTS_AUTH);
