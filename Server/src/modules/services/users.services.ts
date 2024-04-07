@@ -2,7 +2,9 @@ import { ApiError } from "../../shared/utils/apiError";
 import { InternalCode } from "../../shared/utils/internalCodes";
 import { UserDto } from "../dtos/user.dto";
 import { UsersRepository } from "../repositories/users.repository";
+import { Utils } from '../../shared/utils/utils';
 import *  as uuid from 'uuid';
+import { UserType } from "../enums/userType.enum";
 
 export class UsersServices {
 
@@ -37,11 +39,22 @@ export class UsersServices {
   }
 
   public static async create(user: UserDto): Promise<string> {
-    if (await UsersRepository.getByEmail(user.email)) {
+    if (await UsersRepository.getByEmail(user.email!)) {
       throw new ApiError(409, InternalCode.EMAIL_ALREADY_EXISTS_AUTH);
     }
 
     user.userId = uuid.v4();
+    user.isActive = true;
+
+    if (Utils.validateEmailDomain(user.email!, ["pucpr.edu.br"])) {
+      user.userType = UserType.STUDENT;
+    }
+    else if (Utils.validateEmailDomain(user.email!, ["pucpr.br"])) {
+      user.userType = UserType.TEACHER;
+    }
+    else {
+      throw new ApiError(400, InternalCode.EMAIL_ALREADY_EXISTS_AUTH);
+    }
     await UsersRepository.create(user);
 
     return user.userId;
