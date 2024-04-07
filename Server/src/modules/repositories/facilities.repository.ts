@@ -5,11 +5,10 @@ import { FacilityAssetDto } from "../dtos/facilityAsset.dto";
 import { FacilityTypeDto } from "../dtos/facilityType.dto";
 
 export class FacilitiesRepository {
-
   private static readonly CONNECTION: IdbServices = new MysqlDbServices();
 
-  public static async getAll(buildingId? : string, facilityTypeId? : string): Promise<FacilityDto[]> {
-
+  public static async getAll(buildingId: string | null, facilityTypeId: string | null): Promise<FacilityDto[]> {
+    
     let sql = `SELECT * FROM tbFacilities f`;
     const bindParams = [];
 
@@ -30,18 +29,17 @@ export class FacilitiesRepository {
 
     if (rows && rows.length > 0) {
       const facilities: FacilityDto[] = rows.map((row: any) => {
-        return new FacilityDto(row, row.facilityId)
+        return new FacilityDto(row, row.facilityId);
       });
       return facilities;
-    }
-    else {
+    } else {
       return [];
     }
   }
 
   public static async getById(id: string): Promise<FacilityDto | null> {
-
-    const sql = `SELECT * FROM tbFacilities WHERE facilityId = ?;`;
+    const sql = `SELECT * FROM tbFacilities 
+                  WHERE facilityId = ?;`;
     const bindParams = [id];
 
     await this.CONNECTION.connect();
@@ -50,9 +48,8 @@ export class FacilitiesRepository {
 
     if (rows[0]) {
       return new FacilityDto(rows[0], id);
-    }
-    else {
-      return null; 
+    } else {
+      return null;
     }
   }
 
@@ -77,7 +74,7 @@ export class FacilitiesRepository {
       facility.capacity,
       facility.note,
       new Date(),
-      new Date()
+      new Date(),
     ];
 
     await this.CONNECTION.connect();
@@ -104,7 +101,7 @@ export class FacilitiesRepository {
       facility.capacity,
       facility.note,
       new Date(),
-      facility.facilityId
+      facility.facilityId,
     ];
 
     await this.CONNECTION.connect();
@@ -113,25 +110,24 @@ export class FacilitiesRepository {
   }
 
   public static async getAllTypes(): Promise<FacilityTypeDto[]> {
-
     const sql = `SELECT * FROM tbFacilityTypes;`;
     await this.CONNECTION.connect();
     const rows = await this.CONNECTION.execute(sql);
-    await this.CONNECTION.disconnect
+    await this.CONNECTION.disconnect;
 
     if (rows && rows.length > 0) {
       const facilityTypes: FacilityTypeDto[] = rows.map((row: any) => {
-        return new FacilityTypeDto(row)
+        return new FacilityTypeDto(row);
       });
-      return facilityTypes;   
-    }
-    else {
+      return facilityTypes;
+    } else {
       return [];
     }
   }
 
-  public static async getAllFacilityAssets(facilityId: string): Promise<FacilityAssetDto[]> {
-
+  public static async getAllFacilityAssets(
+    facilityId: string
+  ): Promise<FacilityAssetDto[]> {
     const sql = `SELECT fa.*, a.assetDescription  
                   FROM tbFacilityAssets fa
                   INNER JOIN tbassets a ON a.assetId = fa.assetId
@@ -144,17 +140,18 @@ export class FacilitiesRepository {
 
     if (rows && rows.length > 0) {
       const facilityAssets: FacilityAssetDto[] = rows.map((row: any) => {
-        return new FacilityAssetDto(row, facilityId)
+        return new FacilityAssetDto(row, facilityId);
       });
       return facilityAssets;
-    }
-    else {
+    } else {
       return [];
     }
   }
 
-  public static async getFacilityAssetByIds(facilityId: string, assetId: string): Promise<FacilityAssetDto | null> {
-
+  public static async getFacilityAssetByIds(
+    facilityId: string,
+    assetId: string
+  ): Promise<FacilityAssetDto | null> {
     const sql = `SELECT fa.*, a.assetDescription  
                   FROM tbFacilityAssets fa
                   INNER JOIN tbassets a ON a.assetId = fa.assetId
@@ -167,13 +164,14 @@ export class FacilitiesRepository {
 
     if (rows[0]) {
       return new FacilityAssetDto(rows[0], facilityId);
-    }
-    else {
+    } else {
       return null;
     }
   }
 
-  public static async createFacilityAsset(facilityAsset: FacilityAssetDto): Promise<void> {
+  public static async createFacilityAsset(
+    facilityAsset: FacilityAssetDto
+  ): Promise<void> {
     const sql = `INSERT INTO tbFacilityAssets (
                   facilityId,
                   assetId, 
@@ -186,7 +184,7 @@ export class FacilitiesRepository {
       facilityAsset.assetId,
       facilityAsset.quantity,
       new Date(),
-      new Date()
+      new Date(),
     ];
 
     await this.CONNECTION.connect();
@@ -194,7 +192,9 @@ export class FacilitiesRepository {
     await this.CONNECTION.disconnect();
   }
 
-  public static async updateFacilityAsset(facilityAsset: FacilityAssetDto): Promise<void> {
+  public static async updateFacilityAsset(
+    facilityAsset: FacilityAssetDto
+  ): Promise<void> {
     const sql = `UPDATE tbFacilityAssets SET
                   quantity = ?,
                   updatedDate = ?
@@ -204,7 +204,7 @@ export class FacilitiesRepository {
       facilityAsset.quantity,
       new Date(),
       facilityAsset.facilityId,
-      facilityAsset.assetId
+      facilityAsset.assetId,
     ];
 
     await this.CONNECTION.connect();

@@ -9,7 +9,8 @@ import *  as uuid from 'uuid';
 
 export class FacilitiesServices {
 
-  public static async getAll(buildingId? : string, facilityTypeId? : string): Promise<FacilityDto[]> {
+  public static async getAll(buildingId: string | null, facilityTypeId : string | null): Promise<FacilityDto[]> {
+
     const facilities: FacilityDto[] = await FacilitiesRepository.getAll(buildingId, facilityTypeId);
 
     if (facilities.length == 0) {

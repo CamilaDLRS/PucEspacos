@@ -6,6 +6,6 @@ const assetsRouter = express.Router();
 assetsRouter.get(
   "/",
   AssetsController.getAll
-)
+);
 
 export default assetsRouter;

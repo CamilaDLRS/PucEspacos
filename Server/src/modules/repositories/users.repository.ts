@@ -25,7 +25,8 @@ export class UsersRepository {
   }
 
   public static async getById(id: string): Promise<UserDto | null> {
-    const sql = `SELECT * FROM tbUsers WHERE userId = ?`;
+    const sql = `SELECT * FROM tbUsers 
+                  WHERE userId = ?`;
     const bindParams = [id];
 
     await this.CONNECTION.connect();
@@ -41,7 +42,8 @@ export class UsersRepository {
   }
 
   public static async signIn(email: string, password: string): Promise<UserDto | null> {
-    const sql = `SELECT * FROM tbUsers WHERE email = ? AND password = ?`;
+    const sql = `SELECT * FROM tbUsers 
+                  WHERE email = ? AND password = ?`;
     const bindParams = [email, password];
 
     await this.CONNECTION.connect();
@@ -57,7 +59,8 @@ export class UsersRepository {
   }
 
   public static async getByEmail(email: string): Promise<UserDto | null> {
-    const sql = `SELECT * FROM tbUsers WHERE email = ?`;
+    const sql = `SELECT * FROM tbUsers 
+                  WHERE email = ?`;
     const bindParams = [email];
 
     await this.CONNECTION.connect();

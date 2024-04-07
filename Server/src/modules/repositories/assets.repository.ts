@@ -1,12 +1,12 @@
 import { IdbServices } from "../../shared/infra/db/Idb.services";
 import MysqlDbServices from "../../shared/infra/db/mysql/mysqlDB.services";
-import { Asset } from "../entities/asset.entity";
+import { AssetDto } from "../dtos/asset.dto";
 
 export class AssetsRepository {
 
   private static readonly CONNECTION: IdbServices = new MysqlDbServices();
 
-  public static async getAll(): Promise<Asset[]> {
+  public static async getAll(): Promise<AssetDto[]> {
 
     const sql = `SELECT * FROM tbAssets;`;
     await this.CONNECTION.connect();
@@ -14,7 +14,10 @@ export class AssetsRepository {
     await this.CONNECTION.disconnect();
 
     if (rows && rows.length > 0){
-      return rows as Asset[];
+      const assets: AssetDto[] = rows.map((row:any) => {
+        return new AssetDto(row);
+      });
+      return assets;
     }
     else{
       return [];

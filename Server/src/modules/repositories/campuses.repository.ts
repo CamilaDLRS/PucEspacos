@@ -1,13 +1,13 @@
 
 import { IdbServices } from "../../shared/infra/db/Idb.services";
 import MysqlDbServices from "../../shared/infra/db/mysql/mysqlDB.services";
-import { Campus } from "../entities/campus.entity";
+import { CampusDto } from "../dtos/campus.dto";
 
 export class CampusesRepository {
 
   private static readonly CONNECTION: IdbServices = new MysqlDbServices();
 
-  public static async getAll(): Promise<Campus[]> {
+  public static async getAll(): Promise<CampusDto[]> {
 
     const sql = `SELECT * FROM tbCampuses;`;
     await this.CONNECTION.connect();
@@ -15,7 +15,10 @@ export class CampusesRepository {
     await this.CONNECTION.disconnect();
 
     if (rows && rows.length > 0) {
-      return rows as Campus[];
+      const campuses:CampusDto[] = rows.map((row: any) => {
+        return new CampusDto(row);
+      });
+      return campuses;
     }
     else{
       return [];

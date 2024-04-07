@@ -33,7 +33,7 @@ export class UsersController {
 
       const user: UserDto = await UsersServices.signIn(email, password);
 
-      await ExpressHandlers.handleResponse(req, res, user);
+      await ExpressHandlers.handleResponse(req, res, user, "Login realizado com sucesso!");
     } catch (error: any) {
       await ExpressHandlers.handleError(req, res, error);
     }

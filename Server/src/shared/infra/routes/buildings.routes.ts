@@ -6,6 +6,6 @@ const buildingRouter = express.Router();
 buildingRouter.get(
   "/",
   BuildingsController.getAll
-)
+);
 
 export default buildingRouter;
