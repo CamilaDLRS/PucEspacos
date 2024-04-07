@@ -1,0 +1,12 @@
+.content-title{
+    display: flex;
+    flex-direction: column;
+    font-family: "Indie Flower", cursive;
+    font-size: 4rem;
+    line-height: 8rem;
+}
+
+h1 {
+    color: black;
+}
+

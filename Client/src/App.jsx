@@ -1,14 +1,20 @@
-import TelaLogin from "./Pages/TelaLogin"
+import Login from "./Pages/Login/Login"
+import SingUp from "./Pages/SingUp/SingUp"
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import "./App.css";
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <TelaLogin />
+      element: <Login />
+    },
+    {
+      path: "/singUp",
+      element: <SingUp />
     },
   ]);
-
+  
   return (
     <RouterProvider router={router} />
   )
