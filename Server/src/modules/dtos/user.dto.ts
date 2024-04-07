@@ -4,28 +4,32 @@ export class UserDto {
 
   userId?: string;
   schoolId: string | null;
-  email: string;
-  password: string;
+  email?: string;
+  password?: string;
   userName?: string;
-  userType: UserType;
-  isActive: boolean;
+  userType?: UserType;
+  isActive?: boolean;
 
-  createdDate: Date;
-  updatedDate: Date;
+  createdDate?: Date;
+  updatedDate?: Date;
 
   constructor(data: any, userId?: string) {
     this.schoolId = data.schoolId || null;
-    this.userType = data.userType;
-    this.isActive = data.isActive;
 
     if (data.email) {
       this.email = data.email;
+    }
+    if (data.isActive) {
+      this.isActive = data.isActive;
     }
     if (data.password) {
       this.password = data.password;
     }
     if (data.userName) {
       this.userName = data.userName;
+    }
+    if (data.userType) {
+      this.userType = data.userType;
     }
     if (userId) {
       this.userId = userId;
