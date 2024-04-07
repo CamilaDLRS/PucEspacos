@@ -49,7 +49,7 @@ export const updateUserSchema = yup.object().shape({
 export const signInUserSchema = yup.object().shape({
     email: yup
       .string()
-      .email()
+      .email("Email inválido.")
       .required("Email é obrigatório."),
     password: yup
       .string()
