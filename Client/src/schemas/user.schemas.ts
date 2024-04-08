@@ -7,7 +7,7 @@ export const createUserSchema = yup.object().shape({
     userName: yup
       .string()
       .required("Campo nome é obrigatório."),
-      password: yup
+    password: yup
       .string()
       .required("Campo senha é obrigatório.")
       .min(8, "Precisa ter pelo menos 8 caracteres")

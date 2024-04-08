@@ -30,13 +30,15 @@ function FormLogin() {
         };
         const password = data.password;
         const email = data.email;
-
+        
         return await axios
             .get(`http://localhost:5001/users/signin?password=${password}&email=${email}`,
             httpOptions
             )
             .then((response) => {
-                console.log(response.data.data)   
+                const data = response.data.data;
+                localStorage.setItem("userType", data.userType)
+                window.location = '/users'
             })
             .catch((e) => {
                 alert(e.response.data.error.message);

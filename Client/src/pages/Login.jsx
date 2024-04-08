@@ -1,6 +1,6 @@
-import Title from "../../Components/Title/Title";
-import FormLogin from "../../Components/Forms/FormLogin"
-import "./login.css"
+import "./pages.css"
+import Title from "../components/title/Title";
+import FormLogin from "../components/forms/FormLogin"
 
 function Login() {
     return ( 

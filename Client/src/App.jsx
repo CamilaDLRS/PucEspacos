@@ -1,11 +1,12 @@
-import Login from "./Pages/Login/Login"
-import SingUp from "./Pages/SingUp/SingUp"
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Login from "./pages/Login"
+import SingUp from "./pages/SingUp"
+import Users from "./pages/Users";
 
 function App() {
-  const router = createBrowserRouter([
-    {
+  const listRoutes = [
+    { 
       path: "/",
       element: <Login />
     },
@@ -13,8 +14,21 @@ function App() {
       path: "/singUp",
       element: <SingUp />
     },
-  ]);
-  
+    {
+      path: "/*",
+      element: <h1>Sem permissão ou rota não existe!</h1>
+    }
+  ]
+
+  if (localStorage.getItem("userType") === "DOCENTE") {
+    listRoutes.push( {
+      path: "/users", 
+      element: <Users />
+    } )
+  }
+
+  const router = createBrowserRouter(listRoutes);
+
   return (
     <RouterProvider router={router} />
   )

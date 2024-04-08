@@ -1,5 +1,7 @@
-import Title from "../../Components/Title/Title";
-import FormSingUp from "../../Components/Forms/FormSingUp"
+import "./pages.css"
+
+import Title from "../components/title/Title";
+import FormSingUp from "../components/forms/FormSingUp"
 
 function SingUp() {
     return ( 

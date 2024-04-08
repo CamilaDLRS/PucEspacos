@@ -1,0 +1,32 @@
+header {
+    display: flex;
+    flex-direction: column;
+    background-color: #31458E;   
+}
+
+header .header-title{
+    display: flex;
+    align-items: center;
+    padding: .625rem 2rem;
+}
+
+header h1, header .nav-link, header .nav-main a{
+    color: white;
+    text-decoration: none;
+}
+
+header nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-inline: 2rem;
+    background-color: #610127;
+}
+
+header .nav-link, header .nav-main {
+    padding: .625rem 0; 
+}
+
+header .nav-main a {
+    padding: .625rem 2rem; 
+}

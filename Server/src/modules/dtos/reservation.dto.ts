@@ -17,12 +17,12 @@ export class ReservationDto {
 
   constructor(data: any) {
     this.responsibleUserId = data.responsibleUserId,
-      this.requestingUserId = data.requestingUserId,
-      this.facilityId = data.facilityId,
-      this.reservationStatus  = data.reservationStatus,
-      this.reservationPurpose = data.reservationPurpose,
-      this.checkinDate = data.checkinDate,
-      this.checkoutDate = data.checkoutDate,
+    this.requestingUserId = data.requestingUserId,
+    this.facilityId = data.facilityId,
+    this.reservationStatus  = data.reservationStatus,
+    this.reservationPurpose = data.reservationPurpose,
+    this.checkinDate = data.checkinDate,
+    this.checkoutDate = data.checkoutDate,
 
     this.reservationId = data.reservationId;
     this.createdDate = data.createdDate;
