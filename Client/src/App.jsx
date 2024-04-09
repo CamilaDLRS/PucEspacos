@@ -1,8 +1,11 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./pages/Login"
-import SingUp from "./pages/SingUp"
+import SignUp from "./pages/SignUp"
 import Users from "./pages/Users";
+import Return from "./pages/Return";
+import Facilities from "./pages/Facilities";
+import Reservations from "./pages/Reservations";
 
 function App() {
   const listRoutes = [
@@ -11,12 +14,20 @@ function App() {
       element: <Login />
     },
     {
-      path: "/singUp",
-      element: <SingUp />
+      path: "/signUp",
+      element: <SignUp />
+    },
+    {
+      path: "/facilities",
+      element: <Facilities />
+    },
+    {
+      path: "/reservations",
+      element: <Reservations />
     },
     {
       path: "/*",
-      element: <h1>Sem permissão ou rota não existe!</h1>
+      element: <Return/>
     }
   ]
 

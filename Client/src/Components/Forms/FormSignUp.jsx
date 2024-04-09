@@ -1,11 +1,11 @@
 import "./forms.css";
 import {Formik, Form, Field, ErrorMessage} from "formik"
 import { useState } from "react";
-import { createUserSchema } from "../../schemas/user.schemas";
+import { createUserSchema } from "../../schemas/user";
 import { Link } from "react-router-dom";
-import axios from 'axios';
 import Eye from "../../imgs/IconEye";
 import EyeInvisible from "../../imgs/IconEyeInvisible";
+import { signUp } from "../../services/user";
 
 
 function FormSingUp() {
@@ -22,31 +22,9 @@ function FormSingUp() {
         }
     }
 
-    async function handleSubmit(data) {
-        const httpOptions = {
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-            }
-        };
-
-        return await axios
-            .post("http://localhost:5001/users",
-            JSON.stringify(data),
-            httpOptions
-            )
-            .then((response) => {
-                alert(response.data.message)
-                window.location = "/"
-            })
-            .catch((e) => {
-                alert(e.response.data.error.message)
-            });
-    }
-
     return (
         <Formik
-            onSubmit={handleSubmit} 
+            onSubmit={signUp} 
             validationSchema={createUserSchema}
 
             initialValues={{

@@ -1,15 +1,15 @@
 import "./pages.css"
 
 import Title from "../components/title/Title";
-import FormSingUp from "../components/forms/FormSingUp"
+import FormSignUp from "../components/forms/FormSignUp"
 
-function SingUp() {
+function SignUp() {
     return ( 
         <div className="page-container">
             <Title />
-            <FormSingUp />
+            <FormSignUp />
         </div>
      );
 }
 
-export default SingUp;
+export default SignUp;

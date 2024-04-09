@@ -56,3 +56,9 @@ button:hover {
     margin: 0 auto;
     text-decoration: none;
 }
+
+@media screen and (max-width:768px) {
+    .login-container {
+       width: 60%;
+    }
+}

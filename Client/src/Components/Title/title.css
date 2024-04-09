@@ -2,11 +2,10 @@
     display: flex;
     flex-direction: column;
     font-family: "Indie Flower", cursive;
-    font-size: 4rem;
-    line-height: 8rem;
+    font-size: 3rem;
+    line-height: 5.5rem;
 }
 
 h1 {
     color: black;
 }
-
