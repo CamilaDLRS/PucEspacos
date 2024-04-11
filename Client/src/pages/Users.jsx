@@ -1,45 +1,44 @@
 import "./pages.css"
 import Header from "../components/header/Header";
-import { useEffect, useState } from "react";
 import axios from 'axios';
+import CardUser from "../components/cardUser/CardUser";
+import { getAllUser } from "../services/user";
+import { useEffect, useState } from "react";
+import FilterUser from "../components/filterUser/FilterUser";
 
 function Users() {
+    if (!localStorage.getItem("userType")) {
+        window.location = "/";
+    }
+    const [users, setUser] = useState([]);
 
-    const [users, setUsers] = useState([]);
+    useEffect(() => {
 
-    useEffect( () => {
-        const fecth = async () => {
-            const httpOptions = {
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                }
-            };
-    
-            await axios
-            .get(`http://localhost:5001/users`,
-            httpOptions)
-            .then((response) => {
-                console.log(response.data.data)
-            })
-            .catch((e) => {
-                alert(e.response.data.error.message);
-            }); 
+        async function fetchUsers () {
+            setUser(await getAllUser())
         }
 
-        fecth();
-        
-    }, [])
+        fetchUsers()
+    }, []);
 
     return ( 
-        <>  
+        <div>  
             <Header local="users"/>
-            
-            {users.map((user) => {
-                <div> {user.userName} </div>
-            })}
-        </>
-        
+
+            <FilterUser />
+
+            { users.map(user => {
+                return (
+                    <CardUser 
+                        userName={user.userName}
+                        userType={user.userType}
+                        email = {user.email}
+                        isActive = {user.isActive}
+                    />
+                )
+            }) }
+        </div>
+
      );
 }
 

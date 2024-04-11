@@ -21,4 +21,5 @@ app.use('/campuses', campusesRouter);
 app.use('/facilities', facilityRouter);
 app.use('/schools', schoolsRouter);
 app.use('/users', userRouter);
+
 export default app;

@@ -4,9 +4,8 @@ import { Link } from "react-router-dom";
 
 
 function Header(prop) {
-
     useEffect(() => {
-        document.getElementById(prop.local).style.background =  "rgb(128, 9, 54)";
+            document.getElementById(prop.local).style.background =  "rgb(128, 9, 54)";
     }, [])
 
     return ( 

@@ -26,6 +26,10 @@ function App() {
       element: <Reservations />
     },
     {
+      path: "/users",
+      element: <Users />
+    },
+    {
       path: "/*",
       element: <Return/>
     }
