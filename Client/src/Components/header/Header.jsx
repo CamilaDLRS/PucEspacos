@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 function Header(prop) {
     useEffect(() => {
-            document.getElementById(prop.local).style.background =  "rgb(128, 9, 54)";
+        document.getElementById(prop.local).style.background =  "rgb(128, 9, 54)";
     }, [])
 
     return ( 
@@ -18,8 +18,9 @@ function Header(prop) {
                 <div className="nav-main">
                     <Link to="/reservations" id="reservations"> Reservas </Link>
                     <Link to="/facilities" id="facilities"> Espaços </Link>
-                    { // If                                              
-                        localStorage.getItem("userType") === "DOCENTE" && 
+                    {                 
+                        ((localStorage.getItem("userType") === "Administrador") ||
+                        (localStorage.getItem("userType") === "Docente")) && 
                         <Link to="/users" id="users" > Usuários </Link> 
                     }
                 </div>

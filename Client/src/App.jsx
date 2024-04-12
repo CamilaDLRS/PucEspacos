@@ -35,13 +35,6 @@ function App() {
     }
   ]
 
-  if (localStorage.getItem("userType") === "DOCENTE") {
-    listRoutes.push( {
-      path: "/users", 
-      element: <Users />
-    } )
-  }
-
   const router = createBrowserRouter(listRoutes);
 
   return (
