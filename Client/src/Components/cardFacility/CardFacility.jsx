@@ -12,8 +12,8 @@ function CardFacility(prop) {
 
         <div className="card-header-facility-type">
           <p> {prop.facilityType} </p>
-          <p> {prop.capacity} </p>
           <IconPersonFill />
+          <p> {prop.capacity} </p>
         </div>
       </div>
 
@@ -24,7 +24,7 @@ function CardFacility(prop) {
         <div className="card-facility-icons">
           {prop.isActive ? <IconPower className="card-facility-icon" color="green" /> : <IconPower className="card-facility-icon" color="red" />}
           <IconBxsEdit className="card-facility-icon" />
-          <IconTrash />
+          <IconTrash className="card-facility-icon" />
         </div>
     </div>
   );

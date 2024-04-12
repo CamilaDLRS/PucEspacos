@@ -1,45 +1,87 @@
-import "./pages.css"
+import "./pages.css";
 import Header from "../components/header/Header";
-import axios from 'axios';
 import CardUser from "../components/cardUser/CardUser";
-import { getAllUser } from "../services/user";
+import { getAllUser, getAllUserTypes } from "../services/user";
 import { useEffect, useState } from "react";
-import FilterUser from "../components/filterUser/FilterUser";
+import Filters from "../components/filters/filters";
 
 function Users() {
-    if (!localStorage.getItem("userType")) {
-        window.location = "/";
-    }
-    const [users, setUser] = useState([]);
+  if (!localStorage.getItem("userType")) {
+    window.location = "/";
+  }
 
-    useEffect(() => {
+  const [users, setUsers] = useState([]);
+  const [userTypes, setUserTypes] = useState([]);
 
-        async function fetchUsers () {
-            setUser(await getAllUser())
-        }
+  const [typeFilter, setTypeFilter] = useState("");
+  const [typeFilterOptions, setTypeFilterOptions] = useState([]);
 
-        fetchUsers()
-    }, []);
+  const [statusFilter, setStatusFilter] = useState("");
+  const [statusFilterOptions, setStatusFilterOptions] = useState([]);
 
-    return ( 
-        <div>  
-            <Header local="users"/>
+  useEffect(() => {
+    getAllUser().then((response) => setUsers(response));
+    getAllUserTypes().then((response) => setUserTypes(response));
+  }, []);
 
-            <FilterUser />
+  useEffect(() => {
+    const typeFilterOptions = [{ key: 0, value: "", label: "Todos" }];
 
-            { users.map(user => {
-                return (
-                    <CardUser 
-                        userName={user.userName}
-                        userType={user.userType}
-                        email = {user.email}
-                        isActive = {user.isActive}
-                    />
-                )
-            }) }
-        </div>
+    typeFilterOptions.push(
+      ...userTypes.map((userType) => {
+        return { key: userType, value: userType, label: userType };
+      })
+    );
+    setTypeFilterOptions(typeFilterOptions);
+  }, [userTypes]);
 
-     );
+  useEffect(() => {
+    const statusFilterOptions = [
+      { key: 0, value: "", label: "Todos" },
+      { key: 1, value: "Ativo", label: "Ativo" },
+      { key: 2, value: "Desativado", label: "Desativado" },
+    ];
+    setStatusFilterOptions(statusFilterOptions);
+  }, []);
+
+  const filteredUsers = users.filter((user) => {
+    const typeMatches = !typeFilter || user.userType === typeFilter;
+    const statusMatches =
+      !statusFilter || 
+      (user.isActive && statusFilter == "Ativo") || 
+      (!user.isActive && statusFilter == "Desativado");
+
+    return typeMatches && statusMatches;
+  });
+
+  return (
+    <div>
+      <Header local="users" />
+
+      <Filters
+        filters={[
+          {
+            title: "Tipo",
+            label: false,
+            onChange: (value) => setTypeFilter(value),
+            options: typeFilterOptions,
+          },
+          {
+            title: "Status",
+            label: false,
+            onChange: (value) => setStatusFilter(value),
+            options: statusFilterOptions,
+          },
+        ]}
+      />
+
+      {filteredUsers.map((user) => {
+        return (
+          <CardUser userName={user.userName} userType={user.userType} email={user.email} isActive={user.isActive} />
+        );
+      })}
+    </div>
+  );
 }
 
-export default Users
+export default Users;

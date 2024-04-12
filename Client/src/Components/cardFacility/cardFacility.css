@@ -31,10 +31,12 @@
 
 .card-facility-icon {
   margin-right: 8px;
+  cursor: pointer;
 }
 
 .card-facility-button {
  border: 1px solid;
  padding: 3px 10px;
  font-size: 0.8rem;
+ cursor: pointer;
 }

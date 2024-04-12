@@ -1,15 +1,19 @@
 import axios from "axios";
 
-export async function signUp(data) {
-  const httpOptions = {
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-  };
+const httpOptions = {
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  },
+};
 
+export async function signUp(data) {
   return await axios
-    .post("http://localhost:5001/users", JSON.stringify(data), httpOptions)
+    .post(
+      "http://localhost:5001/users",
+      JSON.stringify(data),
+      httpOptions
+    )
     .then((response) => {
       alert(response.data.message);
       window.location = "/";
@@ -20,17 +24,15 @@ export async function signUp(data) {
 }
 
 export async function login(data) {
-  const httpOptions = {
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-  };
+  
   const password = data.password;
   const email = data.email;
 
   return await axios
-    .get(`http://localhost:5001/users/signin?password=${password}&email=${email}`, httpOptions)
+    .get(
+      `http://localhost:5001/users/signin?password=${password}&email=${email}`, 
+      httpOptions
+    )
     .then((response) => {
       const data = response.data.data;
       localStorage.setItem("userType", data.userType);
@@ -42,11 +44,29 @@ export async function login(data) {
 }
 
 export async function getAllUser() {
-    return await axios.get("http://localhost:5001/users")
-        .then((response) => {
-            return response.data.data;
-        })
-        .catch((e) => {
-            alert(e.response.data.error.message);
-        });
+    return await axios
+    .get(
+      "http://localhost:5001/users",
+      httpOptions
+    )
+    .then((response) => {
+        return response.data.data;
+    })
+    .catch((e) => {
+        alert(e.response.data.error.message);
+    });
+}
+
+export async function getAllUserTypes() {
+  return await axios
+  .get(
+    "http://localhost:5001/users/types",
+    httpOptions
+  )
+  .then((response) => {
+      return response.data.data;
+  })
+  .catch((e) => {
+      alert(e.response.data.error.message);
+  });
 }

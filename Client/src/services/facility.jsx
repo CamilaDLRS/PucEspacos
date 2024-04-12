@@ -9,3 +9,13 @@ export async function getAllFacilities() {
             alert(e.response.data.error.message);
         });
 }
+
+export async function getAllFacilityTypes() {
+    return await axios.get("http://localhost:5001/facilities/types")
+        .then((response) => {
+            return response.data.data;
+        })
+        .catch((e) => {
+            alert(e.response.data.error.message);
+        });
+}

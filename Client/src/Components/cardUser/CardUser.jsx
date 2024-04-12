@@ -17,8 +17,8 @@ function CardUser(prop) {
       <div className="card-user-body">
         <p> {prop.email} </p>
         { prop.isActive
-          ? <p> ativo </p>
-          : <p> desativado </p>
+          ? <p> Ativo </p>
+          : <p> Desativado </p>
         }
       </div>
     </div>
