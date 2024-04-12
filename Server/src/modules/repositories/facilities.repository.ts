@@ -9,7 +9,10 @@ export class FacilitiesRepository {
 
   public static async getAll(buildingId: string | null, facilityTypeId: string | null): Promise<FacilityDto[]> {
     
-    let sql = `SELECT * FROM tbFacilities f`;
+    let sql = `SELECT f.*, t.facilityTypeDescription, b.buildingName  
+                FROM tbFacilities f
+                INNER JOIN tbBuildings b ON b.buildingId = f.buildingId
+                INNER JOIN tbFacilityTypes t ON t.facilityTypeId = f.facilityTypeId`;
     const bindParams = [];
 
     if (buildingId && facilityTypeId) {

@@ -4,7 +4,9 @@ export class FacilityDto {
 
   facilityId?: string;
   buildingId?: string;
+  buildingName?: string;
   facilityTypeId: string;
+  facilityTypeDescription: string;
   isActive: boolean;
   facilityName: string;
   capacity: string | null;
@@ -24,6 +26,12 @@ export class FacilityDto {
     }
     if (data.buildingId) {
       this.buildingId = data.buildingId;
+    }
+    if (data.buildingName) {
+      this.buildingName = data.buildingName;
+    }
+    if (data.facilityTypeDescription) {
+      this.facilityTypeDescription = data.facilityTypeDescription;
     }
     if (data.assets) {
       this.assets = data.assets;
