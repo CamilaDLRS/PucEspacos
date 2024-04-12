@@ -1,7 +1,7 @@
 export enum ReservationStatus {
-  REQUESTED = "SOLICITADA",
-  ACTIVE = "ATIVA",
-  CANCELED = "CANCELADA",
-  IN_PROGRESS = "EM ANDAMENTO",
-  FINISHED = "FINALIZADA"
+  REQUESTED = "Solicitada",
+  ACTIVE = "Ativa",
+  CANCELED = "Cancelada",
+  IN_PROGRESS = "Em Andamento",
+  FINISHED = "Finalizada"
 }

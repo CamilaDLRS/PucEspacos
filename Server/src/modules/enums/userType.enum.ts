@@ -1,6 +1,6 @@
 export enum UserType {
-  SECRETARY = "SECRETARIO",
-  TEACHER = "DOCENTE",
-  STUDENT = "DISCENTE",
-  ADMINISTRATOR = "ADMINISTRADOR"
+  SECRETARY = "Secretário",
+  TEACHER = "Docente",
+  STUDENT = "Discente",
+  ADMINISTRATOR = "Administrador"
 }

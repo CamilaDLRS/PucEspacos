@@ -1,9 +1,9 @@
 
 export enum ReservationPurpose {
-  CLASS = "AULA",
-  SPEECH = "PALESTRA",
-  HOBBY = "LAZER",
-  EVENT = "EVENTO",
-  STUDY = "ESTUDO",
-  OTHER = "OUTRO"
+  CLASS = "Aula",
+  SPEECH = "Palestra",
+  HOBBY = "Lazer",
+  EVENT = "Evento",
+  STUDY = "Estudo",
+  OTHER = "Outro"
 }

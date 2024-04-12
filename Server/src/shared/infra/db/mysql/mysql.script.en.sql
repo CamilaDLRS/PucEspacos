@@ -70,7 +70,7 @@ CREATE TABLE tbUsers (
     email Varchar(50) UNIQUE,
     password Varchar(50),
     userName Varchar(100),
-    userType Enum('SECRETARIO','DOCENTE','DISCENTE','ADMINISTRADOR'),
+    userType Enum('Secretário','Docente','Discente','Administrador'),
     isActive Bool,
     createdDate Datetime,
     updatedDate Datetime,
@@ -82,8 +82,8 @@ CREATE TABLE tbReservations (
     requestingUserId  Varchar(40),
     responsibleUserId Varchar(40),
     facilityId Varchar(40),
-    reservationStatus Enum('SOLICITADO','ATIVA','CANCELADO','EM ANDAMENTO','FINALIZADO'),
-    reservationPurpose Enum('AULA','PALESTRA','LAZER','EVENTO','ESTUDO','OUTRO'),
+    reservationStatus Enum('Solicitada','Ativa','Cancelada','Em Andamento','Finalizada'),
+    reservationPurpose Enum('Aula','Palestra','Lazer','Evento','Estudo','Outro'),
     checkinDate Datetime,
     checkoutDate Datetime,
     createdDate Datetime,
@@ -137,15 +137,18 @@ SET @mesa_id = UUID();
 
 -- Definição das constantes para userId
 SET @joao_id = UUID();
+SET @joana_id = UUID();
 SET @maria_id = UUID();
 SET @pedro_id = UUID();
 SET @ana_id = UUID();
+SET @lucia_id = UUID();
 SET @andre_id = UUID();
 
 -- Definição das constantes para facilityId
 SET @espaco1 = UUID();
 SET @espaco2 = UUID();
 SET @espaco3 = UUID();
+SET @espaco4 = UUID();
 
 -- Definição das constantes para reservationId
 SET @reserva1 = UUID();
@@ -201,9 +204,10 @@ VALUES
 -- Inserção Espaços
 INSERT INTO tbFacilities (facilityId, buildingId, facilityTypeId, isActive, facilityName, capacity, note, updatedDate, createdDate)
 VALUES 
-	(@espaco1, @azul_uuid,  @sala_aula_uuid, 1, 'Sala Grace Hopper', 80, 'Nenhuma observação', NOW(), NOW()),
-    (@espaco2, @azul_uuid,  @sala_aula_uuid, 1, 'Sala de Aula 17', 30, 'Nenhuma observação', NOW(), NOW()),
-    (@espaco3, @vermelho5_uuid,  @sala_aula_uuid, 1, 'Araça 303', 80, 'Nenhuma observação', NOW(), NOW());
+	(@espaco1, @azul_uuid,  @lab_informatica_uuid, 1, 'Sala Grace Hopper', 80, null, NOW(), NOW()),
+    (@espaco2, @azul_uuid,  @sala_aula_uuid, 1, 'Sala de Aula 17', 30, null, NOW(), NOW()),
+    (@espaco3, @vermelho5_uuid,  @sala_aula_uuid, 1, 'Araça 303', 80, null, NOW(), NOW()),
+    (@espaco4, @ginasio_uuid,  @quadra_uuid, 1, 'Quadra de volêi femenina 1', 80, null, NOW(), NOW());
 
 -- Inserção Ativos
 INSERT INTO tbAssets (assetId, assetDescription)
@@ -219,22 +223,24 @@ VALUES
 -- Inserção Usuáios Sem Escola
 INSERT INTO tbUsers ( userId, email, password, userName, userType, isActive, createdDate, updatedDate)
 VALUES 
-	(@maria_id, 'maria@pucpr.edu.br', 'password456', 'Maria', 'DOCENTE', 1, NOW(), NOW()),
-	(@pedro_id, 'pedro@pucpr.edu.br', 'password789', 'Pedro', 'DISCENTE', 1, NOW(), NOW()),
-	(@ana_id, 'ana@pucpr.edu.br', 'passwordabc', 'Ana', 'ADMINISTRADOR', 1, NOW(), NOW()),
-    (@andre_id, 'andre@pucpr.edu.br', 'passworddef', 'Andre', 'ADMINISTRADOR', 1, NOW(), NOW());
+	(@maria_id, 'maria@pucpr.edu.br', 'password456', 'Maria', 'Discente', 1, NOW(), NOW()),
+	(@pedro_id, 'pedro@pucpr.edu.br', 'password789', 'Pedro', 'Discente', 1, NOW(), NOW()),
+	(@lucia_id, 'lucia@pucpr.br', 'password123', 'Lucia', 'Docente', 1, NOW(), NOW()),
+	(@ana_id, 'ana@pucpr.edu.br', 'passwordabc', 'Ana', 'Administrador', 1, NOW(), NOW()),
+    (@andre_id, 'andre@pucpr.edu.br', 'passworddef', 'Andre', 'Administrador', 1, NOW(), NOW());
 
 -- Inserção Usuáios Com Escola
 INSERT INTO tbUsers (userId, schoolId, email, password, userName, userType, isActive, createdDate, updatedDate)
 VALUES 
-	(@joao_id, @direito_id, 'joao@pucpr.edu.br', 'password123', 'João', 'SECRETARIO', 1, NOW(), NOW());
+	(@joao_id, @direito_id, 'joao@pucpr.br', 'password123', 'João', 'Secretário', 1, NOW(), NOW()),
+	(@joana_id, @educacao_humanidades_id, 'joana@pucpr.br', 'password123', 'Joana', 'Secretário', 1, NOW(), NOW());
     
 
 -- Inserção Reserva
 INSERT INTO tbReservations (reservationId, requestingUserId, responsibleUserId, facilityId, reservationStatus, reservationPurpose, checkinDate, checkoutDate, createdDate, updatedDate)
 VALUES 
-	(@reserva1, @maria_id, @maria_id, @espaco1, 'SOLICITADO', 'AULA', '2024-03-24 07:50:00', '2024-03-24 09:20:00', NOW(), NOW()),
-    (@reserva2, @pedro_id, @maria_id, @espaco2, 'SOLICITADO', 'AULA', '2024-03-27 13:25:00', '2024-03-27 16:00:00', NOW(), NOW());
+	(@reserva1, @maria_id, @maria_id, @espaco1, 'Solicitada', 'Aula', '2024-03-24 07:50:00', '2024-03-24 09:20:00', NOW(), NOW()),
+    (@reserva2, @pedro_id, @maria_id, @espaco2, 'Solicitada', 'Palestra', '2024-03-27 13:25:00', '2024-03-27 16:00:00', NOW(), NOW());
     
    select * from tbReservations;
     
@@ -256,4 +262,3 @@ where r.responsibleUserId = u.userId AND
 update tbUsers
 set isActive = false
 where userId = @maria_id;
-
