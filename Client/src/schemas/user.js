@@ -23,7 +23,7 @@ export const createUserSchema = yup.object().shape({
       .string()
       .required("Email é obrigatório.")
       .test({
-        message: "Domínio de email inválido.",
+        message: "Insira um email válido com domínio pucpr.edu.br ou pucpr.br.",
         test: (value) => { 
             const [, domain] = value.split('@');
             return ["pucpr.edu.br", "pucpr.br"].includes(domain);

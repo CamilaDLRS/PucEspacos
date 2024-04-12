@@ -24,19 +24,19 @@ export async function signUp(data) {
 }
 
 export async function login(data) {
-  
+
   const password = data.password;
   const email = data.email;
 
   return await axios
     .get(
-      `http://localhost:5001/users/signin?password=${password}&email=${email}`, 
+      `http://localhost:5001/users/signin?password=${password}&email=${email}`,
       httpOptions
     )
     .then((response) => {
       const data = response.data.data;
       localStorage.setItem("userType", data.userType);
-      window.location = "/users";
+      window.location = "/reservations";
     })
     .catch((e) => {
       alert(e.response.data.error.message);

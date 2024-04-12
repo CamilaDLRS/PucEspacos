@@ -3,7 +3,6 @@ import {Formik, Form, Field, ErrorMessage} from "formik"
 import { useState } from "react";
 import { signInUserSchema } from "../../schemas/user";
 import { Link } from "react-router-dom";
-import axios from 'axios';
 import Eye from "../../imgs/IconEye";
 import EyeInvisible from "../../imgs/IconEyeInvisible";
 import { login } from "../../services/user";

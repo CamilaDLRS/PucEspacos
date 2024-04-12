@@ -1,5 +1,5 @@
 import IconBxsEdit from "../../imgs/IconBxsEdit";
-import "./carduser.css"
+import "./cardUser.css"
 
 function CardUser(prop) {
   

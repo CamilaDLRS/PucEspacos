@@ -3,7 +3,7 @@ import Header from "../components/header/Header";
 import CardUser from "../components/cardUser/CardUser";
 import { getAllUser, getAllUserTypes } from "../services/user";
 import { useEffect, useState } from "react";
-import Filters from "../components/filters/filters";
+import Filters from "../components/filters/Filters";
 
 function Users() {
   if (!localStorage.getItem("userType")) {

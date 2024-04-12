@@ -4,12 +4,12 @@ import Header from "../components/header/Header";
 import { getAllFacilities, getAllFacilityTypes } from "../services/facility";
 import { getAllBuildings } from "../services/building";
 import CardFacility from "../components/cardFacility/CardFacility";
-import Filters from "../components/filters/filters";
+import Filters from "../components/filters/Filters";
 import { useEffect, useState } from "react";
 
 function Facilities() {
   if (!localStorage.getItem("userType")) {
-    window.location = "/users";
+    window.location = "/";
   }
   
   const [facilities, setFacilities] = useState([]);
