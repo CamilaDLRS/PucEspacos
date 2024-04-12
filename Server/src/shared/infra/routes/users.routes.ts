@@ -12,6 +12,11 @@ usersRouter.get(
 );
 
 usersRouter.get(
+  "/types",
+  UsersController.getAllTypes
+);
+
+usersRouter.get(
   "/:id",
   UsersController.getById
 );

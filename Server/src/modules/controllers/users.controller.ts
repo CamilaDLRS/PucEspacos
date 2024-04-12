@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { UsersServices } from "../services/users.services";
 import { ExpressHandlers } from "../../shared/utils/expressHandles";
 import { UserDto } from "../dtos/user.dto";
+import { UserType } from "../enums/userType.enum";
 
 export class UsersController {
 
@@ -10,6 +11,16 @@ export class UsersController {
       const users: UserDto[] = await UsersServices.getAll();
 
       await ExpressHandlers.handleResponse(req, res, users);
+    } catch (error: any) {
+      await ExpressHandlers.handleError(req, res, error);
+    }
+  }
+
+  public static async getAllTypes(req: Request, res: Response) {
+    try {
+      const userTypes: string[] = Object.values(UserType);
+
+      await ExpressHandlers.handleResponse(req, res, userTypes);
     } catch (error: any) {
       await ExpressHandlers.handleError(req, res, error);
     }
