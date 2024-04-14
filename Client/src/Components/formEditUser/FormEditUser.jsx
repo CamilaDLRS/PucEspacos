@@ -85,7 +85,7 @@ function FormEditUser({user, showFormUser, userTypes}) {
     
 
     return ( 
-        <div className="container-form-edit-user showFormUser" onClick={showFormUser.bind(event, "")}>
+        <div className="container-absolute showFormUser" onClick={showFormUser.bind(event, "")}>
             <div className="form-edit-user">
                 <div className="form-edit-infos">
                     <div className="left-side">
