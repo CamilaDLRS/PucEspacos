@@ -3,21 +3,28 @@ import Header from "../components/header/Header";
 import CardUser from "../components/cardUser/CardUser";
 import { getAllUser, getAllUserTypes } from "../services/user";
 import { useEffect, useState } from "react";
-import Filters from "../components/filters/Filters";
+import Filters from "../components/filters/filters";
+import FormEditUser from "../components/formEditUser/FormEditUser";
 
 function Users() {
-  if (!localStorage.getItem("userType")) {
-    window.location = "/";
-  }
+  useEffect(() => {
+    if (!localStorage.getItem("userType")) {
+      window.location = "/";
+    }
+  })
 
   const [users, setUsers] = useState([]);
   const [userTypes, setUserTypes] = useState([]);
+
+  const [userById, setUserById] = useState();
 
   const [typeFilter, setTypeFilter] = useState("");
   const [typeFilterOptions, setTypeFilterOptions] = useState([]);
 
   const [statusFilter, setStatusFilter] = useState("");
   const [statusFilterOptions, setStatusFilterOptions] = useState([]);
+
+  const [showFormEditUser, setShowFormEditUser] = useState(false);
 
   useEffect(() => {
     getAllUser().then((response) => setUsers(response));
@@ -54,6 +61,13 @@ function Users() {
     return typeMatches && statusMatches;
   });
 
+  function showFormUser(user, event) {
+    if (event.target.classList.contains("showFormUser")) {
+      showFormEditUser ? setShowFormEditUser(false) : setShowFormEditUser(true)
+      setUserById(user)
+    }
+  }
+
   return (
     <div>
       <Header local="users" />
@@ -77,9 +91,21 @@ function Users() {
 
       {filteredUsers.map((user) => {
         return (
-          <CardUser userName={user.userName} userType={user.userType} email={user.email} isActive={user.isActive} />
+          <CardUser 
+            user = {user}
+            showFormUser = {showFormUser}
+          />
         );
       })}
+
+    { showFormEditUser && 
+      <FormEditUser 
+        showFormUser={showFormUser} 
+        user={userById}
+        userTypes={userTypes}
+      />
+    }    
+      
     </div>
   );
 }

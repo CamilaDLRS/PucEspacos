@@ -5,7 +5,9 @@ import { Link } from "react-router-dom";
 
 function Header(prop) {
     useEffect(() => {
-        document.getElementById(prop.local).style.background =  "rgb(128, 9, 54)";
+        if (localStorage.getItem("userType")) {
+            document.getElementById(prop.local).style.background =  "rgb(128, 9, 54)";
+        }
     }, [])
 
     return ( 
@@ -15,19 +17,17 @@ function Header(prop) {
             </div>
 
             <nav>
-                <div className="nav-main">
-                    <Link to="/reservations" id="reservations"> Reservas </Link>
-                    <Link to="/facilities" id="facilities"> Espaços </Link>
-                    {                 
-                        ((localStorage.getItem("userType") === "Administrador") ||
-                        (localStorage.getItem("userType") === "Docente")) && 
-                        <Link to="/users" id="users" > Usuários </Link> 
-                    }
-                </div>
-
+                <Link className="nav-link" to="/reservations" id="reservations"> Reservas </Link>
+                <Link className="nav-link" to="/facilities" id="facilities"> Espaços </Link>
+                {                 
+                    ((localStorage.getItem("userType") === "Administrador") ||
+                    (localStorage.getItem("userType") === "Docente")) && 
+                    <Link className="nav-link" to="/users" id="users" > Usuários </Link> 
+                }
+                
                 <Link 
                     to="/" 
-                    className="nav-link"
+                    className="nav-link nav-link-leave"
                     onClick={() => localStorage.clear()}
                 > Sair </Link>
             </nav>

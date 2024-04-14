@@ -1,22 +1,22 @@
 import IconBxsEdit from "../../imgs/IconBxsEdit";
-import "./cardUser.css"
+import "./carduser.css"
 
-function CardUser(prop) {
+function CardUser({user, showFormUser}) {
   
   return (
     <div className="card-user">
       <div className="card-user-header">
-        <p> { prop.userName } </p>
+        <p> { user.userName } </p>
 
         <div className="card-header-user-type">
-          <p> { prop.userType } </p>
-          <IconBxsEdit />
+          <p> { user.userType } </p>
+          <IconBxsEdit className="edit-icon showFormUser" onClick={showFormUser.bind(event, user)} />
         </div>
       </div>
 
       <div className="card-user-body">
-        <p> {prop.email} </p>
-        { prop.isActive
+        <p> {user.email} </p>
+        { user.isActive
           ? <p> Ativo </p>
           : <p> Desativado </p>
         }

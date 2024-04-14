@@ -70,3 +70,22 @@ export async function getAllUserTypes() {
       alert(e.response.data.error.message);
   });
 }
+
+export async function editUser(id, data) {
+  if (data.userType !== "Secretário") {
+    data.schoolId = null;
+  }
+
+  return await axios.patch(
+    `http://localhost:5001/users/${id}`,
+    JSON.stringify(data),
+    httpOptions
+  )
+  .then((response) => {
+      alert(response.data.message)
+      window.location = "/users"
+  })
+  .catch((e) => {
+      alert(e.response.data.error.message);
+  })
+}

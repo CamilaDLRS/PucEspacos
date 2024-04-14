@@ -4,6 +4,7 @@ export class UserDto {
 
   userId?: string;
   schoolId: string | null;
+  schoolName: string | null;
   email?: string;
   password?: string;
   userName?: string;
@@ -15,6 +16,7 @@ export class UserDto {
 
   constructor(data: any, userId?: string) {
     this.schoolId = data.schoolId || null;
+    this.schoolName = data.nameSchool || null;
 
     if (data.email) {
       this.email = data.email;

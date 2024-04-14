@@ -7,7 +7,7 @@ export class SchoolDto {
 
   constructor(data: any) {
     this.schoolId = data.schoolId;
-    this.nameSchool = data.nameScholl;
+    this.nameSchool = data.nameSchool;
 
     this.createdDate = data.createdDate;
     this.updatedDate = data.updatedDate;

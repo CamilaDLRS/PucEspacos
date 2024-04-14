@@ -8,7 +8,8 @@ export class UsersRepository {
 
   public static async getAll(): Promise<UserDto[]> {
 
-    const sql = `SELECT * FROM tbUsers;`;
+    const sql = `SELECT u.*
+                  FROM tbUsers u`;
     await this.CONNECTION.connect();
     const rows = await this.CONNECTION.execute(sql);
     await this.CONNECTION.disconnect();
@@ -24,8 +25,26 @@ export class UsersRepository {
     }
   }
 
+  public static async getUserSchoolName(user: UserDto): Promise<string | null> {
+    const sql = `SELECT s.nameSchool 
+                  FROM tbUsers u 
+                  INNER JOIN tbSchools s ON s.schoolId = ?`;
+    const bindParams = [user.schoolId];
+
+    await this.CONNECTION.connect();
+    const rows = await this.CONNECTION.executeWithParams(sql, bindParams);
+    await this.CONNECTION.disconnect();
+
+    if (rows && rows.length > 0) {
+      return rows[0].nameSchool;
+    } else {
+      return null;
+    }
+  }
+
   public static async getById(id: string): Promise<UserDto | null> {
-    const sql = `SELECT * FROM tbUsers 
+    const sql = `SELECT * 
+                  FROM tbUsers 
                   WHERE userId = ?`;
     const bindParams = [id];
 
@@ -57,7 +76,6 @@ export class UsersRepository {
       return null;
     }
   }
-
   public static async getByEmail(email: string): Promise<UserDto | null> {
     const sql = `SELECT * FROM tbUsers 
                   WHERE email = ?`;

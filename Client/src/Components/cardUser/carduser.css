@@ -12,8 +12,14 @@
 .card-user-header, .card-user-body, .card-header-user-type {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .card-header-user-type p {
   margin-right: 10px;
+}
+
+
+.card-header-user-type .edit-icon {
+  cursor: pointer;
 }

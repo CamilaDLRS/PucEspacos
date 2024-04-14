@@ -1,8 +1,6 @@
+import "./filters.css"
 function Filters({ filters }) {
-  if (!localStorage.getItem("userType")) {
-    window.location = "/users";
-  }
-
+  
   return (
     <>
       <div className="filter-container">

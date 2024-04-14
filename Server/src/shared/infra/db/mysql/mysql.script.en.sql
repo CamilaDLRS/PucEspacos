@@ -166,12 +166,12 @@ VALUES
 -- Inserção Escolas
 INSERT INTO tbSchools (schoolId, nameSchool, createdDate, updatedDate) 
 VALUES
-	(@belas_artes_id, 'BELAS ARTES', NOW(), NOW()),
-	(@direito_id, 'DIREITO', NOW(), NOW()),
-	(@educacao_humanidades_id, 'EDUCAÇÃO E HUMANIDADES', NOW(), NOW()),
-	(@medicina_ciencias_vida_id, 'MEDICINA E CIÊNCIAS DA VIDA - EMCV', NOW(), NOW()),
-	(@negocios_id, 'NEGÓCIOS', NOW(), NOW()),
-	(@politecnica_id, 'POLITÉCNICA', NOW(), NOW());
+	(@belas_artes_id, 'Belas Artes', NOW(), NOW()),
+	(@direito_id, 'Direito', NOW(), NOW()),
+	(@educacao_humanidades_id, 'Educação e Humanidades', NOW(), NOW()),
+	(@medicina_ciencias_vida_id, 'Medicina e Ciências da Vida - EMCV', NOW(), NOW()),
+	(@negocios_id, 'Negócios', NOW(), NOW()),
+	(@politecnica_id, 'Politécnica', NOW(), NOW());
 
 -- Inserção Blocos Com Escola
 INSERT INTO tbBuildings (buildingId, campusId, schoolId, buildingName, createdDate, updatedDate)

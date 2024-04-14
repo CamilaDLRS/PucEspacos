@@ -15,6 +15,10 @@ export class UsersServices {
       throw new ApiError(404, InternalCode.REGISTER_NOT_FOUND);
     }
 
+    for await (const user of users) {
+      user.schoolName = await UsersRepository.getUserSchoolName(user);      
+    }
+    
     return users;
   }
 

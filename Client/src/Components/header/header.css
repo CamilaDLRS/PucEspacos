@@ -10,23 +10,31 @@ header .header-title{
     padding: .625rem 2rem;
 }
 
-header h1, header .nav-link, header .nav-main a{
+header h1, header .nav-link{
     color: white;
     text-decoration: none;
 }
 
 header nav {
+    position: relative;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     padding-inline: 2rem;
     background-color: #610127;
 }
 
-header .nav-link, header .nav-main {
-    padding: .625rem 0; 
+nav .nav-link {
+    transition: .2s;
+    padding: .625rem 2rem; 
 }
 
-header .nav-main a {
-    padding: .625rem 2rem; 
+nav .nav-link:hover {
+    transition: .2s;
+    transform: scaleX(1.1);
+}
+
+nav .nav-link-leave {
+    padding: .625rem 0;
+    position: absolute;
+    right: 2rem;
 }
