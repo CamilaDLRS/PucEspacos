@@ -26,7 +26,7 @@ export const createUserSchema = yup.object({
       .test({
         message: "Domínio de email inválido.",
         test: (value) => 
-        Utils.validateEmailDomain(value!, (process.env.USER_ALLOWED_DOMAINS || "pucpr.edu.br|pucpr.br").split("|"))
+        Utils.validateEmailDomain(value!, ("pucpr.edu.br|pucpr.br").split("|"))
       })
       .required("Email é obrigatório.")
       .email("Email inválido.")

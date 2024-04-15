@@ -6,6 +6,8 @@ import { getAllBuildings } from "../services/building";
 import CardFacility from "../components/cardFacility/CardFacility";
 import Filters from "../components/filters/filters";
 import { useEffect, useState } from "react";
+import FormEditFacility from "../components/formEditFacility/FormEditFacility";
+import CardReadFacility from "../components/cardReadFacility/CardReadFacility";
 
 function Facilities() {
   useEffect(() => {
@@ -13,7 +15,7 @@ function Facilities() {
       window.location = "/";
     }
   })
-  
+
   const [facilities, setFacilities] = useState([]);
   const [buildings, setBuildings] = useState([]);
   const [facilityTypes, setFacilityTypes] = useState([]);
@@ -22,6 +24,11 @@ function Facilities() {
   const [buildingFilterOptions, setBuildingFilterOptions] = useState([]);
   const [typeFilter, setTypeFilter] = useState("");
   const [typeFilterOptions, setTypeFilterOptions] = useState([]);
+
+  const [showReadFacility, setShowReadFacility] = useState(false);
+  const [facilityById, setFacilityById] = useState();
+
+  const [showEditFacility, setShowEditFacility] = useState(false)
 
   useEffect(() => {
     getAllFacilities().then((response) => setFacilities(response));
@@ -52,12 +59,27 @@ function Facilities() {
   }, [facilityTypes]);
 
 
-  const filteredFacilities = facilities.filter((facility) => { 
+  const filteredFacilities = facilities.filter((facility) => {
     const buildingMatches = !buildingFilter || facility.buildingName === buildingFilter;
     const typeMatches = !typeFilter || facility.facilityTypeDescription === typeFilter;
-    
+
     return buildingMatches && typeMatches;
   });
+
+  function showFacility(facility, event) {
+    if (event.target.classList.contains("showReadFacility")) {
+      showReadFacility ? setShowReadFacility(false) : setShowReadFacility(true)
+      setFacilityById(facility)
+      console.log(facility)
+    }
+  }
+
+  function editFacility(facility, event) {
+    if (event.target.classList.contains("show-edit-form")) {
+      showEditFacility ? setShowEditFacility(false) : setShowEditFacility(true)
+      setFacilityById(facility)
+    }
+  }
 
   return (
     <>
@@ -81,14 +103,27 @@ function Facilities() {
 
       {filteredFacilities.map((facility) => (
         <CardFacility
-          key={facility.id}
-          facilityName={facility.facilityName}
-          facilityType={facility.facilityTypeDescription}
-          note={facility.note}
-          capacity={facility.capacity}
-          isActive={facility.isActive}
+          facility={facility}
+          showFacility={showFacility}
+          editFacility={editFacility}
         />
       ))}
+
+      {showEditFacility &&
+        <FormEditFacility
+          editFacility={editFacility}
+          facility = {facilityById}
+          buildings = {buildings}
+          facilityTypes = {facilityTypes} 
+        />}
+
+      {showReadFacility &&
+        <CardReadFacility
+          showFacility={showFacility}
+          facility={facilityById}
+        />
+      }
+
     </>
   );
 }

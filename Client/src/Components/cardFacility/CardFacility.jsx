@@ -4,28 +4,34 @@ import IconTrash from "../../imgs/IconTrash";
 import IconPersonFill from "../../imgs/IconPersonFill";
 import "./cardFacility.css";
 
-function CardFacility(prop) {
+function CardFacility({ facility, showFacility, editFacility }) {
+
   return (
     <div className="card-facility">
       <div className="card-facility-header">
-        <p> {prop.facilityName} </p>
+        <p> {facility.facilityName} </p>
 
         <div className="card-header-facility-type">
-          <p> {prop.facilityType} </p>
+          <p> {facility.facilityType} </p>
           <IconPersonFill />
-          <p> {prop.capacity} </p>
+          <p> {facility.capacity} </p>
         </div>
       </div>
 
       <div className="card-facility-body">
-         {prop.note ? <p className="normal-font"> <strong>Observação:</strong>  {prop.note} </p> : <p></p>}
-         <div className="card-facility-button"> Mais </div>
+        {facility.note ? <p className="normal-font"> <strong>Observação:</strong>  {facility.note} </p> : <p></p>}
+        <div className="card-facility-button showReadFacility" onClick={showFacility.bind(event, facility)}> Mais </div>
       </div>
+      {
+        (localStorage.getItem("userType") === "Administrador"
+          || localStorage.getItem("userType") === "Docente") &&
         <div className="card-facility-icons">
-          {prop.isActive ? <IconPower className="card-facility-icon" color="green" /> : <IconPower className="card-facility-icon" color="red" />}
-          <IconBxsEdit className="card-facility-icon" />
+          {facility.isActive ? <IconPower className="card-facility-icon" color="green" /> : <IconPower className="card-facility-icon" color="red" />}
+          <IconBxsEdit className="card-facility-icon show-edit-form" onClick={editFacility.bind(event, facility)} />
           <IconTrash className="card-facility-icon" />
         </div>
+      }
+
     </div>
   );
 }

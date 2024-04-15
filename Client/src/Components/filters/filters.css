@@ -26,6 +26,6 @@
 }
 
 
-.filter-container + .filter-container {
+.filter-container+.filter-container {
   margin-left: 20px;
 }
