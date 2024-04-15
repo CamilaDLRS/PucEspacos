@@ -4,6 +4,7 @@ import IconTrash from "../../imgs/IconTrash"
 import Filters from "../filters/filters"
 import { useEffect, useState } from "react";
 import { getAllAssets } from "../../services/asset";
+import { editFacilityStatus } from "../../services/facility"
 
 function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) {
 
@@ -19,7 +20,8 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
         assets: facility.assets
     })
 
-    const [assets, setAssets] = useState([])
+    const [allAssets, setAllAssets] = useState([])
+    const [currentAssets, setCurrentAssets] = useState([])
 
     useEffect(() => {
         const buildingFilterOptions = [];
@@ -43,17 +45,34 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
         setTypeFilterOptions(typeFilterOptions);
     }, [facilityTypes]);
 
-    useEffect(() => {
-        getAllAssets().then((response) => {
-            const filteredAssets = response.filter(
-                asset => !facilityEdit.assets.some(facilityAsset => facilityAsset.assetId === asset.assetId)
-            );
 
-            setAssets(filteredAssets);
-        });
+    useEffect(() => {
+        getAllAssets().then((response) => {setAllAssets(response)}); 
     }, []);
 
+    useEffect(() => {
+        const filteredAssets = allAssets.filter(
+            asset => !facilityEdit.assets.some(facilityAsset => facilityAsset.assetId === asset.assetId)
+        );
+        setCurrentAssets(filteredAssets);
+        
+    }, [facilityEdit.assets, allAssets]);
 
+    const onChangeSelectAssets = (selectedAssetId) => {
+        if (currentAssets.length > 0 && selectedAssetId !== "") {
+            const selectedAsset = currentAssets.find(asset => asset.assetId === selectedAssetId);
+            setFacilityEdit({ ...facilityEdit, assets: [...facilityEdit.assets, selectedAsset]});
+        }
+      };
+
+      const deleteAsset = (assetDeleted) => {
+        if (facilityEdit.assets.length > 0) {
+
+            const newFacilities = facilityEdit.assets.filter(asset => asset.assetId != assetDeleted.assetId);
+            setFacilityEdit({ ...facilityEdit, assets: newFacilities});
+            
+        }
+      };
 
     return (
         <div className="container-absolute show-edit-form" onClick={editFacility.bind(event, "")}>
@@ -63,7 +82,11 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
                         type="text"
                         value={facilityEdit.facilityName}
                         className="facility-name"
-                        onChange={(event) => setFacilityEdit({ ...facilityEdit, facilityName: event.target.value })}
+                        onChange={(event) => {
+                            console.log(facilityEdit)
+                            setFacilityEdit({ ...facilityEdit, facilityName: event.target.value })
+                        }
+                        }
                     />
                     <div className="facility-capacity">
                         <IconPersonFill />
@@ -99,12 +122,13 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
                     value={facilityEdit.note}
                     onChange={(event) => setFacilityEdit({ ...facilityEdit, note: event.target.value })}
                 />
-                <select name="" id="">
+                <select 
+                    onChange={(e) => onChangeSelectAssets(e.target.value)} 
+                >   
                     <option value=""></option>
                     {
-                        assets.map((asset) => (
-                            <option 
-                                value={asset.assetId}> 
+                        currentAssets.map((asset) => (
+                            <option value={asset.assetId}> 
                                 {asset.assetDescription} 
                             </option>
                         ))
@@ -112,13 +136,21 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
                 </select>
 
                 <div>
-                    {facility.assets.map((asset) => (
+                    {facilityEdit.assets.map((asset) => (
                         <div className="facilty-assets">
                             <div className="facility-assets-info">
-                                <input type="number" value={asset.quantity} />
+                                <input 
+                                    type="number" 
+                                    value={asset.quantity} 
+                                    placeholder="0"
+                                    onChange={(e) => {
+                                        asset.quantity = e.target.value;
+                                        setFacilityEdit({...facilityEdit, assets: [...facilityEdit.assets]})
+                                    }}
+                                />
                                 <p>{asset.assetDescription}</p>
                             </div>
-                            <IconTrash />
+                            <IconTrash className="icon-trash" onClick={(e) => {deleteAsset(asset)}} />
                         </div>
                     ))}
                 </div>

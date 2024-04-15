@@ -90,6 +90,18 @@ export class FacilitiesServices {
     }
   }
 
+  public static async updateStatus(id: string, status: boolean): Promise<void> {
+
+    const facilityFromDb = await FacilitiesRepository.getById(id);
+
+    if (!facilityFromDb) {
+      throw new ApiError(404, InternalCode.REGISTER_NOT_FOUND);
+    }
+    facilityFromDb.isActive = status;
+
+    await FacilitiesRepository.update(facilityFromDb);
+  }
+
   public static async getAllTypes(): Promise<FacilityTypeDto[]> {
     const facilityTypes: FacilityTypeDto[] = await FacilitiesRepository.getAllTypes();
 

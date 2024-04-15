@@ -34,3 +34,35 @@ export async function getAllFacilityTypes() {
     alert(e.response.data.error.message);
   });
 }
+
+export async function editFacility(id, data) {
+
+  return await axios.put(
+    `http://localhost:5001/facilities/${id}`,
+    JSON.stringify(data),
+    httpOptions
+  )
+  .then((response) => {
+      alert(response.data.message)
+      window.location = "/facilities"
+  })
+  .catch((e) => {
+      alert(e.response.data.error.message);
+  })
+}
+
+export async function editFacilityStatus(id, isActive) {
+
+  return await axios.patch(
+    `http://localhost:5001/facilities/${id}`,
+    JSON.stringify(isActive),
+    httpOptions
+  )
+  .then((response) => {
+      alert(response.data.message)
+      window.location = "/facilities"
+  })
+  .catch((e) => {
+      alert(e.response.data.error.message);
+  })
+}

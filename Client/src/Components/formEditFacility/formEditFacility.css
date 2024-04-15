@@ -95,3 +95,7 @@ input[type=number] {
     -moz-appearance: textfield;
     appearance: textfield;
 }
+
+.icon-trash {
+    cursor: pointer;
+}

@@ -1,7 +1,7 @@
 import express from "express";
 import { FacilitiesController } from "../../../modules/controllers/facilities.controller";
 import { ValidationMiddleware } from "../../utils/validationMiddleware";
-import { createFacilitySchema, updateFacilitySchema } from "../../../modules/schemas/facility.schemas";
+import { createFacilitySchema, updateFacilitySchema, updateStatusFacilitySchema } from "../../../modules/schemas/facility.schemas";
 
 const facilityRouter = express.Router();
 
@@ -31,6 +31,12 @@ facilityRouter.put(
   "/:id",
   ValidationMiddleware.validateRequest(updateFacilitySchema),
   FacilitiesController.update
+);
+
+facilityRouter.patch(
+  "/:id",
+  ValidationMiddleware.validateRequest(updateStatusFacilitySchema),
+  FacilitiesController.updateStatus
 );
 
 

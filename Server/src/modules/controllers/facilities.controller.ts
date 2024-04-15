@@ -59,6 +59,20 @@ export class FacilitiesController {
     }
   }
 
+  public static async updateStatus(req: Request, res: Response) {
+    try {
+      let facilityId = String(req.params.id);
+      let newStatus = Boolean(req.body.isActive);
+      await FacilitiesServices.updateStatus(facilityId, newStatus);
+
+      const facility = await FacilitiesServices.getById(req.params.id);
+
+      await ExpressHandlers.handleResponse(req, res, facility, "Status do espaço atualizado com sucesso!");
+    } catch (error) {
+      await ExpressHandlers.handleError(req, res, error);
+    }
+  }
+
   public static async getAllTypes(req: Request, res: Response) {
     try {
       const facilityTypes: FacilityTypeDto[] =

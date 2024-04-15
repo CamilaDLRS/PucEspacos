@@ -52,4 +52,12 @@ export const createFacilitySchema =  facilityComumSchema.shape({
   })
 });
 
+export const updateStatusFacilitySchema = yup.object({
+  body: yup.object({
+    isActive: yup
+      .boolean()
+      .required("Status é obrigatório.")
+  })
+});
+
 export const updateFacilitySchema = facilityComumSchema;
