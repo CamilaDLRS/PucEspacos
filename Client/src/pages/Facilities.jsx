@@ -8,6 +8,7 @@ import Filters from "../components/filters/filters";
 import { useEffect, useState } from "react";
 import FormEditFacility from "../components/formEditFacility/FormEditFacility";
 import CardReadFacility from "../components/cardReadFacility/CardReadFacility";
+import FormCreateFacility from "../components/formCreateFacility/FormCreateFacility";
 
 function Facilities() {
   useEffect(() => {
@@ -28,8 +29,10 @@ function Facilities() {
   const [showReadFacility, setShowReadFacility] = useState(false);
   const [facilityById, setFacilityById] = useState();
 
-  const [showEditFacility, setShowEditFacility] = useState(false)
+  const [showEditFacility, setShowEditFacility] = useState(false);
 
+  const [showCreateFacility, setShowCreateFacility] = useState(false);
+ 
   useEffect(() => {
     getAllFacilities().then((response) => setFacilities(response));
     getAllBuildings().then((response) => setBuildings(response));
@@ -80,6 +83,12 @@ function Facilities() {
     }
   }
 
+  function createFacility(event) {
+    if (event.target.classList.contains("show-create-form")) {
+      showCreateFacility ? setShowCreateFacility(false) : setShowCreateFacility(true);
+    }
+  }
+
   return (
     <>
       <Header local="facilities" />
@@ -98,7 +107,11 @@ function Facilities() {
             options: typeFilterOptions,
           },
         ]}
+        
+        showAddButton={true}
+        triggerFunction={createFacility}
       />
+
 
       {filteredFacilities.map((facility) => (
         <CardFacility
@@ -107,6 +120,14 @@ function Facilities() {
           editFacility={editFacility}
         />
       ))}
+
+      {showCreateFacility &&
+        <FormCreateFacility 
+          triggerFunction={createFacility}
+          buildings = {buildings}
+          facilityTypes = {facilityTypes} 
+        />   
+      }
 
       {showEditFacility &&
         <FormEditFacility

@@ -1,5 +1,6 @@
 .filter-container {
   display: flex;
+  align-items: center;
   border-bottom: 1px solid black;
   width: 70%;
   padding: 10px 10px;
@@ -15,6 +16,12 @@
   margin-right: 10px;
 }
 
+.filter-container .select-area {
+  display: flex;
+  width: 100%;
+  gap: 30px;
+}
+
 .filter-select {
   margin-left: -10px;
   width: 200px;
@@ -28,4 +35,8 @@
 
 .filter-container+.filter-container {
   margin-left: 20px;
+}
+
+.icon-add {
+  cursor: pointer;
 }

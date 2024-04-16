@@ -1,0 +1,12 @@
+.form-create-facility {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 3rem;
+    background-color: white;
+    gap: .5rem;
+}
+
+.form-create-facility select {
+    padding: 5px 10px;
+
+}
