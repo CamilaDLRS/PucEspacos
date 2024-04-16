@@ -48,6 +48,7 @@ export class FacilitiesController {
 
   public static async update(req: Request, res: Response) {
     try {
+      console.log(req.body);
       let facility: FacilityDto = new FacilityDto(req.body, req.params.id);
       await FacilitiesServices.update(facility);
 

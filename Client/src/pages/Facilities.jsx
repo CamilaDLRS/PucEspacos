@@ -68,16 +68,15 @@ function Facilities() {
 
   function showFacility(facility, event) {
     if (event.target.classList.contains("showReadFacility")) {
-      showReadFacility ? setShowReadFacility(false) : setShowReadFacility(true)
-      setFacilityById(facility)
-      console.log(facility)
+      showReadFacility ? setShowReadFacility(false) : setShowReadFacility(true);
+      setFacilityById(facility);
     }
   }
 
   function editFacility(facility, event) {
     if (event.target.classList.contains("show-edit-form")) {
-      showEditFacility ? setShowEditFacility(false) : setShowEditFacility(true)
-      setFacilityById(facility)
+      showEditFacility ? setShowEditFacility(false) : setShowEditFacility(true);
+      setFacilityById(facility);
     }
   }
 
@@ -123,7 +122,6 @@ function Facilities() {
           facility={facilityById}
         />
       }
-
     </>
   );
 }

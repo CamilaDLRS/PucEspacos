@@ -4,24 +4,43 @@ import IconTrash from "../../imgs/IconTrash"
 import Filters from "../filters/filters"
 import { useEffect, useState } from "react";
 import { getAllAssets } from "../../services/asset";
-import { editFacilityStatus } from "../../services/facility"
+import { getFacilityById, updateFacility } from "../../services/facility"
+import CardConfirmation from "../cardConfirmation/CardConfirmation";
 
 function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) {
 
     const [buildingFilterOptions, setBuildingFilterOptions] = useState([]);
     const [typeFilterOptions, setTypeFilterOptions] = useState([]);
 
-    const [facilityEdit, setFacilityEdit] = useState({
-        facilityName: facility.facilityName,
-        note: facility.note,
-        capacity: facility.capacity,
-        buildingId: facility.buildingId,
-        facilityTypeId: facility.facilityTypeId,
-        assets: facility.assets
-    })
+    const [allAssets, setAllAssets] = useState([]);
+    const [currentAssets, setCurrentAssets] = useState([]);
+    const [showCard, setShowCard] = useState(false);    
 
-    const [allAssets, setAllAssets] = useState([])
-    const [currentAssets, setCurrentAssets] = useState([])
+    const [facilityEdit, setFacilityEdit] = useState({
+        facilityName: '',
+        note: '',
+        capacity: '',
+        buildingId: '',
+        facilityTypeId: '',
+        isActive: false,
+        assets: []
+    });
+
+
+    useEffect(() => {
+        getAllAssets().then((response) => {setAllAssets(response)});
+         getFacilityById(facility.facilityId).then((response) => {
+            setFacilityEdit({
+                facilityName: response.facilityName,
+                note: response.note,
+                capacity: response.capacity,
+                buildingId: response.buildingId,
+                facilityTypeId: response.facilityTypeId,
+                isActive: response.isActive,
+                assets: response.assets
+            });
+        }); 
+    }, []);
 
     useEffect(() => {
         const buildingFilterOptions = [];
@@ -45,11 +64,6 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
         setTypeFilterOptions(typeFilterOptions);
     }, [facilityTypes]);
 
-
-    useEffect(() => {
-        getAllAssets().then((response) => {setAllAssets(response)}); 
-    }, []);
-
     useEffect(() => {
         const filteredAssets = allAssets.filter(
             asset => !facilityEdit.assets.some(facilityAsset => facilityAsset.assetId === asset.assetId)
@@ -65,27 +79,28 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
         }
       };
 
-      const deleteAsset = (assetDeleted) => {
+    const deleteAsset = (assetDeleted) => {
         if (facilityEdit.assets.length > 0) {
-
             const newFacilities = facilityEdit.assets.filter(asset => asset.assetId != assetDeleted.assetId);
             setFacilityEdit({ ...facilityEdit, assets: newFacilities});
-            
         }
-      };
+    };
+
+    function showConfirmationCard() {
+        showCard ? setShowCard(false) : setShowCard(true);
+    }
 
     return (
         <div className="container-absolute show-edit-form" onClick={editFacility.bind(event, "")}>
-            <div className="form-edit-facility " >
+            <div className="form-edit-facility">
                 <div className="form-edit-selects">
                     <input
                         type="text"
                         value={facilityEdit.facilityName}
                         className="facility-name"
                         onChange={(event) => {
-                            console.log(facilityEdit)
-                            setFacilityEdit({ ...facilityEdit, facilityName: event.target.value })
-                        }
+                                setFacilityEdit({ ...facilityEdit, facilityName: event.target.value })
+                            }
                         }
                     />
                     <div className="facility-capacity">
@@ -115,17 +130,16 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
                     ]}
                 />
 
-
                 <input
                     type="text"
                     placeholder="Observação"
                     value={facilityEdit.note}
                     onChange={(event) => setFacilityEdit({ ...facilityEdit, note: event.target.value })}
                 />
-                <select 
+                <select className="assest-select"
                     onChange={(e) => onChangeSelectAssets(e.target.value)} 
                 >   
-                    <option value=""></option>
+                    <option value="" >Ativos</option>
                     {
                         currentAssets.map((asset) => (
                             <option value={asset.assetId}> 
@@ -143,8 +157,8 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
                                     type="number" 
                                     value={asset.quantity} 
                                     placeholder="0"
-                                    onChange={(e) => {
-                                        asset.quantity = e.target.value;
+                                    onChange={(e) => { 
+                                        asset.quantity = e.target.value;   
                                         setFacilityEdit({...facilityEdit, assets: [...facilityEdit.assets]})
                                     }}
                                 />
@@ -157,11 +171,20 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
 
                 <div className="btn-area">
                     <div className="show-edit-form" onClick={editFacility.bind(event, "")}> Cancelar </div>
-                    <div> Salvar </div>
+                    <div onClick={(e) => showConfirmationCard()}> Salvar </div>
                 </div>
+
+                { 
+                    showCard &&
+                    <CardConfirmation 
+                        message="Tem certeza que deseja editar este espaço?"
+                        showConfirmationCard={showConfirmationCard}
+                        action={() => updateFacility(facility.facilityId, facilityEdit)} 
+                    />
+                }
             </div>
         </div>
     )
 }
 
-export default FormEditFacility
+export default FormEditFacility;
