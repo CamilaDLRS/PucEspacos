@@ -35,8 +35,10 @@ export async function getAllFacilityTypes() {
   });
 }
 
-export async function editFacility(id, data) {
+export async function updateFacility(id, data) {
 
+  console.log(data);
+  
   return await axios.put(
     `http://localhost:5001/facilities/${id}`,
     JSON.stringify(data),
@@ -51,11 +53,11 @@ export async function editFacility(id, data) {
   })
 }
 
-export async function editFacilityStatus(id, isActive) {
+export async function updateFacilityStatus(id, isActive) {
 
   return await axios.patch(
     `http://localhost:5001/facilities/${id}`,
-    JSON.stringify(isActive),
+    JSON.stringify({isActive: isActive}),
     httpOptions
   )
   .then((response) => {
@@ -65,4 +67,19 @@ export async function editFacilityStatus(id, isActive) {
   .catch((e) => {
       alert(e.response.data.error.message);
   })
+}
+
+
+export async function getFacilityById(id) {
+  return await axios
+    .get(
+      `http://localhost:5001/facilities/${id}`,
+      httpOptions
+    )
+    .then((response) => {
+        return response.data.data;
+    })
+    .catch((e) => {
+        alert(e.response.data.error.message);
+    });
 }

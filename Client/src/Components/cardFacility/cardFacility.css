@@ -8,6 +8,7 @@
   margin: 20px auto;
   gap: 10px;
   font-weight: bold;
+  background-color: white;
 }
 
 .normal-font {
@@ -35,8 +36,10 @@
 }
 
 .card-facility-button {
- border: 1px solid;
- padding: 3px 10px;
- font-size: 0.8rem;
- cursor: pointer;
+  border: 1px solid;
+  padding: 3px 10px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  background-color: #31458E;
+  color: white;
 }
