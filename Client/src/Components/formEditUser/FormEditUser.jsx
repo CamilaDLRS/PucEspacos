@@ -3,6 +3,7 @@ import Filters from "../filters/filters";
 import "./formedituser.css"
 import { useEffect, useState } from "react";
 import CardConfirmation from "../cardConfirmation/CardConfirmation";
+import { editUser } from "../../services/user";
 
 function FormEditUser({user, showFormUser, userTypes}) {
     const [allSchools, setAllSchools] = useState([]);
@@ -17,7 +18,7 @@ function FormEditUser({user, showFormUser, userTypes}) {
 
     useEffect(() => {
         getAllSchools().then((response) => setAllSchools(response))
-    }, [])
+    }, []);
 
     useEffect(() => {
         const statusFilterOptions = [
@@ -106,10 +107,10 @@ function FormEditUser({user, showFormUser, userTypes}) {
 
             { 
                 showCard &&
-                <CardConfirmation 
-                    showConfirmationCard={showConfirmationCard} 
-                    userId={user.userId} 
-                    dataEditUser={dataEditUser}
+                <CardConfirmation     
+                    message="Tem certeza que deseja editar este usuário?"
+                    showConfirmationCard={showConfirmationCard}
+                    action={() => editUser(user.userId, dataEditUser)} 
                 />
             }
         </div>
