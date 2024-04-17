@@ -35,6 +35,22 @@ export async function getAllFacilityTypes() {
   });
 }
 
+export async function createFacility(data) {
+
+  return await axios.post(
+    `http://localhost:5001/facilities/`,
+    JSON.stringify(data),
+    httpOptions
+  )
+  .then((response) => {
+      alert(response.data.message)
+      window.location = "/facilities"
+  })
+  .catch((e) => {
+      alert(e.response.data.error.message);
+  })
+}
+
 export async function updateFacility(id, data) {
 
   console.log(data);
@@ -68,7 +84,6 @@ export async function updateFacilityStatus(id, isActive) {
       alert(e.response.data.error.message);
   })
 }
-
 
 export async function getFacilityById(id) {
   return await axios

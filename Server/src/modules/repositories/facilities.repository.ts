@@ -113,7 +113,7 @@ export class FacilitiesRepository {
   }
 
   public static async getAllTypes(): Promise<FacilityTypeDto[]> {
-    const sql = `SELECT * FROM tbFacilityTypes;`;
+    const sql = `SELECT * FROM tbFacilityTypes order by facilityTypeDescription;`;
     await this.CONNECTION.connect();
     const rows = await this.CONNECTION.execute(sql);
     await this.CONNECTION.disconnect;

@@ -20,8 +20,7 @@ function Header(prop) {
                 <Link className="nav-link" to="/reservations" id="reservations"> Reservas </Link>
                 <Link className="nav-link" to="/facilities" id="facilities"> Espaços </Link>
                 {                 
-                    ((localStorage.getItem("userType") === "Administrador") ||
-                    (localStorage.getItem("userType") === "Docente")) && 
+                    ((localStorage.getItem("userType") === "Administrador")) && 
                     <Link className="nav-link" to="/users" id="users" > Usuários </Link> 
                 }
                 

@@ -33,7 +33,7 @@ function CardFacility({ facility, showFacility, editFacility }) {
       </div>
         {
           (localStorage.getItem("userType") === "Administrador"
-            || localStorage.getItem("userType") === "Docente") &&
+            || localStorage.getItem("userType") === "Secretário") &&
           <div className="card-facility-icons">       
             <IconPower 
               onClick={(e) => showStatusCardConfirmation()} 

@@ -8,7 +8,7 @@ export class BuildingsRepository {
 
   public static async getAll(): Promise<BuildingDto[]> {
 
-    const sql = `SELECT * FROM tbBuildings;`;
+    const sql = `SELECT * FROM tbBuildings order by buildingName;`;
     await this.CONNECTION.connect();
     const rows = await this.CONNECTION.execute(sql);
     await this.CONNECTION.disconnect();

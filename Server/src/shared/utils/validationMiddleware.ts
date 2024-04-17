@@ -22,14 +22,7 @@ export class ValidationMiddleware {
 
         next();
       } catch (e: any) {
-        const errorMessages: { [key: string]: string } = {};
-
-        e.inner.forEach((err: { path: string | number; message: string; }) => {
-
-          const propertyName = err.path.toString().replace(/^body\./, '');
-          errorMessages[propertyName] = err.message;
-        });
-        res.status(400).json(new ApiError(400, InternalCode.INVALID_REQUEST, errorMessages));
+        res.status(400).json(new ApiError(400, InternalCode.INVALID_REQUEST, null, e.errors.join(", ")));
       }
     };
   }
