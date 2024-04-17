@@ -23,4 +23,22 @@
   border-radius: 5px;
   width: 35%;
   background-color: white;
+  gap: 15px
+}
+
+.title-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.icon-container {
+  display: flex;
+  flex-direction: row;
+  gap: 8px
+}
+
+.list-item {
+  padding-left: 8px;
+  padding-top: 4px;
 }

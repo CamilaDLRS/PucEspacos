@@ -149,6 +149,7 @@ SET @espaco1 = '90c7e06f-bb73-454e-8114-0b7e556677a6';
 SET @espaco2 = '250677f9-3122-44bf-bde9-1b2f9f81b35c';
 SET @espaco3 = 'd8ccc4e3-7636-4d35-a7ac-b18231ed8ee5';
 SET @espaco4 = 'eebe82c7-eb90-4d82-b70d-6f7fafd2f758';
+SET @espaco5 = 'eebe82c7-eb90-4d82-b70d-347fafd27854';
 
 -- Definição das constantes para reservationId
 SET @reserva1 = '0cbe9db4-6bf3-43d8-bb73-9a2e2cb9fe3f';
@@ -204,10 +205,11 @@ VALUES
 -- Inserção Espaços
 INSERT INTO tbFacilities (facilityId, buildingId, facilityTypeId, isActive, facilityName, capacity, note, updatedDate, createdDate)
 VALUES 
-	(@espaco1, @azul_uuid,  @lab_informatica_uuid, 1, 'Sala Grace Hopper', 80, null, NOW(), NOW()),
+	(@espaco1, @azul_uuid,  @lab_informatica_uuid, 1, 'Sala Grace Hopper', 80, 'Janela qubrada.', NOW(), NOW()),
     (@espaco2, @azul_uuid,  @sala_aula_uuid, 1, 'Sala de Aula 17', 30, null, NOW(), NOW()),
     (@espaco3, @vermelho5_uuid,  @sala_aula_uuid, 1, 'Araça 303', 80, null, NOW(), NOW()),
-    (@espaco4, @ginasio_uuid,  @quadra_uuid, 1, 'Quadra de volêi femenina 1', 80, null, NOW(), NOW());   
+    (@espaco4, @ginasio_uuid,  @quadra_uuid, 1, 'Quadra de volêi femenina 1', null, null, NOW(), NOW()),
+    (@espaco5, @amarelo_uuid,  @auditorio_uuid, 1, 'Sala de realizada aumentada', 25, null, NOW(), NOW()); 
    
 -- Inserção Ativos
 INSERT INTO tbAssets (assetId, assetDescription)
@@ -242,8 +244,8 @@ VALUES
 -- Inserção Usuáios Com Escola
 INSERT INTO tbUsers (userId, schoolId, email, password, userName, userType, isActive, createdDate, updatedDate)
 VALUES 
-	(@joao_id, @direito_id, 'joao@pucpr.br', 'password123', 'João', 'Secretário', 1, NOW(), NOW()),
-	(@joana_id, @educacao_humanidades_id, 'joana@pucpr.br', 'password123', 'Joana', 'Secretário', 1, NOW(), NOW());
+	(@joao_id, @direito_id, 'joao@pucpr.br', 'Password.123', 'João', 'Secretário', 1, NOW(), NOW()),
+	(@joana_id, @educacao_humanidades_id, 'joana@pucpr.br', 'Password.123', 'Joana', 'Secretário', 1, NOW(), NOW());
     
 
 -- Inserção Reserva
