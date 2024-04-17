@@ -62,31 +62,35 @@ export class FacilitiesServices {
     return facility.facilityId;
   }
 
-  public static async update(facility: FacilityDto): Promise<void> {
+  public static async update(facilityUpdated: FacilityDto): Promise<void> {
 
-    const facilityFromDb = await FacilitiesRepository.getById(facility.facilityId!);
+    const facilityFromDb = await FacilitiesRepository.getById(facilityUpdated.facilityId!);
 
     if (!facilityFromDb) {
       throw new ApiError(404, InternalCode.REGISTER_NOT_FOUND);
     }
-    facilityFromDb.update(facility);
+    facilityFromDb.update(facilityUpdated);
 
     await FacilitiesRepository.update(facilityFromDb);
 
-    if (facility.assets && facility.assets.length > 0) {
+    let facilityAssetOriginalFromDb = await FacilitiesRepository.getAllFacilityAssets(facilityUpdated.facilityId!);
 
-      for await (const asset of facility.assets) {
-        let facilityAsset = await FacilitiesRepository.getFacilityAssetByIds(facility.facilityId!, asset.assetId!);
+    for (let asset of facilityUpdated.assets) {
+        let existingAsset = facilityAssetOriginalFromDb.find(a => a.assetId === asset.assetId);
 
-        if (facilityAsset) {
-          facilityAsset.update(asset);
-          await FacilitiesRepository.updateFacilityAsset(facilityAsset);
+        if (existingAsset) {
+            existingAsset.update(asset);
+            await FacilitiesRepository.updateFacilityAsset(existingAsset);
+        } else {
+            let newFacilityAsset = new FacilityAssetDto(asset, facilityUpdated.facilityId!);
+            await FacilitiesRepository.createFacilityAsset(newFacilityAsset);
         }
-        else {
-          facilityAsset = new FacilityAssetDto(asset, facility.facilityId!);
-          await FacilitiesRepository.createFacilityAsset(facilityAsset);
+    }
+
+    for (let originalAsset of facilityAssetOriginalFromDb) {
+        if (!facilityUpdated.assets.some(a => a.assetId === originalAsset.assetId)) {
+            await FacilitiesRepository.deleteFacilityAsset(originalAsset.facilityId, originalAsset.assetId);
         }
-      }
     }
   }
 

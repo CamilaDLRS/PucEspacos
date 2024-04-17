@@ -128,9 +128,7 @@ export class FacilitiesRepository {
     }
   }
 
-  public static async getAllFacilityAssets(
-    facilityId: string
-  ): Promise<FacilityAssetDto[]> {
+  public static async getAllFacilityAssets(facilityId: string): Promise<FacilityAssetDto[]> {
     const sql = `SELECT fa.*, a.assetDescription  
                   FROM tbFacilityAssets fa
                   INNER JOIN tbassets a ON a.assetId = fa.assetId
@@ -151,10 +149,7 @@ export class FacilitiesRepository {
     }
   }
 
-  public static async getFacilityAssetByIds(
-    facilityId: string,
-    assetId: string
-  ): Promise<FacilityAssetDto | null> {
+  public static async getFacilityAssetByIds(facilityId: string, assetId: string): Promise<FacilityAssetDto | null> {
     const sql = `SELECT fa.*, a.assetDescription  
                   FROM tbFacilityAssets fa
                   INNER JOIN tbassets a ON a.assetId = fa.assetId
@@ -172,9 +167,7 @@ export class FacilitiesRepository {
     }
   }
 
-  public static async createFacilityAsset(
-    facilityAsset: FacilityAssetDto
-  ): Promise<void> {
+  public static async createFacilityAsset(facilityAsset: FacilityAssetDto): Promise<void> {
     const sql = `INSERT INTO tbFacilityAssets (
                   facilityId,
                   assetId, 
@@ -195,9 +188,7 @@ export class FacilitiesRepository {
     await this.CONNECTION.disconnect();
   }
 
-  public static async updateFacilityAsset(
-    facilityAsset: FacilityAssetDto
-  ): Promise<void> {
+  public static async updateFacilityAsset(facilityAsset: FacilityAssetDto): Promise<void> {
     const sql = `UPDATE tbFacilityAssets SET
                   quantity = ?,
                   updatedDate = ?
@@ -208,6 +199,20 @@ export class FacilitiesRepository {
       new Date(),
       facilityAsset.facilityId,
       facilityAsset.assetId,
+    ];
+
+    await this.CONNECTION.connect();
+    await this.CONNECTION.executeWithParams(sql, bindParams);
+    await this.CONNECTION.disconnect();
+  }
+
+  public static async deleteFacilityAsset(facilityId: string, assetId: string): Promise<void> {
+    const sql = `DELETE FROM tbFacilityAssets
+                 WHERE facilityId = ? AND assetId = ?;`;
+
+    const bindParams = [
+      facilityId,
+      assetId,
     ];
 
     await this.CONNECTION.connect();
