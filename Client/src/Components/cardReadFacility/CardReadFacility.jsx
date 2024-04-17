@@ -8,10 +8,13 @@ function CardReadFacility({ facility, showFacility }) {
       <div className="read-facility">
         <div className="title-container">
           <h1> {facility.facilityName} </h1>
-          <div className="icon-container">
-            <IconPersonFill />
-            <p> {facility.capacity} </p>
-          </div>
+          {
+            facility.capacity > 0 && 
+            <div className="icon-container">
+              <IconPersonFill />
+              <p> {facility.capacity} </p>
+            </div>   
+          }    
         </div>
         <div className="title-container">
           <h3> {facility.buildingName} </h3>

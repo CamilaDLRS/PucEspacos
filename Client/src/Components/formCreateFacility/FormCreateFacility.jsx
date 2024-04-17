@@ -104,9 +104,15 @@ function FormCreateFacility ({triggerFunction, buildings, facilityTypes}) {
         }
 
         // Validando capacity
-        if (facilityCreate.capacity && facilityCreate.capacity <= 0) {
-            newErrors.capacity = 'Capacidade do espaço não pode ser negativo';
-            isValid = false;
+        if (facilityCreate.capacity) {
+            if (facilityCreate.capacity <= 0) {
+                newErrors.capacity = 'Capacidade do espaço não pode ser negativo';
+                isValid = false;
+            }
+            else if (Number(facilityCreate.capacity) > 2000) {
+                newErrors.capacity = 'Capacidade máxima 2000.';
+                isValid = false;
+            }
         }
 
         // Validando Bloco 
