@@ -22,8 +22,8 @@ function CardFacility({ facility, showFacility, editFacility }) {
 
         <div className="card-header-facility-type">
           <p> {facility.facilityType} </p>
-          <IconPersonFill />
-          <p> {facility.capacity} </p>
+          
+          {facility.capacity ? <><IconPersonFill /> <p className="normal-font"> {facility.capacity} </p> </> : <p></p>}
         </div>
       </div>
 

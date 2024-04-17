@@ -19,7 +19,7 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
     const [facilityEdit, setFacilityEdit] = useState({
         facilityName: '',
         note: '',
-        capacity: '',
+        capacity: null,
         buildingId: '',
         facilityTypeId: '',
         isActive: false,
@@ -48,13 +48,15 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
         }
 
         // Validando capacity
-        if (!Number.isInteger(Number(facilityEdit.capacity)) || Number(facilityEdit.capacity) < 1) {
-            newErrors.capacity = 'A capacidade deve ser um número inteiro positivo.';
-            isValid = false;
-        }
-        else if (Number(facilityEdit.capacity) > 2000) {
-            newErrors.capacity = 'Capacidade máxima 2000.';
-            isValid = false;
+        if (facilityEdit.capacity && facilityEdit.capacity.trim()) {
+            if (!Number.isInteger(Number(facilityEdit.capacity)) || Number(facilityEdit.capacity) < 1) {
+                newErrors.capacity = 'A capacidade deve ser um número inteiro positivo.';
+                isValid = false;
+            }
+            else if (Number(facilityEdit.capacity) > 2000) {
+                newErrors.capacity = 'Capacidade máxima 2000.';
+                isValid = false;
+            }
         }
 
         // Validando assets
@@ -166,7 +168,7 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
                             type="number"
                             value={facilityEdit.capacity}
                             onChange={(event) => {
-                                    setFacilityEdit({ ...facilityEdit, capacity: event.target.value });
+                                    setFacilityEdit({ ...facilityEdit, capacity: event.target.value || null });
                                     setErrors({ ...errors, capacity: '' });
                                 }
                             }

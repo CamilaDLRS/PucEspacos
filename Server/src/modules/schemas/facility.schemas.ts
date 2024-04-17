@@ -7,6 +7,7 @@ export const updateFacilitySchema = yup.object({
       .required("Campo nome é obrigatório."),
     capacity: yup
       .number()
+      .nullable()
       .integer("Capacidade deve ser um número inteiro."),
     note: yup
       .string(),
