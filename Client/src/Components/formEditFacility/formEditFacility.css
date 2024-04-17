@@ -106,3 +106,14 @@ input[type=number] {
 .icon-trash {
     cursor: pointer;
 }
+
+.error {
+    color: red;
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
+}
+
+.input-wrapper {
+    display: flex;
+    flex-direction: column;
+}

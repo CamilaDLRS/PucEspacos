@@ -1,10 +1,10 @@
-import "./formEditFacility.css"
-import IconPersonFill from "../../imgs/IconPersonFill"
-import IconTrash from "../../imgs/IconTrash"
-import Filters from "../filters/filters"
+import "./formEditFacility.css";
+import IconPersonFill from "../../imgs/IconPersonFill";
+import IconTrash from "../../imgs/IconTrash";
+import Filters from "../filters/filters";
 import { useEffect, useState } from "react";
 import { getAllAssets } from "../../services/asset";
-import { getFacilityById, updateFacility } from "../../services/facility"
+import { getFacilityById, updateFacility } from "../../services/facility";
 import CardConfirmation from "../cardConfirmation/CardConfirmation";
 
 function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) {
@@ -26,6 +26,60 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
         assets: []
     });
 
+    const [errors, setErrors] = useState({
+        facilityName: '',
+        capacity: '',
+        assets: []
+    });
+    
+
+    const validate = () => {
+        let isValid = true;
+        const newErrors = {
+            facilityName: '',
+            capacity: '',
+            assets: []
+        };
+    
+        // Validando facilityName
+        if (!facilityEdit.facilityName.trim()) {
+            newErrors.facilityName = 'O nome do espaço é obrigatório.';
+            isValid = false;
+        }
+
+        // Validando capacity
+        if (!Number.isInteger(Number(facilityEdit.capacity)) || Number(facilityEdit.capacity) < 1) {
+            newErrors.capacity = 'A capacidade deve ser um número inteiro positivo.';
+            isValid = false;
+        }
+        else if (Number(facilityEdit.capacity) > 2000) {
+            newErrors.capacity = 'Capacidade máxima 2000.';
+            isValid = false;
+        }
+
+        // Validando assets
+        const assetErrors = facilityEdit.assets.map((asset, index) => {
+            if (!Number.isInteger(Number(asset.quantity)) || Number(asset.quantity) < 1) {
+                return `A quantidade do ativo deve ser um número inteiro positivo.`;
+            }
+            return '';
+        });
+
+        if (assetErrors.some(error => error)) {
+            newErrors.assets = assetErrors;
+            isValid = false;
+        }
+        
+        setErrors(newErrors);
+        return isValid;
+    };
+
+    const saveFacility = () => {
+        if (validate()) {
+            updateFacility(facility.facilityId, facilityEdit);
+            setShowCard(false);
+        }
+    };
 
     useEffect(() => {
         getAllAssets().then((response) => {setAllAssets(response)});
@@ -99,18 +153,27 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
                         value={facilityEdit.facilityName}
                         className="facility-name"
                         onChange={(event) => {
-                                setFacilityEdit({ ...facilityEdit, facilityName: event.target.value })
-                            }
+                            setFacilityEdit({ ...facilityEdit, facilityName: event.target.value });
+                            setErrors({ ...errors, facilityName: '' });
                         }
+                    }
                     />
+                    {errors.facilityName && <span className="error">{errors.facilityName}</span>}
+            
                     <div className="facility-capacity">
                         <IconPersonFill />
                         <input
                             type="number"
                             value={facilityEdit.capacity}
-                            onChange={(event) => setFacilityEdit({ ...facilityEdit, capacity: event.target.value })}
+                            onChange={(event) => {
+                                    setFacilityEdit({ ...facilityEdit, capacity: event.target.value });
+                                    setErrors({ ...errors, capacity: '' });
+                                }
+                            }
                         />
                     </div>
+                    {errors.capacity && <span className="error">{errors.capacity}</span>}
+            
 
                 </div>
 
@@ -150,8 +213,9 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
                 </select>
 
                 <div>
-                    {facilityEdit.assets.map((asset) => (
-                        <div className="facilty-assets">
+                    {facilityEdit.assets.map((asset, index) => (
+                        <>
+                        <div className="facilty-assets" key={index}>
                             <div className="facility-assets-info">
                                 <input 
                                     type="number" 
@@ -159,19 +223,22 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
                                     placeholder="0"
                                     onChange={(e) => { 
                                         asset.quantity = e.target.value;   
-                                        setFacilityEdit({...facilityEdit, assets: [...facilityEdit.assets]})
+                                        setFacilityEdit({...facilityEdit, assets: [...facilityEdit.assets]});
+                                        setErrors({ ...errors, assets: errors.assets.map((err, i) => i === index ? '' : err) });
                                     }}
-                                />
+                                    />
                                 <p>{asset.assetDescription}</p>
                             </div>
                             <IconTrash className="icon-trash" onClick={(e) => {deleteAsset(asset)}} />
                         </div>
+                        {errors.assets[index] && <span className="error">{errors.assets[index]}</span>}
+                        </>
                     ))}
                 </div>
 
                 <div className="btn-area">
                     <div className="show-edit-form" onClick={editFacility.bind(event, "")}> Cancelar </div>
-                    <div onClick={(e) => showConfirmationCard()}> Salvar </div>
+                    <div onClick={(e) => saveFacility()}> Salvar </div>
                 </div>
 
                 { 
