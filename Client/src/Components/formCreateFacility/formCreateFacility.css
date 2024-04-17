@@ -21,3 +21,13 @@
     width: 100%;
     margin: 0;
 }
+
+.form-create-facility input[type="number"] {
+    width: 15%;
+    margin-left: 3px;
+}
+
+.form-create-facility .select-area {
+    gap: 0;
+    justify-content: space-between;
+}

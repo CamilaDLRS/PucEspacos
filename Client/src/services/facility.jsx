@@ -36,7 +36,6 @@ export async function getAllFacilityTypes() {
 }
 
 export async function createFacility(data) {
-
   return await axios.post(
     `http://localhost:5001/facilities/`,
     JSON.stringify(data),

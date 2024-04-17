@@ -79,8 +79,8 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
     const saveFacility = () => {
         if (validate()) {
             updateFacility(facility.facilityId, facilityEdit);
-            setShowCard(false);
         }
+        setShowCard(false);
     };
 
     useEffect(() => {
@@ -146,6 +146,9 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
         showCard ? setShowCard(false) : setShowCard(true);
     }
 
+    console.log(facilityEdit)
+    console.log(facility.facilityId)
+
     return (
         <div className="container-absolute show-edit-form" onClick={editFacility.bind(event, "")}>
             <div className="form-edit-facility">
@@ -184,12 +187,12 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
                         {
                             title: facility.buildingName,
                             label: false,
-                            onChange: (value) => setBuildingFilter(value),
+                            onChange: (value) => setFacilityEdit({...facilityEdit, buildingId: value}),
                             options: buildingFilterOptions,
                         },
                         {
                             title: facility.facilityTypeDescription,
-                            onChange: (value) => setTypeFilter(value),
+                            onChange: (value) => setFacilityEdit({...facilityEdit, facilityTypeId: value}),
                             options: typeFilterOptions,
                         },
                     ]}
@@ -240,7 +243,7 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
 
                 <div className="btn-area">
                     <div className="show-edit-form" onClick={editFacility.bind(event, "")}> Cancelar </div>
-                    <div onClick={(e) => saveFacility()}> Salvar </div>
+                    <div onClick={(e) => showConfirmationCard()}> Salvar </div>
                 </div>
 
                 { 
@@ -248,7 +251,7 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
                     <CardConfirmation 
                         message="Tem certeza que deseja editar este espaço?"
                         showConfirmationCard={showConfirmationCard}
-                        action={() => updateFacility(facility.facilityId, facilityEdit)} 
+                        action={() => saveFacility()} 
                     />
                 }
             </div>

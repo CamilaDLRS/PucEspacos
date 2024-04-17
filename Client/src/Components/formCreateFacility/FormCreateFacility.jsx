@@ -2,10 +2,20 @@ import "./formCreateFacility.css";
 import Filters from "../filters/filters"
 import { useState, useEffect } from "react";
 import { getAllAssets } from "../../services/asset";
-import {Formik, Form, Field, ErrorMessage} from "formik"
-import {createFacilitySchema} from "../../schemas/facility"
+import IconTrash from "../../imgs/IconTrash";
+import IconPersonFill from "../../imgs/IconPersonFill";
+import CardConfirmation from "../cardConfirmation/CardConfirmation";
+import { createFacility } from "../../services/facility";
 
 function FormCreateFacility ({triggerFunction, buildings, facilityTypes}) {
+
+    const [buildingFilterOptions, setBuildingFilterOptions] = useState([]);
+    const [typeFilterOptions, setTypeFilterOptions] = useState([]);
+
+    const [allAssets, setAllAssets] = useState([]);
+    const [currentAssets, setCurrentAssets] = useState([]);
+
+    const [showCard, setShowCard] = useState(false);    
 
     const [facilityCreate, setFacilityCreate] = useState({
         facilityName: '',
@@ -13,17 +23,13 @@ function FormCreateFacility ({triggerFunction, buildings, facilityTypes}) {
         capacity: '',
         buildingId: '',
         facilityTypeId: '',
-        isActive: false,
+        isActive: true,
         assets: []
     });
 
-    const [buildingFilterOptions, setBuildingFilterOptions] = useState([]);
-    const [typeFilterOptions, setTypeFilterOptions] = useState([]);
-    const [allAssets, setAllAssets] = useState([]);
-
-
     useEffect(() => {
         getAllAssets().then((response) => {setAllAssets(response)});
+        setCurrentAssets(allAssets)
     }, [])
 
     useEffect(() => {
@@ -48,87 +54,209 @@ function FormCreateFacility ({triggerFunction, buildings, facilityTypes}) {
         setTypeFilterOptions(typeFilterOptions);
     }, [facilityTypes]);
 
-    console.log(facilityCreate)
+    useEffect(() => {
+        const filteredAssets = allAssets.filter(
+            asset => !facilityCreate.assets.some(facilityAsset => facilityAsset.assetId === asset.assetId)
+        );
+        setCurrentAssets(filteredAssets);
+        
+    }, [facilityCreate.assets, allAssets]);
 
+    function deleteAsset(assetDeleted) {
+        if (facilityCreate.assets.length > 0) {
+            const newFacilities = facilityCreate.assets.filter(asset => asset.assetId != assetDeleted.assetId);
+            setFacilityCreate({ ...facilityCreate, assets: newFacilities});
+        }
+    }   
+
+    function showConfirmationCard() {
+        showCard ? setShowCard(false) : setShowCard(true);
+    }
+
+    function createNewFacility() {
+        if (validate()) {
+            createFacility(facilityCreate);
+        }
+        setShowCard(false);
+    }
+
+    const [errors, setErrors] = useState({
+        facilityName: '',
+        capacity: '',
+        building: '',
+        facilityType: '',
+        assets: []
+    });
+
+    const validate = () => {
+        let isValid = true;
+        const newErrors = {
+            facilityName: '',
+            capacity: '',
+            building: '',
+            facilityType: '',
+            assets: []
+        };
+    
+        // Validando facilityName
+        if (!facilityCreate.facilityName.trim()) {
+            newErrors.facilityName = 'O nome do espaço é obrigatório.';
+            isValid = false;
+        }
+
+        // Validando capacity
+        if (facilityCreate.capacity <= 0) {
+            newErrors.capacity = 'Capacidade do espaço não pode ser negativo';
+            isValid = false;
+        }
+
+        // Validando Bloco 
+        if (facilityCreate.buildingId === "") {
+            newErrors.building = 'Selecione um bloco';
+            isValid = false;
+        }
+ 
+        // Validando tipoespaco
+        if (facilityCreate.facilityTypeId === "") {
+            newErrors.facilityType = 'Selecione um tipo';
+            isValid = false;
+        }
+
+
+        // Validando assets
+        const assetErrors = facilityCreate.assets.map((asset, index) => {
+            if (!Number.isInteger(Number(asset.quantity)) || Number(asset.quantity) < 1) {
+                return `A quantidade do ativo deve ser um número inteiro positivo.`;
+            }
+            return '';
+        });
+
+        if (assetErrors.some(error => error)) {
+            newErrors.assets = assetErrors;
+            isValid = false;
+        }
+        
+        setErrors(newErrors);
+        return isValid;
+    };
+
+    console.log(facilityCreate)
 
     return (
         <div className="container-absolute show-create-form" onClick={triggerFunction}>
-            <Formik
-            onSubmit={() => console.log("enviado")}
-            validationSchema={createFacilitySchema}
-            
-            initialValues={{
-                facilityName: "",
-                note: "",
-            }}
-        >   
-            {() => (
-                <Form className="form-create-facility">
-                <Field
-                    name="facilityName" 
-                    type="text" 
-                    placeholder="Nome do Bloco..." 
-                    onChange={(e) => setFacilityCreate({...facilityCreate, facilityName: e.target.value})}
-                />
+                <div className="form-create-facility">
+
+                    <div className="form-edit-selects">
+                        <input
+                            name="facilityName" 
+                            type="text" 
+                            placeholder="Nome do Espaço..." 
+                            className="facility-name"
+                            onChange={(e) => {
+                                setFacilityCreate({...facilityCreate, facilityName: e.target.value})
+                                setErrors({ ...errors, facilityName: '' });
+                            }}
+                        />
+                        {errors.facilityName && <span className="error">{errors.facilityName}</span>}
                 
-                <div>
-                    <Filters 
-                        filters={[
-                            {
-                                title: "Bloco",
-                                label: false,
-                                onChange: (value) => setBuildingFilter(value),
-                                options: buildingFilterOptions,
-                            },
-                            {
-                                title: "Tipo",
-                                onChange: (value) => setTypeFilter(value),
-                                options: typeFilterOptions,
-                            },
-                        ]}
-                    />
+                        <div className="facility-capacity">
+                            <IconPersonFill />
+                            <input
+                                type="number"
+                                value={facilityCreate.capacity}
+                                onChange={(event) => {
+                                        setFacilityCreate({ ...facilityCreate, capacity: event.target.value || null });
+                                        setErrors({ ...errors, capacity: '' });
+                                    }
+                                }
+                            />
+                            {errors.capacity && <span className="error">{errors.capacity}</span>}
+                        </div>
+                    </div>
                     
-                </div>
+                    
+                    <div>
+                        <Filters 
+                            filters={[
+                                {
+                                    title: "Bloco",
+                                    label: false,
+                                    onChange: (value) => setFacilityCreate({...facilityCreate, buildingId: value}),
+                                    options: buildingFilterOptions,
+                                },
+                                {
+                                    title: "Tipo",
+                                    onChange: (value) => setFacilityCreate({...facilityCreate, facilityTypeId: value}),
+                                    options: typeFilterOptions,
+                                },
+                            ]}
+                        />
 
-                <input 
-                    name="note"
-                    type="text" 
-                    placeholder="Observação"
-                    onChange={(e) => setFacilityCreate({...facilityCreate, note: e.target.value})}
-                />
+                        {errors.building && <span className="error">{errors.building}</span>}
+                        {errors.facilityType && <span className="error">{errors.facilityType}</span>}
+                    </div>
 
-                <select 
-                    onChange={(e) => {
-                        console.log(e.target.value)
-                        const assetFilter = allAssets.filter((asset) => {asset.assetId === e.target.value});
-                        console.log(assetFilter)
-                    }}
-                >
-                    <option value=""> Ativos </option>
+                    <input 
+                        name="note"
+                        type="text" 
+                        placeholder="Observação"
+                        onChange={(e) => setFacilityCreate({...facilityCreate, note: e.target.value})}
+                    />
+
+                    <select 
+                        onChange={(e) => {
+                            if (e.target.value !== "" && currentAssets.length > 0) {
+                                const assetFilter = currentAssets.find((asset) => asset.assetId == e.target.value);
+                                assetFilter.quantity = '';
+                                setFacilityCreate({...facilityCreate, assets: [...facilityCreate.assets, assetFilter]})
+                            }
+                        }}
+                    >
+                        <option value=""> Ativos </option>
+                        {
+                            currentAssets.map((asset) => (
+                                <option value={asset.assetId}> {asset.assetDescription} </option>
+                            ))
+                        }
+                    </select>
+
                     {
-                        allAssets.map((asset) => (
-                            <option value={asset.assetId}> {asset.assetDescription} </option>
+                        facilityCreate.assets.map((asset, index) => (
+                            <>
+                            <div className="facilty-assets" key={index}>
+                                <div className="facility-assets-info">
+                                    <input 
+                                        type="number" 
+                                        value={asset.quantity} 
+                                        placeholder="0"
+                                        onChange={(e) => { 
+                                            asset.quantity = e.target.value;   
+                                            setFacilityCreate({...facilityCreate, assets: [...facilityCreate.assets]});
+                                        }}
+                                        />
+                                    <p>{asset.assetDescription}</p>
+                                </div>
+                                <IconTrash className="icon-trash" onClick={(e) => {deleteAsset(asset)}} />
+                            </div>
+                            {errors.assets[index] && <span className="error">{errors.assets[index]}</span>}
+                            </>
                         ))
                     }
-                </select>
 
-                {
-                    facilityCreate.assets.length > 0 &&
-                    facilityCreate.assets.map((asset) => (
-                        <div>
-                            {asset.assetDescription}
-                        </div>
-                    ))
-                }
-
-                <div className="btn-area">
-                    <div> Cancelar </div>
-                    <div> Criar </div>
+                    <div className="btn-area">
+                        <div className="show-create-form" onClick={triggerFunction}> Cancelar </div>
+                        <div onClick={() => showConfirmationCard()}> Criar </div>
+                    </div>
                 </div>
-                </Form>
-            )}
-        </Formik>
-            
+
+                { 
+                    showCard &&
+                    <CardConfirmation 
+                        message="Tem certeza que deseja criar este espaço?"
+                        showConfirmationCard={showConfirmationCard}
+                        action={createNewFacility} 
+                    />
+                }
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import "./formEditUser.css"
+import "./formedituser.css"
 import { getAllSchools } from "../../services/schools";
 import Filters from "../filters/filters";
 import { useEffect, useState } from "react";
