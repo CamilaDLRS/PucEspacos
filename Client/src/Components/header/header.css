@@ -1,0 +1,40 @@
+header {
+    display: flex;
+    flex-direction: column;
+    background-color: #31458E;   
+}
+
+header .header-title{
+    display: flex;
+    align-items: center;
+    padding: .625rem 2rem;
+}
+
+header h1, header .nav-link{
+    color: white;
+    text-decoration: none;
+}
+
+header nav {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    padding-inline: 2rem;
+    background-color: #610127;
+}
+
+nav .nav-link {
+    transition: .2s;
+    padding: .625rem 2rem; 
+}
+
+nav .nav-link:hover {
+    transition: .2s;
+    transform: scaleX(1.1);
+}
+
+nav .nav-link-leave {
+    padding: .625rem 0;
+    position: absolute;
+    right: 2rem;
+}

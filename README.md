@@ -30,24 +30,15 @@ Para acompanhar as histórias de usuários do projeto, consulte o quadro [aqui](
 
 O projeto Madero Cash é desenvolvido usando as seguintes tecnologias e serviços:
 
-- **Linguagem de Programação**: Node.js com TypeScript.
+- **Linguagem de Programação Servidor**: Node.js com TypeScript.
+- **Linguagem de Programação Cliente**: React.js com JavaScript.
 - **Banco de Dados**: banco de dados será gerenciado a partir do MYSQL.
 - **Hospedagem e Implantação**: ?.
 - **Controle de Acesso e Autenticação**: ?.
 - **Registros e Auditoria**: ?.
 
-## Contribuições
 
-Este projeto é parte integrante do trabalho final para a disciplina de Experiência Criativa - Projetando Soluções Computacionais do terceiro semestre do curso de Engenharia de Software da PUCPR e não está aberto a contribuições externas. Apenas membros da equipe de sistemas da disciplina têm permissão para contribuir e acessar o código-fonte.
-
-Para mais informações ou dúvidas sobre o projeto, entre em contato com a equipe de desenvolvimento do projeto.
-
-Agradecemos por seu interesse e apoio ao PUC Espaços!
-
-
-# PUC ESPAÇOS API
-
-### Configuração - VS CODE material-icon-theme
+## Configuração — VS CODE material-icon-theme
 
 Press Ctrl-Shift-P
 
@@ -81,6 +72,28 @@ Press Ctrl-Shift-P
 }
 ```
 
-## Instalação
+## Git Conventional Commit
+
+- **chore:** Quando não altera o código, apenas os nomes de arquivos, estrutura ou dependências;
+- **build:** Mudanças que afetam o sistema de construção ou dependências externas (exemplos de escopos: gulp, broccoli, npm);
+- **ci:** Alterações em nossos arquivos e scripts de configuração de CI (exemplos de escopos: Travis, Circle, BrowserStack, SauceLabs);
+- **docs:** Apenas alterações na documentação;
+- **feat:** Uma nova funcionalidade;
+- **fix:** Correção de um bug;
+- **perf:** Uma mudança de código que melhora o desempenho;
+- **refactor:** Uma mudança de código que não corrige um bug nem adiciona uma funcionalidade;
+- **style:** Mudanças que não afetam o significado do código (espaços em branco, formatação, ponto e vírgula ausentes, etc.);
+- **test:** Adição de testes ausentes ou correção de testes existentes.
+
+## Contribuições
+
+Este projeto é parte integrante do trabalho final para a disciplina de Experiência Criativa - Projetando Soluções Computacionais do terceiro semestre do curso de Engenharia de Software da PUCPR e não está aberto a contribuições externas. Apenas membros da equipe de sistemas da disciplina têm permissão para contribuir e acessar o código-fonte.
+
+Para mais informações ou dúvidas sobre o projeto, entre em contato com a equipe de desenvolvimento do projeto.
+
+Agradecemos por seu interesse e apoio ao PUC Espaços!
+
+
+## Observações
 
 Para mais informações sobre o projeto, entre em contato com a equipe de desenvolvimento.
