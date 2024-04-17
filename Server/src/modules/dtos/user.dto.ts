@@ -17,12 +17,10 @@ export class UserDto {
   constructor(data: any, userId?: string) {
     this.schoolId = data.schoolId || null;
     this.schoolName = data.nameSchool || null;
+    this.isActive = data.isActive;
 
     if (data.email) {
       this.email = data.email;
-    }
-    if (data.isActive) {
-      this.isActive = data.isActive;
     }
     if (data.password) {
       this.password = data.password;

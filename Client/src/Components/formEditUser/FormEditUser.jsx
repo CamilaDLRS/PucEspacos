@@ -1,6 +1,6 @@
+import "./formEditUser.css"
 import { getAllSchools } from "../../services/schools";
 import Filters from "../filters/filters";
-import "./formedituser.css"
 import { useEffect, useState } from "react";
 import CardConfirmation from "../cardConfirmation/CardConfirmation";
 import { editUser } from "../../services/user";
@@ -14,8 +14,7 @@ function FormEditUser({user, showFormUser, userTypes}) {
 
     const [dataEditUser, setDataEditUser] = useState({schoolId: user.schoolId, userType: user.userType, isActive: user.isActive});
 
-    const [showCard, setShowCard] = useState(false);    
-    const [newUserStatus, setNewUserStatus] = useState();
+    const [showCard, setShowCard] = useState(false);
 
     useEffect(() => {
         getAllSchools().then((response) => setAllSchools(response))
@@ -55,7 +54,7 @@ function FormEditUser({user, showFormUser, userTypes}) {
 
     }, [allSchools])
 
-    const statusUser = user.isActive ? "Ativo" : "Desativo"
+    const statusUser = user.isActive ? "Ativo" : "Desativado";
 
     const filters = [
         {
@@ -81,9 +80,9 @@ function FormEditUser({user, showFormUser, userTypes}) {
         })
     }
 
-    function showConfirmationCard(editUserStatus) {
+
+    function showConfirmationCard() {
         showCard ? setShowCard(false) : setShowCard(true);
-        setNewUserStatus(editUserStatus);
     }
 
     return ( 
@@ -102,7 +101,7 @@ function FormEditUser({user, showFormUser, userTypes}) {
                 
                 <div className="btn-area">
                     <div className="showFormUser" onClick={showFormUser.bind(event, "")}>Cancelar</div>
-                    <div onClick={(e) => showConfirmationCard(dataEditUser.isActive)}>Salvar</div>
+                    <div onClick={(e) => showConfirmationCard()}>Salvar</div>
                 </div>
             </div>
 
@@ -111,7 +110,7 @@ function FormEditUser({user, showFormUser, userTypes}) {
                 <CardConfirmation  
                        
                     message={ 
-                        (user.isActive && !newUserStatus) ?
+                        (user.isActive === 1 && dataEditUser.isActive === "0") ?
                         <div>
                             Tem certeza que deseja editar este usuário? Você esta desativando ele, caso este tenha alguma reserva com situação 'Ativa' ou 'Solicitada', estas serão canceladas.
                         </div>
