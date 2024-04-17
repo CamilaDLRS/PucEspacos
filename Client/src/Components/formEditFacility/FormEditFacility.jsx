@@ -42,13 +42,13 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
         };
     
         // Validando facilityName
-        if (!facilityEdit.facilityName.trim()) {
+        if (!facilityEdit.facilityName || !facilityEdit.facilityName.trim()) {
             newErrors.facilityName = 'O nome do espaço é obrigatório.';
             isValid = false;
         }
 
         // Validando capacity
-        if (facilityEdit.capacity && facilityEdit.capacity.trim()) {
+        if (facilityEdit.capacity) {
             if (!Number.isInteger(Number(facilityEdit.capacity)) || Number(facilityEdit.capacity) < 1) {
                 newErrors.capacity = 'A capacidade deve ser um número inteiro positivo.';
                 isValid = false;
@@ -72,15 +72,15 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
             isValid = false;
         }
         
+        console.log(newErrors);
         setErrors(newErrors);
         return isValid;
     };
 
     const saveFacility = () => {
         if (validate()) {
-            updateFacility(facility.facilityId, facilityEdit);
+            showConfirmationCard();
         }
-        setShowCard(false);
     };
 
     useEffect(() => {
@@ -240,7 +240,7 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
 
                 <div className="btn-area">
                     <div className="show-edit-form" onClick={editFacility.bind(event, "")}> Cancelar </div>
-                    <div onClick={(e) => showConfirmationCard()}> Salvar </div>
+                    <div  onClick={(e) => saveFacility()}> Salvar </div>
                 </div>
 
                 { 
@@ -248,7 +248,7 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
                     <CardConfirmation 
                         message="Tem certeza que deseja editar este espaço?"
                         showConfirmationCard={showConfirmationCard}
-                        action={() => saveFacility()} 
+                        action={() => updateFacility(facility.facilityId, facilityEdit)} 
                     />
                 }
             </div>

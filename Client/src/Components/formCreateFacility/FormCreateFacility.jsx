@@ -20,7 +20,7 @@ function FormCreateFacility ({triggerFunction, buildings, facilityTypes}) {
     const [facilityCreate, setFacilityCreate] = useState({
         facilityName: '',
         note: '',
-        capacity: '',
+        capacity: null,
         buildingId: '',
         facilityTypeId: '',
         isActive: true,
@@ -75,9 +75,8 @@ function FormCreateFacility ({triggerFunction, buildings, facilityTypes}) {
 
     function createNewFacility() {
         if (validate()) {
-            createFacility(facilityCreate);
+            showConfirmationCard();
         }
-        setShowCard(false);
     }
 
     const [errors, setErrors] = useState({
@@ -105,7 +104,7 @@ function FormCreateFacility ({triggerFunction, buildings, facilityTypes}) {
         }
 
         // Validando capacity
-        if (facilityCreate.capacity <= 0) {
+        if (facilityCreate.capacity && facilityCreate.capacity <= 0) {
             newErrors.capacity = 'Capacidade do espaço não pode ser negativo';
             isValid = false;
         }
@@ -136,11 +135,10 @@ function FormCreateFacility ({triggerFunction, buildings, facilityTypes}) {
             isValid = false;
         }
         
+        console.log(newErrors);
         setErrors(newErrors);
         return isValid;
     };
-
-    console.log(facilityCreate)
 
     return (
         <div className="container-absolute show-create-form" onClick={triggerFunction}>
@@ -181,19 +179,27 @@ function FormCreateFacility ({triggerFunction, buildings, facilityTypes}) {
                                 {
                                     title: "Bloco",
                                     label: false,
-                                    onChange: (value) => setFacilityCreate({...facilityCreate, buildingId: value}),
+                                    onChange: (value) =>{ 
+                                        setFacilityCreate({...facilityCreate, buildingId: value});
+                                        setErrors({ ...errors, building: '' });
+                                    },
                                     options: buildingFilterOptions,
                                 },
                                 {
                                     title: "Tipo",
-                                    onChange: (value) => setFacilityCreate({...facilityCreate, facilityTypeId: value}),
+                                    onChange: (value) => {
+                                        setFacilityCreate({...facilityCreate, facilityTypeId: value});
+                                        setErrors({ ...errors, facilityType: '' });
+                                    },
                                     options: typeFilterOptions,
                                 },
                             ]}
                         />
 
-                        {errors.building && <span className="error">{errors.building}</span>}
-                        {errors.facilityType && <span className="error">{errors.facilityType}</span>}
+                        <div className="error-filters">  
+                            {errors.building && <span className="error">{errors.building}</span>}
+                            {errors.facilityType && <span className="error">{errors.facilityType}</span>}
+                        </div>
                     </div>
 
                     <input 
@@ -245,7 +251,7 @@ function FormCreateFacility ({triggerFunction, buildings, facilityTypes}) {
 
                     <div className="btn-area">
                         <div className="show-create-form" onClick={triggerFunction}> Cancelar </div>
-                        <div onClick={() => showConfirmationCard()}> Criar </div>
+                        <div onClick={() => createNewFacility()}> Criar </div>
                     </div>
                 </div>
 
@@ -254,7 +260,7 @@ function FormCreateFacility ({triggerFunction, buildings, facilityTypes}) {
                     <CardConfirmation 
                         message="Tem certeza que deseja criar este espaço?"
                         showConfirmationCard={showConfirmationCard}
-                        action={createNewFacility} 
+                        action={() => createFacility(facilityCreate)} 
                     />
                 }
         </div>
