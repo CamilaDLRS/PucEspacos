@@ -8,5 +8,16 @@
 
 .form-create-facility select {
     padding: 5px 10px;
+}
 
+.form-create-facility .filter-container {
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.form-create-facility .filter-select {
+    width: 100%;
+    margin: 0;
 }

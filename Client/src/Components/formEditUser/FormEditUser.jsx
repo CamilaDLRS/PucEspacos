@@ -15,6 +15,7 @@ function FormEditUser({user, showFormUser, userTypes}) {
     const [dataEditUser, setDataEditUser] = useState({schoolId: user.schoolId, userType: user.userType, isActive: user.isActive});
 
     const [showCard, setShowCard] = useState(false);    
+    const [newUserStatus, setNewUserStatus] = useState();
 
     useEffect(() => {
         getAllSchools().then((response) => setAllSchools(response))
@@ -80,10 +81,10 @@ function FormEditUser({user, showFormUser, userTypes}) {
         })
     }
 
-    function showConfirmationCard() {
+    function showConfirmationCard(editUserStatus) {
         showCard ? setShowCard(false) : setShowCard(true);
+        setNewUserStatus(editUserStatus);
     }
-    
 
     return ( 
         <div className="container-absolute showFormUser" onClick={showFormUser.bind(event, "")}>
@@ -101,14 +102,24 @@ function FormEditUser({user, showFormUser, userTypes}) {
                 
                 <div className="btn-area">
                     <div className="showFormUser" onClick={showFormUser.bind(event, "")}>Cancelar</div>
-                    <div onClick={(e) => showConfirmationCard()}>Salvar</div>
+                    <div onClick={(e) => showConfirmationCard(dataEditUser.isActive)}>Salvar</div>
                 </div>
             </div>
 
             { 
                 showCard &&
-                <CardConfirmation     
-                    message="Tem certeza que deseja editar este usuário?"
+                <CardConfirmation  
+                       
+                    message={ 
+                        (user.isActive && !newUserStatus) ?
+                        <div>
+                            Tem certeza que deseja editar este usuário? Você esta desativando ele, caso este tenha alguma reserva com situação 'Ativa' ou 'Solicitada', estas serão canceladas.
+                        </div>
+                        :
+                        <div>
+                            Tem certeza que deseja editar este usuário?
+                        </div>
+                    }
                     showConfirmationCard={showConfirmationCard}
                     action={() => editUser(user.userId, dataEditUser)} 
                 />

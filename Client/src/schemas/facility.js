@@ -30,7 +30,7 @@ const facilityComumSchema = yup.object({
     ).test({
       message: 'Não deve haver repetições de ativos.',
       test: function (assets) {
-        const assetIds = new Set<string>();
+        const assetIds = new Set();
 
         if (assets) {
           for (const asset of assets) {

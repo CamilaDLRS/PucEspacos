@@ -33,12 +33,17 @@
     width: 100%;
 }
 
-.right-side .filter-container {
-    border: none;
+.form-edit-user .right-side .filter-container {
+    border: none;   
     border-left: 1px solid black;
     display: flex;
     flex-direction: column;
     gap: 1rem;
+}
+
+.form-edit-user .right-side .select-area {
+    display: flex;
+    flex-direction: column;
 }
 
 .right-side .filter-container div {

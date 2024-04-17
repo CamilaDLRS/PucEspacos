@@ -1,11 +1,30 @@
 import "./formCreateFacility.css";
 import Filters from "../filters/filters"
 import { useState, useEffect } from "react";
+import { getAllAssets } from "../../services/asset";
+import {Formik, Form, Field, ErrorMessage} from "formik"
+import {createFacilitySchema} from "../../schemas/facility"
 
 function FormCreateFacility ({triggerFunction, buildings, facilityTypes}) {
 
+    const [facilityCreate, setFacilityCreate] = useState({
+        facilityName: '',
+        note: '',
+        capacity: '',
+        buildingId: '',
+        facilityTypeId: '',
+        isActive: false,
+        assets: []
+    });
+
     const [buildingFilterOptions, setBuildingFilterOptions] = useState([]);
     const [typeFilterOptions, setTypeFilterOptions] = useState([]);
+    const [allAssets, setAllAssets] = useState([]);
+
+
+    useEffect(() => {
+        getAllAssets().then((response) => {setAllAssets(response)});
+    }, [])
 
     useEffect(() => {
         const buildingFilterOptions = [];
@@ -29,11 +48,28 @@ function FormCreateFacility ({triggerFunction, buildings, facilityTypes}) {
         setTypeFilterOptions(typeFilterOptions);
     }, [facilityTypes]);
 
+    console.log(facilityCreate)
+
 
     return (
         <div className="container-absolute show-create-form" onClick={triggerFunction}>
-            <div className="form-create-facility">
-                <input type="text" placeholder="Nome do Bloco..." />
+            <Formik
+            onSubmit={() => console.log("enviado")}
+            validationSchema={createFacilitySchema}
+            
+            initialValues={{
+                facilityName: "",
+                note: "",
+            }}
+        >   
+            {() => (
+                <Form className="form-create-facility">
+                <Field
+                    name="facilityName" 
+                    type="text" 
+                    placeholder="Nome do Bloco..." 
+                    onChange={(e) => setFacilityCreate({...facilityCreate, facilityName: e.target.value})}
+                />
                 
                 <div>
                     <Filters 
@@ -54,17 +90,45 @@ function FormCreateFacility ({triggerFunction, buildings, facilityTypes}) {
                     
                 </div>
 
-                <input type="text" />
+                <input 
+                    name="note"
+                    type="text" 
+                    placeholder="Observação"
+                    onChange={(e) => setFacilityCreate({...facilityCreate, note: e.target.value})}
+                />
 
-                <select name="" id="">
+                <select 
+                    onChange={(e) => {
+                        console.log(e.target.value)
+                        const assetFilter = allAssets.filter((asset) => {asset.assetId === e.target.value});
+                        console.log(assetFilter)
+                    }}
+                >
                     <option value=""> Ativos </option>
+                    {
+                        allAssets.map((asset) => (
+                            <option value={asset.assetId}> {asset.assetDescription} </option>
+                        ))
+                    }
                 </select>
+
+                {
+                    facilityCreate.assets.length > 0 &&
+                    facilityCreate.assets.map((asset) => (
+                        <div>
+                            {asset.assetDescription}
+                        </div>
+                    ))
+                }
 
                 <div className="btn-area">
                     <div> Cancelar </div>
                     <div> Criar </div>
                 </div>
-            </div>
+                </Form>
+            )}
+        </Formik>
+            
         </div>
     )
 }
