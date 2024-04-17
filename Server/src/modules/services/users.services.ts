@@ -38,6 +38,9 @@ export class UsersServices {
     if (!user) {
       throw new ApiError(401, InternalCode.INVALID_LOGIN_CREDENTIALS);
     }
+    if (!user.isActive) {
+      throw new ApiError(401, InternalCode.INVALID_LOGIN_NOT_ACTIVE);
+    }
 
     return user;
   }
