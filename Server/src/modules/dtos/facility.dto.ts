@@ -44,6 +44,7 @@ export class FacilityDto {
     this.facilityName = data.facilityName;
     this.capacity = data.capacity || null;
     this.note = data.note || "";
+    this.buildingId = data.buildingId || "";
 
     if (data.assets) {
       this.assets = data.assets;

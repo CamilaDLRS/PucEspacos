@@ -146,9 +146,6 @@ function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) 
         showCard ? setShowCard(false) : setShowCard(true);
     }
 
-    console.log(facilityEdit)
-    console.log(facility.facilityId)
-
     return (
         <div className="container-absolute show-edit-form" onClick={editFacility.bind(event, "")}>
             <div className="form-edit-facility">
