@@ -1,10 +1,10 @@
 import "./pages.css";
-import Header from "../components/header/Header";
-import CardUser from "../components/cardUser/CardUser";
+import Header from "../components/header/header";
+import CardUser from "../components/cardUser/cardUser";
 import { getAllUser, getAllUserTypes } from "../services/user";
 import { useEffect, useState } from "react";
 import Filters from "../components/filters/filters";
-import FormEditUser from "../components/formEditUser/FormEditUser";
+import FormEditUser from "../components/formEditUser/formEditUser";
 
 function Users() {
   useEffect(() => {

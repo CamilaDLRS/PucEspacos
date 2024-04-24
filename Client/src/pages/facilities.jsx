@@ -1,14 +1,14 @@
 import "./pages.css";
 import "../components/filters/filters.css";
-import Header from "../components/header/Header";
+import Header from "../components/header/header";
 import { getAllFacilities, getAllFacilityTypes } from "../services/facility";
 import { getAllBuildings } from "../services/building";
-import CardFacility from "../components/cardFacility/CardFacility";
+import CardFacility from "../components/cardFacility/cardFacility";
 import Filters from "../components/filters/filters";
 import { useEffect, useState } from "react";
-import FormEditFacility from "../components/formEditFacility/FormEditFacility";
-import CardReadFacility from "../components/cardReadFacility/CardReadFacility";
-import FormCreateFacility from "../components/formCreateFacility/FormCreateFacility";
+import FormEditFacility from "../components/formEditFacility/formEditFacility";
+import CardReadFacility from "../components/cardReadFacility/cardReadFacility";
+import FormCreateFacility from "../components/formCreateFacility/formCreateFacility";
 
 function Facilities() {
   useEffect(() => {

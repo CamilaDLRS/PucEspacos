@@ -1,8 +1,8 @@
-import "./formEditUser.css"
+import "./formedituser.css"
 import { getAllSchools } from "../../services/schools";
 import Filters from "../filters/filters";
 import { useEffect, useState } from "react";
-import CardConfirmation from "../cardConfirmation/CardConfirmation";
+import CardConfirmation from "../cardConfirmation/cardConfirmation";
 import { editUser } from "../../services/user";
 
 function FormEditUser({user, showFormUser, userTypes}) {

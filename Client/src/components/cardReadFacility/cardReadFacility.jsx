@@ -1,4 +1,4 @@
-import IconPersonFill from "../../imgs/IconPersonFill";
+import IconPersonFill from "../../imgs/iconPersonFill";
 import "./cardReadFacility.css";
 
 function CardReadFacility({ facility, showFacility }) {

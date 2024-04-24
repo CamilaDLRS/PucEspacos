@@ -1,4 +1,4 @@
-import IconBxsEdit from "../../imgs/IconBxsEdit";
+import IconBxsEdit from "../../imgs/iconBxsEdit";
 import "./carduser.css"
 
 function CardUser({user, showFormUser}) {
