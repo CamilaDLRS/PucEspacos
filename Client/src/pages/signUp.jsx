@@ -1,7 +1,7 @@
 import "./pages.css"
 
-import Title from "../components/title/Title";
-import FormSignUp from "../components/forms/FormSignUp"
+import Title from "../components/title/title";
+import FormSignUp from "../components/forms/formSignUp"
 
 function SignUp() {
     if (localStorage.getItem("userType")) {

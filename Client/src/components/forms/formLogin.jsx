@@ -3,8 +3,8 @@ import {Formik, Form, Field, ErrorMessage} from "formik"
 import { useState } from "react";
 import { signInUserSchema } from "../../schemas/user";
 import { Link } from "react-router-dom";
-import Eye from "../../imgs/IconEye";
-import EyeInvisible from "../../imgs/IconEyeInvisible";
+import Eye from "../../imgs/iconEye";
+import EyeInvisible from "../../imgs/iconEyeInvisible";
 import { login } from "../../services/user";
 
 function FormLogin() {

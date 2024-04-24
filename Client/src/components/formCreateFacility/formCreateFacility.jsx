@@ -2,9 +2,9 @@ import "./formCreateFacility.css";
 import Filters from "../filters/filters"
 import { useState, useEffect } from "react";
 import { getAllAssets } from "../../services/asset";
-import IconTrash from "../../imgs/IconTrash";
-import IconPersonFill from "../../imgs/IconPersonFill";
-import CardConfirmation from "../cardConfirmation/CardConfirmation";
+import IconTrash from "../../imgs/iconTrash";
+import IconPersonFill from "../../imgs/iconPersonFill";
+import CardConfirmation from "../cardConfirmation/cardConfirmation";
 import { createFacility } from "../../services/facility";
 
 function FormCreateFacility ({triggerFunction, buildings, facilityTypes}) {

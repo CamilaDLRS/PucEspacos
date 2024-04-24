@@ -1,5 +1,5 @@
 import "./filters.css"
-import IconPlusCircle from "../../imgs/IconPlusCircle"
+import IconPlusCircle from "../../imgs/iconPlusCircle"
 
 function Filters({ filters, showAddButton, triggerFunction }) {
   

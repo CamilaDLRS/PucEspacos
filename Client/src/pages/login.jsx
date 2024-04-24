@@ -1,6 +1,6 @@
 import "./pages.css";
-import Title from "../components/title/Title";
-import FormLogin from "../components/forms/FormLogin";
+import Title from "../components/title/title";
+import FormLogin from "../components/forms/formLogin";
 
 function Login() {
   if (localStorage.getItem("userType")) {

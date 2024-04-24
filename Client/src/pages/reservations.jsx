@@ -1,5 +1,5 @@
 import "./pages.css";
-import Header from "../components/header/Header";
+import Header from "../components/header/header";
 
 function Reservations() {
   if (!localStorage.getItem("userType")) {

@@ -1,8 +1,8 @@
 import "./cardFacility.css";
-import IconBxsEdit from "../../imgs/IconBxsEdit";
-import IconPower from "../../imgs/IconPower";
-import IconPersonFill from "../../imgs/IconPersonFill";
-import CardConfirmation from "../cardConfirmation/CardConfirmation";
+import IconBxsEdit from "../../imgs/iconBxsEdit";
+import IconPower from "../../imgs/iconPower";
+import IconPersonFill from "../../imgs/iconPersonFill";
+import CardConfirmation from "../cardConfirmation/cardConfirmation";
 import { updateFacilityStatus } from "../../services/facility";
 import { useState } from "react";
 

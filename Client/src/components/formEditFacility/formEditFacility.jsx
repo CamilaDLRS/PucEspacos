@@ -1,11 +1,11 @@
 import "./formEditFacility.css";
-import IconPersonFill from "../../imgs/IconPersonFill";
-import IconTrash from "../../imgs/IconTrash";
+import IconPersonFill from "../../imgs/iconPersonFill";
+import IconTrash from "../../imgs/iconTrash";
 import Filters from "../filters/filters";
 import { useEffect, useState } from "react";
 import { getAllAssets } from "../../services/asset";
 import { getFacilityById, updateFacility } from "../../services/facility";
-import CardConfirmation from "../cardConfirmation/CardConfirmation";
+import CardConfirmation from "../cardConfirmation/cardConfirmation";
 
 function FormEditFacility({ facility, buildings, facilityTypes, editFacility }) {
 
