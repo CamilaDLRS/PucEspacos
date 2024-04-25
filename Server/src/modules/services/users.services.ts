@@ -32,6 +32,16 @@ export class UsersServices {
     return user;
   }
 
+  public static async getByEmail(email: string): Promise<UserDto> {
+    const user = await UsersRepository.getByEmail(email!);
+
+    if (!user) {
+      throw new ApiError(404, InternalCode.REGISTER_NOT_FOUND);
+    }
+
+    return user;
+  }
+
   public static async signIn(email: string, password: string): Promise<UserDto> {
     const user = await UsersRepository.signIn(email, password);
 
@@ -46,7 +56,11 @@ export class UsersServices {
   }
 
   public static async create(user: UserDto): Promise<string> {
-    if (await UsersRepository.getByEmail(user.email!)) {
+    
+    const emailExists = await this.getByEmail(user.email!)
+      .then(() => true)
+      .catch(() => false);
+    if (emailExists) {
       throw new ApiError(409, InternalCode.EMAIL_ALREADY_EXISTS_AUTH);
     }
 
@@ -60,21 +74,17 @@ export class UsersServices {
       user.userType = UserType.TEACHER;
     }
     else {
-      throw new ApiError(400, InternalCode.EMAIL_ALREADY_EXISTS_AUTH);
+      throw new ApiError(400, InternalCode.INVALID_EMAIL_DOMAIN);
     }
     await UsersRepository.create(user);
 
     return user.userId;
   }
 
-  public static async update(user: UserDto): Promise<void> {
+  public static async update(userEdited: UserDto): Promise<void> {
     
-    const userFromDb = await UsersRepository.getById(user.userId!);
-
-    if (!userFromDb) {
-      throw new ApiError(404, InternalCode.REGISTER_NOT_FOUND);
-    }
-    userFromDb.update(user);
+    const user = await this.getById(userEdited.userId!);
+    user.update(userEdited);
 
     await UsersRepository.update(user);
   }

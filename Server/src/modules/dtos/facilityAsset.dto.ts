@@ -1,4 +1,4 @@
-export class FacilityAssetDto {
+export class FacilityAssetDto { //herdar Asset
 
   facilityId: string;
   assetId: string;

@@ -1,11 +1,11 @@
 export class BuildingDto {
-  buildingId?: string;
+  buildingId: string;
   campusId: string;
   schoolId: string;
   buildingName: string;
   
-  createdDate?: Date;
-  updatedDate?: Date;
+  createdDate: Date;
+  updatedDate: Date;
 
   constructor(data: any) {
     this.campusId = data.campusId;

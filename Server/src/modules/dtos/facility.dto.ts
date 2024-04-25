@@ -3,9 +3,9 @@ import { FacilityAssetDto } from "./facilityAsset.dto";
 export class FacilityDto {
 
   facilityId?: string;
-  buildingId?: string;
+  buildingId?: string; //passar o dto building?
   buildingName?: string;
-  facilityTypeId: string;
+  facilityTypeId: string; //passar o dto facilitytype?
   facilityTypeDescription: string;
   isActive: boolean;
   facilityName: string;
@@ -34,7 +34,9 @@ export class FacilityDto {
       this.facilityTypeDescription = data.facilityTypeDescription;
     }
     if (data.assets) {
-      this.assets = data.assets;
+      this.assets = data.assets.map((asset: any) => {
+        return new FacilityAssetDto(asset, facilityId!);
+      });
     }
   }
 
@@ -45,9 +47,5 @@ export class FacilityDto {
     this.capacity = data.capacity || null;
     this.note = data.note || "";
     this.buildingId = data.buildingId || "";
-
-    if (data.assets) {
-      this.assets = data.assets;
-    }
   }
 }

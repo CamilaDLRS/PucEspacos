@@ -4,7 +4,7 @@ export class UserDto {
 
   userId?: string;
   schoolId: string | null;
-  schoolName: string | null;
+  schoolName: string | null; //passar o dto school?
   email?: string;
   password?: string;
   userName?: string;
