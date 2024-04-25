@@ -1,7 +1,7 @@
 import "./filters.css"
 import IconPlusCircle from "../../imgs/iconPlusCircle"
 
-function Filters({ filters, showAddButton, triggerFunction }) {
+function Filters({ filters, showAddButton, triggerFunction, addSomething }) {
   
   return (
     <>
@@ -28,7 +28,10 @@ function Filters({ filters, showAddButton, triggerFunction }) {
         
         {(localStorage.getItem("userType") === "Administrador") && 
             showAddButton &&
-          <IconPlusCircle className="icon-add show-create-form" onClick={triggerFunction}/>
+            <div className="add-something show-create-form"  onClick={triggerFunction}>
+              <p className="show-create-form"> {addSomething} </p>
+              <IconPlusCircle className="icon-add show-create-form"/>
+            </div>
         }
       </div>
     </>

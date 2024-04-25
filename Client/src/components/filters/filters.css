@@ -18,7 +18,7 @@
 
 .filter-container .select-area {
   display: flex;
-  width: 100%;
+  width: 80%;
   gap: 30px;
 }
 
@@ -37,6 +37,19 @@
   margin-left: 20px;
 }
 
-.icon-add {
+.add-something {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   cursor: pointer;
+  transition: .3s;
+}
+
+.add-something:hover {
+  transform: scale(1.1);
+  transition: .3s;
+}
+
+.icon-add {
+  margin-left: 10px;
 }

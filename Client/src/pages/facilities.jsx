@@ -84,6 +84,7 @@ function Facilities() {
   }
 
   function createFacility(event) {
+    console.log(event.target)
     if (event.target.classList.contains("show-create-form")) {
       showCreateFacility ? setShowCreateFacility(false) : setShowCreateFacility(true);
     }
@@ -110,6 +111,7 @@ function Facilities() {
         
         showAddButton={true}
         triggerFunction={createFacility}
+        addSomething="Adicionar Espaço"
       />
 
 
