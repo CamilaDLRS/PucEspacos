@@ -8,4 +8,9 @@ buildingsRouter.get(
   BuildingsController.getAll
 );
 
+buildingsRouter.get(
+  ":id",
+  BuildingsController.getById
+);
+
 export default buildingsRouter;

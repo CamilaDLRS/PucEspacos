@@ -56,6 +56,25 @@ export class FacilitiesRepository {
     }
   }
 
+  public static async getAllByBuilding(buildingId: string): Promise<FacilityDto[]> {
+    const sql = `SELECT * FROM tbFacilities 
+                  WHERE buildingId = ?;`;
+    const bindParams = [buildingId];
+
+    await this.CONNECTION.connect();
+    const rows = await this.CONNECTION.executeWithParams(sql, bindParams);
+    await this.CONNECTION.disconnect();
+
+    if (rows && rows.length > 0) {
+      const facilities: FacilityDto[] = rows.map((row: any) => {
+        return new FacilityDto(row, row.facilityId);
+      });
+      return facilities;
+    } else {
+      return [];
+    }
+  }
+
   public static async create(facility: FacilityDto): Promise<void> {
     const sql = `INSERT INTO tbFacilities (
                   facilityId,

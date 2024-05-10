@@ -14,4 +14,17 @@ export class BuildingsController {
       await ExpressHandlers.handleError(req, res, error);
     }
   }
+
+  public static async getById(req: Request, res: Response) {
+    try {
+      const id: string = req.params.id;
+      //TO DO
+      //add option withFacilities
+      const building: BuildingDto = await BuildingsServices.getById(id);
+
+      await ExpressHandlers.handleResponse(req, res, building);
+    } catch (error: any) {
+      await ExpressHandlers.handleError(req, res, error);
+    }
+  }
 }

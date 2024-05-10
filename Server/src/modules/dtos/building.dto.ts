@@ -1,3 +1,5 @@
+import { FacilityDto } from "./facility/facility.dto";
+
 export class BuildingDto {
   buildingId: string;
   campusId: string;
@@ -7,6 +9,9 @@ export class BuildingDto {
   createdDate: Date;
   updatedDate: Date;
 
+  //from join
+  facilities: FacilityDto[];
+
   constructor(data: any) {
     this.campusId = data.campusId;
     this.schoolId = data.schoolId;
@@ -14,5 +19,11 @@ export class BuildingDto {
     this.buildingId = data.buildingId;
     this.createdDate = data.createdDate;
     this.updatedDate = data.updatedDate;
+
+    if (data.facilities) {
+      this.facilities = data.facilities.map((facility: any) => {
+        return new FacilityDto(facility, facility.facilityId!);
+      });
+    }
   }
 }

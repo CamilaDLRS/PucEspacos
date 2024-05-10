@@ -1,4 +1,4 @@
-export class ReservationQueryOptions {
+export class ReservationQueryOptionsDto {
   
   requestingUserId?: string;
   reservationStatus?: string;
