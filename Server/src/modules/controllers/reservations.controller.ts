@@ -2,16 +2,18 @@ import { ExpressHandlers } from "../../shared/utils/expressHandles";
 import { Request, Response } from "express";
 import { ReservationsServices } from "../services/reservations.services";
 import { ReservationDto } from "../dtos/reservation/reservation.dto";
-import { ReservationQueryOptions } from "../dtos/reservation/reservationOptions.dto";
+import { ReservationQueryOptionsDto } from "../dtos/reservation/reservationOptions.dto";
+import { FacilityDto } from "../dtos/facility/facility.dto";
+import { FacilityAvailabilityQuery } from "../dtos/facility/facilityAvailabilityQuery.dto";
 
 export class ReservationsController {
   
   public static async getAll(req: Request, res: Response) {
     try {
-      const options: ReservationQueryOptions = new ReservationQueryOptions(req.query);
-      const facilities: ReservationDto[] = await ReservationsServices.getAll(options);
+      const options: ReservationQueryOptionsDto = new ReservationQueryOptionsDto(req.query);
+      const reservations: ReservationDto[] = await ReservationsServices.getAll(options);
 
-      await ExpressHandlers.handleResponse(req, res, facilities);
+      await ExpressHandlers.handleResponse(req, res, reservations);
     } catch (error: any) {
       await ExpressHandlers.handleError(req, res, error);
     }
@@ -23,6 +25,17 @@ export class ReservationsController {
       const reservation: ReservationDto = await ReservationsServices.getById(id);
 
       await ExpressHandlers.handleResponse(req, res, reservation);
+    } catch (error: any) {
+      await ExpressHandlers.handleError(req, res, error);
+    }
+  }
+
+  public static async getAvailableFacilities(req: Request, res: Response) {
+    try {
+      const query: FacilityAvailabilityQuery = new FacilityAvailabilityQuery(req.query);
+      const facilities: FacilityDto[] = await ReservationsServices.getAvailableFacilities(query);
+
+      await ExpressHandlers.handleResponse(req, res, facilities);
     } catch (error: any) {
       await ExpressHandlers.handleError(req, res, error);
     }

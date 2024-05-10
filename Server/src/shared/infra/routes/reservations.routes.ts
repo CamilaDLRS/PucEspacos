@@ -3,6 +3,10 @@ import { ReservationsController } from "../../../modules/controllers/reservation
 
 const reservationsRouter = express.Router();
 
+reservationsRouter.get(
+  "/available-facilities",
+  ReservationsController.getAvailableFacilities
+);
 
 reservationsRouter.get(
   "/:id",
@@ -11,24 +15,32 @@ reservationsRouter.get(
 
 reservationsRouter.get(
   "/",
+  //TO DO
+  //criar schema
+  //ValidationMiddleware.validateRequest(getReservationsSchema),
   ReservationsController.getAll
 );
 
 reservationsRouter.post(
   "/",
+  //TO DO
+  //criar schema
   //ValidationMiddleware.validateRequest(createReservationSchema),
   ReservationsController.create
 );
 
 reservationsRouter.put(
   "/:id",
+  //TO DO
+  //criar schema
   //ValidationMiddleware.validateRequest(updateReservationSchema),
   ReservationsController.update
 );
 
 reservationsRouter.delete(
   "/:id",
-  //adicionar claims?
+  //TO DO
+  //verificar de adicionar middleware geral de verificação do usuário, por mais que seja simples
   ReservationsController.delete
 );
 

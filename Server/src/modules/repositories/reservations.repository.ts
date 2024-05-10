@@ -1,13 +1,13 @@
 import { IdbServices } from "../../shared/infra/db/Idb.services";
 import MysqlDbServices from "../../shared/infra/db/mysql/mysqlDB.services";
 import { ReservationDto } from "../dtos/reservation/reservation.dto";
-import { ReservationQueryOptions } from "../dtos/reservation/reservationOptions.dto";
+import { ReservationQueryOptionsDto } from "../dtos/reservation/reservationOptions.dto";
 
 export class ReservationsRepository {
 
   private static readonly CONNECTION: IdbServices = new MysqlDbServices();
 
-  public static async getAll(options: ReservationQueryOptions): Promise<ReservationDto[]> {
+  public static async getAll(options: ReservationQueryOptionsDto): Promise<ReservationDto[]> {
     
   const conditions = [];
   const bindParams = [];
