@@ -5,6 +5,9 @@ const reservationsRouter = express.Router();
 
 reservationsRouter.get(
   "/available-facilities",
+  //TO DO
+  //criar schema
+  //ValidationMiddleware.validateRequest(getAvalableFacilitiesSchema),
   ReservationsController.getAvailableFacilities
 );
 

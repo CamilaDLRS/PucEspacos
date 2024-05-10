@@ -137,7 +137,7 @@ export class ReservationsRepository {
   }
 
   public static async delete(id: string): Promise<void> {
-    const sql = `DELETE SET tbReservations
+    const sql = `DELETE FROM tbReservations
                  WHERE reservationId = ?;`;
 
     const bindParams = [id];

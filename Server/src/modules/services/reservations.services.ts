@@ -38,6 +38,9 @@ export class ReservationsServices {
 
   public static async create(reservation: ReservationDto): Promise<string> {
     //TO DO
+    //verificar id do facility
+    //verificar id dos usuários se estes estão ativos
+    //verificar datas
     //adicionar verificação de regras de negócio
     reservation.reservationId = uuid.v4();
     await ReservationsRepository.create(reservation);
