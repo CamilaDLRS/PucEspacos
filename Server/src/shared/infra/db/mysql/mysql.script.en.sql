@@ -82,7 +82,7 @@ CREATE TABLE tbReservations (
     requestingUserId  Varchar(40),
     responsibleUserId Varchar(40),
     facilityId Varchar(40),
-    reservationStatus Enum('Solicitada','Ativa','Cancelada','Em Andamento','Finalizada'),
+    reservationStatus Enum('Solicitada','Ativa','Em Andamento','Finalizada'),
     reservationPurpose Enum('Aula','Palestra','Lazer','Evento','Estudo','Outro'),
     checkinDate Datetime,
     checkoutDate Datetime,

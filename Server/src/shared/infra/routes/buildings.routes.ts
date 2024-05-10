@@ -1,11 +1,11 @@
 import express from "express"
 import { BuildingsController } from "../../../modules/controllers/buildings.controller";
 
-const buildingRouter = express.Router();
+const buildingsRouter = express.Router();
 
-buildingRouter.get(
+buildingsRouter.get(
   "/",
   BuildingsController.getAll
 );
 
-export default buildingRouter;
+export default buildingsRouter;
