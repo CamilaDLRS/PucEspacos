@@ -1,8 +1,8 @@
 import { ExpressHandlers } from "../../shared/utils/expressHandles";
 import { FacilitiesServices } from "../services/facilities.services";
 import { Request, Response } from "express";
-import { FacilityDto } from "../dtos/facility.dto";
-import { FacilityTypeDto } from "../dtos/facilityType.dto";
+import { FacilityDto } from "../dtos/facility/facility.dto";
+import { FacilityTypeDto } from "../dtos/facility/facilityType.dto";
 
 export class FacilitiesController {
   public static async getAll(req: Request, res: Response) {
@@ -48,7 +48,6 @@ export class FacilitiesController {
 
   public static async update(req: Request, res: Response) {
     try {
-      console.log(req.body);
       let facility: FacilityDto = new FacilityDto(req.body, req.params.id);
       await FacilitiesServices.update(facility);
 

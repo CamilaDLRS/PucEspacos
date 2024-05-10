@@ -3,41 +3,41 @@ import { FacilitiesController } from "../../../modules/controllers/facilities.co
 import { ValidationMiddleware } from "../../utils/validationMiddleware";
 import { createFacilitySchema, updateFacilitySchema, updateStatusFacilitySchema } from "../../../modules/schemas/facility.schemas";
 
-const facilityRouter = express.Router();
+const facilitiesRouter = express.Router();
 
 
-facilityRouter.get(
+facilitiesRouter.get(
   "/types/",
   FacilitiesController.getAllTypes
 )
 
-facilityRouter.get(
+facilitiesRouter.get(
   "/:id",
   FacilitiesController.getById
 );
 
-facilityRouter.get(
+facilitiesRouter.get(
   "/",
   FacilitiesController.getAll
 );
 
-facilityRouter.post(
+facilitiesRouter.post(
   "/",
   ValidationMiddleware.validateRequest(createFacilitySchema),
   FacilitiesController.create
 );
 
-facilityRouter.put(
+facilitiesRouter.put(
   "/:id",
   ValidationMiddleware.validateRequest(updateFacilitySchema),
   FacilitiesController.update
 );
 
-facilityRouter.patch(
+facilitiesRouter.patch(
   "/:id",
   ValidationMiddleware.validateRequest(updateStatusFacilitySchema),
   FacilitiesController.updateStatus
 );
 
 
-export default facilityRouter;
+export default facilitiesRouter;
