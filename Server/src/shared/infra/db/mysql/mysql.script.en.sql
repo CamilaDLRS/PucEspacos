@@ -82,7 +82,7 @@ CREATE TABLE tbReservations (
     requestingUserId  Varchar(40),
     responsibleUserId Varchar(40),
     facilityId Varchar(40),
-    reservationStatus Enum('Solicitada','Ativa','Em Andamento','Finalizada'),
+    reservationStatus Enum('Solicitada','Ativa','Cancelada','Em Andamento','Finalizada'),
     reservationPurpose Enum('Aula','Palestra','Lazer','Evento','Estudo','Outro'),
     checkinDate Datetime,
     checkoutDate Datetime,
@@ -138,6 +138,7 @@ SET @mesa_id = '9d3979ca-d7fb-4817-b909-0c0338623174';
 -- Definição das constantes para userId
 SET @joao_id = '13a3c1a5-47cd-4930-89ad-6fcc604c0363';
 SET @joana_id = 'c0c9a632-f200-4554-81d1-f79d6a4778ac';
+SET @vera_id = 'bd8d2e39-ca96-41d1-92c7-21eba1adcde9';
 SET @maria_id = 'b2cb9978-4a50-4393-9985-eb8fad46f5f1';
 SET @pedro_id = 'eaeead9d-75fe-48e9-a4b5-d2faaa796101';
 SET @camila_id = 'd8cd1c16-4960-461d-a781-5d51e6e20105';
@@ -150,6 +151,11 @@ SET @espaco2 = '250677f9-3122-44bf-bde9-1b2f9f81b35c';
 SET @espaco3 = 'd8ccc4e3-7636-4d35-a7ac-b18231ed8ee5';
 SET @espaco4 = 'eebe82c7-eb90-4d82-b70d-6f7fafd2f758';
 SET @espaco5 = 'eebe82c7-eb90-4d82-b70d-347fafd27854';
+SET @espaco6 = 'e5e39abd-1554-477f-8786-6aa1741127c3';
+SET @espaco7 = '2654ff1d-42d4-4f04-95f6-4e2800edc521';
+SET @espaco8 = 'cea48e9e-4921-4460-ae31-3bbcf56e4e08';
+SET @espaco9 = '902f2579-c89d-49c6-a3aa-1e5b96c19371';
+SET @espaco10 = '0ffa2772-5bcf-4ca0-a8f8-1f8df4a3c334';
 
 -- Definição das constantes para reservationId
 SET @reserva1 = '0cbe9db4-6bf3-43d8-bb73-9a2e2cb9fe3f';
@@ -206,10 +212,15 @@ VALUES
 INSERT INTO tbFacilities (facilityId, buildingId, facilityTypeId, isActive, facilityName, capacity, note, updatedDate, createdDate)
 VALUES 
 	(@espaco1, @azul_uuid,  @lab_informatica_uuid, 1, 'Sala Grace Hopper', 80, 'Janela qubrada.', NOW(), NOW()),
-    (@espaco2, @azul_uuid,  @sala_aula_uuid, 1, 'Sala de Aula 17', 30, null, NOW(), NOW()),
+    (@espaco2, @azul_uuid,  @sala_aula_uuid, 1, 'Sala de Aula 2', 30, null, NOW(), NOW()),
     (@espaco3, @vermelho5_uuid,  @sala_aula_uuid, 1, 'Araça 303', 80, null, NOW(), NOW()),
     (@espaco4, @ginasio_uuid,  @quadra_uuid, 1, 'Quadra de volêi femenina 1', null, null, NOW(), NOW()),
-    (@espaco5, @amarelo_uuid,  @auditorio_uuid, 1, 'Sala de realizada aumentada', 25, null, NOW(), NOW()); 
+    (@espaco5, @amarelo_uuid,  @auditorio_uuid, 1, 'Sala de realizada aumentada', 25, null, NOW(), NOW()), 
+    (@espaco6, @azul_uuid,  @sala_estudo_uuid, 1, 'Sala de Estudos 2', 2, null, NOW(), NOW()),
+    (@espaco7, @azul_uuid,  @sala_aula_uuid, 1, 'Sala de Aula 7', 60, null, NOW(), NOW()),
+    (@espaco8, @azul_uuid,  @sala_aula_uuid, 1, 'Sala de Aula 8', 60, null, NOW(), NOW()), 
+    (@espaco9, @azul_uuid,  @sala_aula_uuid, 1, 'Sala de Aula 9', 60, null, NOW(), NOW()),
+    (@espaco10, @azul_uuid,  @sala_aula_uuid, 1, 'Sala de Aula 10', 60, null, NOW(), NOW());
    
 -- Inserção Ativos
 INSERT INTO tbAssets (assetId, assetDescription)
@@ -238,6 +249,7 @@ VALUES
 	(@maria_id, 'maria@pucpr.edu.br', 'Password.123', 'Maria', 'Discente', 1, NOW(), NOW()),
 	(@pedro_id, 'pedro@pucpr.edu.br', 'Password.123', 'Pedro', 'Discente', 1, NOW(), NOW()),
 	(@lucia_id, 'lucia@pucpr.br', 'Password.123', 'Lucia', 'Docente', 1, NOW(), NOW()),
+	(@vera_id, 'vera@pucpr.br', 'Password.123', 'Vera', 'Docente', 1, NOW(), NOW()),
 	(@camila_id, 'camila@pucpr.br', 'Password.123', 'Camila', 'Administrador', 1, NOW(), NOW()),
     (@dimitri_id, 'dimitri@pucpr.br', 'Password.123', 'Dimitri', 'Administrador', 1, NOW(), NOW());
 
@@ -251,9 +263,31 @@ VALUES
 -- Inserção Reserva
 INSERT INTO tbReservations (reservationId, requestingUserId, responsibleUserId, facilityId, reservationStatus, reservationPurpose, checkinDate, checkoutDate, createdDate, updatedDate)
 VALUES 
-	(@reserva1, @maria_id, @maria_id, @espaco1, 'Solicitada', 'Aula', '2024-03-24 07:50:00', '2024-03-24 09:20:00', NOW(), NOW()),
-    (@reserva2, @pedro_id, @maria_id, @espaco2, 'Solicitada', 'Palestra', '2024-03-27 13:25:00', '2024-03-27 16:00:00', NOW(), NOW());
+	(@reserva1, @maria_id, @lucia_id, @espaco1, 'Finalizada', 'Aula', '2024-03-24 07:50:00', '2024-03-24 09:20:00', NOW(), NOW()),
+    (@reserva2, NULL, @lucia_id, @espaco2, 'Finalizada', 'Palestra', '2024-03-27 13:25:00', '2024-03-27 16:00:00', NOW(), NOW()),
+    ('6c7b5e7c-2682-4962-a92d-0c359e147779', @maria_id, @lucia_id, @espaco2, 'Finalizada', 'Aula', '2024-03-30 07:50:00', '2024-03-30 09:20:00', NOW(), NOW()), 
+    ('0b668249-0526-40da-832d-c5ac9d54e6fc', NULL, @lucia_id, @espaco6, 'Finalizada', 'Aula', '2024-04-01 07:50:00', '2024-04-01 09:20:00', NOW(), NOW()),
+    ('4c1a3fc4-45d8-4ee6-a2af-5ae43290ed5e', @maria_id, @lucia_id, @espaco3, 'Finalizada', 'Estudo', '2024-03-25 08:00:00', '2024-03-25 10:00:00', '2024-03-25 07:50:00', NOW()), 
+    ('0ec826a2-60d7-4b51-9b7d-c5ac0b9e92e4', NULL, @camila_id, @espaco4, 'Ativa', 'Evento', '2024-05-26 14:00:00', '2024-05-26 17:00:00', '2024-03-26 13:45:00', NOW()),
+    ('0ea6d27c-b2e4-4fc2-b263-ba7d8569f71f', NULL, @joana_id, @espaco5, 'Ativa', 'Estudo', '2024-06-27 09:00:00', '2024-06-27 12:00:00', '2024-03-27 08:50:00', NOW()),
+    ('1f67873a-6b1b-4f3b-9178-2d650d00f7d5', NULL, @joao_id, @espaco1, 'Finalizada', 'Estudo', '2024-03-28 10:30:00', '2024-03-28 13:00:00', '2024-03-28 10:20:00', NOW()),
+    ('3c5b8248-e685-4a1c-a511-366faefcb3ad', @maria_id, @pedro_id, @espaco2, 'Solicitada', 'Evento', '2024-06-29 10:00:00', '2024-06-29 12:00:00', '2024-03-29 09:50:00', NOW()),
+    ('6a7b61ff-d4a1-4662-b2c4-7d29050b30db', @maria_id, @vera_id, @espaco3, 'Ativa', 'Estudo', '2024-05-30 15:00:00', '2024-05-30 17:00:00', '2024-03-30 14:50:00', NOW()),
+    ('9d518d1e-2f92-4f4e-8750-3e89f38411b2', @maria_id, @vera_id, @espaco4, 'Finalizada', 'Palestra', '2024-03-31 14:00:00', '2024-03-31 16:00:00', '2024-03-31 13:45:00', NOW()),
+    ('23c7f5e3-0c3a-4b85-a0c1-fb754ae6194c', @maria_id, @lucia_id, @espaco5, 'Finalizada', 'Estudo', '2024-04-01 09:00:00', '2024-04-01 12:00:00', '2024-04-01 08:50:00', NOW()),
+    ('40a25ae1-59c9-4a43-8de8-6d52892b1726', NULL, @joana_id, @espaco1, 'Ativa', 'Evento', '2024-07-02 13:00:00', '2024-07-02 15:00:00', '2024-04-02 12:45:00', NOW()),
+    ('63e87b24-c536-4d5d-b1e2-868bb6b160cf', NULL, @dimitri_id, @espaco2, 'Ativa', 'Estudo', '2024-07-03 10:00:00', '2024-07-03 12:00:00', '2024-04-03 09:50:00', NOW()),
+    ('81b924c5-881d-49f3-a3ed-4d51892ae086', NULL, @dimitri_id, @espaco3, 'Ativa', 'Estudo', '2024-07-04 14:00:00', '2024-07-04 16:00:00', '2024-04-04 13:50:00', NOW()),
     
+    ('58f5f999-aecc-464e-a997-78df9df6c8a3', NULL, @dimitri_id, @espaco2, 'Ativa', 'Estudo', '2024-10-01 07:00:00', '2024-10-01 10:00:00', '2024-04-04 13:50:00', NOW()),
+    ('6f41ad0a-cceb-4fcf-b6db-c272d4aef1fc', NULL, @joana_id, @espaco7, 'Ativa', 'Estudo', '2024-10-01 06:00:00', '2024-10-01 08:00:00', '2024-04-04 13:50:00', NOW()),
+    ('be82177b-90ce-48eb-b87c-8f3ede5d839e', NULL, @joao_id, @espaco8, 'Ativa', 'Estudo', '2024-10-01 08:00:00', '2024-10-01 08:30:00', '2024-04-04 13:50:00', NOW()),
+    ('a6d0870e-552e-4f68-b4b9-eec9bf742516', NULL, @vera_id, @espaco9, 'Ativa', 'Estudo', '2024-10-01 09:00:00', '2024-10-10 10:00:00', '2024-04-04 13:50:00', NOW()),
+    ('46da7e99-8815-4385-8f3a-6152d8cd17f3', NULL, @joana_id, @espaco10, 'Ativa', 'Estudo', '2024-10-01 05:00:00', '2024-10-10 06:00:00', '2024-04-04 13:50:00', NOW());
+
+   
+   
+   
    select * from tbReservations;
     
 -- Comandos Seleção
