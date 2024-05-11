@@ -1,14 +1,14 @@
 import express from "express";
 import { ReservationsController } from "../../../modules/controllers/reservations.controller";
+import { ValidationMiddleware } from "../../utils/validationMiddleware";
+import { createReservationSchema, getReservationSchema, updateReservationSchema } from "../../../modules/schemas/reservation.schemas";
 
 const reservationsRouter = express.Router();
 
-reservationsRouter.get(
-  "/available-facilities",
-  //TO DO
-  //criar schema
-  //ValidationMiddleware.validateRequest(getAvalableFacilitiesSchema),
-  ReservationsController.getAvailableFacilities
+reservationsRouter.post(
+  "/query",
+  ValidationMiddleware.validateRequest(getReservationSchema),
+  ReservationsController.getAll
 );
 
 reservationsRouter.get(
@@ -16,27 +16,15 @@ reservationsRouter.get(
   ReservationsController.getById
 );
 
-reservationsRouter.get(
-  "/",
-  //TO DO
-  //criar schema
-  //ValidationMiddleware.validateRequest(getReservationsSchema),
-  ReservationsController.getAll
-);
-
 reservationsRouter.post(
   "/",
-  //TO DO
-  //criar schema
-  //ValidationMiddleware.validateRequest(createReservationSchema),
+  ValidationMiddleware.validateRequest(createReservationSchema),
   ReservationsController.create
 );
 
 reservationsRouter.put(
   "/:id",
-  //TO DO
-  //criar schema
-  //ValidationMiddleware.validateRequest(updateReservationSchema),
+  ValidationMiddleware.validateRequest(updateReservationSchema),
   ReservationsController.update
 );
 
@@ -46,6 +34,5 @@ reservationsRouter.delete(
   //verificar de adicionar middleware geral de verificação do usuário, por mais que seja simples
   ReservationsController.delete
 );
-
 
 export default reservationsRouter;

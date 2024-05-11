@@ -3,6 +3,7 @@ import { FacilitiesServices } from "../services/facilities.services";
 import { Request, Response } from "express";
 import { FacilityDto } from "../dtos/facility/facility.dto";
 import { FacilityTypeDto } from "../dtos/facility/facilityType.dto";
+import { FacilityAvailabilityQuery } from "../dtos/facility/facilityAvailabilityQuery.dto";
 
 export class FacilitiesController {
   public static async getAll(req: Request, res: Response) {
@@ -13,8 +14,11 @@ export class FacilitiesController {
       const facilityTypeId: string | null = req.query.facilityTypeId
         ? String(req.query.facilityTypeId)
         : null;
+      const minimumCapacity: number | null = req.query.minimumCapacity
+        ? Number(req.query.minimumCapacity)
+        : null;
 
-      const facilities: FacilityDto[] = await FacilitiesServices.getAll(buildingId,facilityTypeId);
+      const facilities: FacilityDto[] = await FacilitiesServices.getAll(buildingId,facilityTypeId, minimumCapacity);
 
       await ExpressHandlers.handleResponse(req, res, facilities);
     } catch (error: any) {
@@ -28,6 +32,17 @@ export class FacilitiesController {
       const facility: FacilityDto = await FacilitiesServices.getById(id);
 
       await ExpressHandlers.handleResponse(req, res, facility);
+    } catch (error: any) {
+      await ExpressHandlers.handleError(req, res, error);
+    }
+  }
+
+  public static async getAvailables(req: Request, res: Response) {
+    try {
+      const query: FacilityAvailabilityQuery = new FacilityAvailabilityQuery(req.body);
+      const facilities: FacilityDto[] = await FacilitiesServices.getAvailables(query);
+
+      await ExpressHandlers.handleResponse(req, res, facilities);
     } catch (error: any) {
       await ExpressHandlers.handleError(req, res, error);
     }

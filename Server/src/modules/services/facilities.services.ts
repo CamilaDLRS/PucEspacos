@@ -2,13 +2,18 @@ import { ApiError } from "../../shared/utils/apiError";
 import { InternalCode } from "../../shared/utils/internalCodes";
 import { FacilityDto } from "../dtos/facility/facility.dto";
 import { FacilityAssetDto } from "../dtos/facility/facilityAsset.dto";
+import { FacilityAvailabilityQuery } from "../dtos/facility/facilityAvailabilityQuery.dto";
 import { FacilityTypeDto } from "../dtos/facility/facilityType.dto";
 import { FacilitiesRepository } from "../repositories/facilities.repository";
 import * as uuid from "uuid";
+import { ReservationsServices } from "./reservations.services";
+import { ReservationQueryOptionsDto } from "../dtos/reservation/reservationOptions.dto";
+import { ReservationDto } from "../dtos/reservation/reservation.dto";
 
 export class FacilitiesServices {
-  public static async getAll(buildingId: string | null, facilityTypeId: string | null): Promise<FacilityDto[]> {
-    const facilities: FacilityDto[] = await FacilitiesRepository.getAll(buildingId, facilityTypeId);
+  public static async getAll(buildingId: string | null, facilityTypeId: string | null, minimumCapacity: number | null): Promise<FacilityDto[]> {
+    
+    const facilities: FacilityDto[] = await FacilitiesRepository.getAll(buildingId, facilityTypeId, minimumCapacity);
 
     if (facilities.length == 0) {
       throw new ApiError(404, InternalCode.REGISTER_NOT_FOUND);
@@ -45,6 +50,39 @@ export class FacilitiesServices {
     }
 
     return facility;
+  }
+
+  public static async getAvailables(query: FacilityAvailabilityQuery): Promise<FacilityDto[]> {
+    
+    const facilities: FacilityDto[] = await this.getAll(query.buildingId, query.facilityTypeId, query.minimumCapacity);
+    const facilitiesAvailable: FacilityDto[] = [];
+
+    for await (const facility of facilities) {
+
+      const options: ReservationQueryOptionsDto = {
+        buildingId: query.buildingId,
+        checkinDate: new Date(query.checkinDate.setHours(0, 0, 0, 0)),
+        checkoutDate: new Date(query.checkinDate.setHours(23, 59, 59, 0)),
+        //passar checkin conmo o checkin ooh e passar o checkout como o checkout 23.59h
+        facilityIds: [facility.facilityId!]
+      }
+      let facilityReservations: ReservationDto[] = await ReservationsServices.getAll(options)
+      .then((reservations) =>{ return reservations })
+      .catch((err) =>{ return [] });
+
+      let facilityAvailable = true;
+
+      for await (const reservation of facilityReservations) {
+        if (query.checkinDate < reservation.checkoutDate && query.checkoutDate > reservation.checkoutDate) {
+          facilityAvailable = false;
+          break;
+        }
+      }
+      if (facilityAvailable) {
+        facilitiesAvailable.push(facility);
+      }
+    }
+    return facilities;
   }
 
   public static async create(facility: FacilityDto): Promise<string> {

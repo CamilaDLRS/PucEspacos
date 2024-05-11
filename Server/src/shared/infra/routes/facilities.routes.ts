@@ -1,7 +1,7 @@
 import express from "express";
 import { FacilitiesController } from "../../../modules/controllers/facilities.controller";
 import { ValidationMiddleware } from "../../utils/validationMiddleware";
-import { createFacilitySchema, updateFacilitySchema, updateStatusFacilitySchema } from "../../../modules/schemas/facility.schemas";
+import { createFacilitySchema, getAvalableFacilitiesSchema, updateFacilitySchema, updateStatusFacilitySchema } from "../../../modules/schemas/facility.schemas";
 
 const facilitiesRouter = express.Router();
 
@@ -10,6 +10,12 @@ facilitiesRouter.get(
   "/types/",
   FacilitiesController.getAllTypes
 )
+
+facilitiesRouter.post(
+  "/availables",
+  ValidationMiddleware.validateRequest(getAvalableFacilitiesSchema),
+  FacilitiesController.getAvailables
+);
 
 facilitiesRouter.get(
   "/:id",

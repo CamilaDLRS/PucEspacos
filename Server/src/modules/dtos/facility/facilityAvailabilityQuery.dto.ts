@@ -4,12 +4,13 @@ export class FacilityAvailabilityQuery {
   checkoutDate: Date;
   buildingId: string;
   facilityTypeId: string;
-  capacity: number;
+  minimumCapacity: number | null;
 
   constructor(data: any) {
       this.buildingId = data.buildingId;
-      this.checkinDate = data.checkinDate;
-      this.checkoutDate = data.checkoutDate;
-      this.capacity = data.capacity;
+      this.checkinDate = new Date(data.checkinDate);
+      this.checkoutDate = new Date(data.checkoutDate);
+      this.facilityTypeId = data.facilityTypeId;
+      this.minimumCapacity = data.minimumCapacity || null;
   }
 }

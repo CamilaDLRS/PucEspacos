@@ -4,8 +4,6 @@ import { ReservationDto } from "../dtos/reservation/reservation.dto";
 import { ReservationQueryOptionsDto } from "../dtos/reservation/reservationOptions.dto";
 import * as uuid from "uuid";
 import { ReservationsRepository } from "../repositories/reservations.repository";
-import { FacilityAvailabilityQuery } from "../dtos/facility/facilityAvailabilityQuery.dto";
-import { FacilityDto } from "../dtos/facility/facility.dto";
 
 export class ReservationsServices {
   public static async getAll(options: ReservationQueryOptionsDto): Promise<ReservationDto[]> {
@@ -25,15 +23,6 @@ export class ReservationsServices {
     }
 
     return reservation;
-  }
-
-  public static async getAvailableFacilities(query: FacilityAvailabilityQuery): Promise<FacilityDto[]> {
-    //TO DO
-    //pesquisa todas as reservas do periodo da query
-    //mapear apenas os facilityIds
-    //busca todos os facilitys que não estão nesta lista
-
-    throw new ApiError(500, InternalCode.NOT_IMPLEMENTED);   
   }
 
   public static async create(reservation: ReservationDto): Promise<string> {

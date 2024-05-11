@@ -4,41 +4,9 @@ import { ReservationDto } from "../dtos/reservation/reservation.dto";
 import { ReservationQueryOptionsDto } from "../dtos/reservation/reservationOptions.dto";
 
 export class ReservationsRepository {
-
   private static readonly CONNECTION: IdbServices = new MysqlDbServices();
 
-  public static async getAll(options: ReservationQueryOptionsDto): Promise<ReservationDto[]> {
-    
-  const conditions = [];
-  const bindParams = [];
-
-  if (options.requestingUserId) {
-      conditions.push('r.requestingUserId = ?');
-      bindParams.push(options.requestingUserId);
-  }
-  if (options.reservationStatus) {
-      conditions.push('r.reservationStatus = ?');
-      bindParams.push(options.reservationStatus);
-  }
-  if (options.buildingId) {
-      conditions.push('b.buildingId = ?');
-      bindParams.push(options.buildingId);
-  }
-  if (options.checkinDate) {
-      conditions.push('DATE(r.checkinDate) >= ?');
-      bindParams.push(options.checkinDate);
-  }
-  if (options.checkoutDate) {
-      conditions.push('DATE(r.checkoutDate) <= ?');
-      bindParams.push(options.checkoutDate);
-  }
-  if (options.facilityIds && options.facilityIds.length > 0) {
-      conditions.push(`r.facilityId IN (${options.facilityIds.map(() => '?').join(',')})`);
-      bindParams.push(...options.facilityIds);
-  }
-
-  const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
-  const sql = `
+  private static readonly selectQuery = `
       SELECT 
           r.*, 
           ureq.userName AS 'requestingUserName', 
@@ -47,11 +15,55 @@ export class ReservationsRepository {
           b.buildingName 
       FROM 
           tbReservations r
-          INNER JOIN tbUsers ureq ON r.requestingUserId = ureq.userId
+          LEFT JOIN tbUsers ureq ON r.requestingUserId = ureq.userId
           INNER JOIN tbUsers uresp ON r.responsibleUserId = uresp.userId
           INNER JOIN tbFacilities f ON r.facilityId = f.facilityId
           INNER JOIN tbBuildings b ON f.buildingId = b.buildingId
-      ${whereClause};`;
+  `;
+
+  public static async getAll(options: ReservationQueryOptionsDto): Promise<ReservationDto[]> {
+    const conditions = [];
+    const bindParams = [];
+
+    if (options.requestingUserId) {
+      conditions.push("r.requestingUserId = ?");
+      bindParams.push(options.requestingUserId);
+    }
+    else if (options.responsibleUserId) {
+      conditions.push("r.responsibleUserId = ?");
+      bindParams.push(options.responsibleUserId);
+
+      if (options.onlyByResponsibleUserId) {
+        conditions.push("r.requestingUserId IS NULL");
+      }
+      if (options.onlyByRequestingUserId) {
+        conditions.push("r.requestingUserId IS NOT NULL");
+      }
+    }
+
+    if (options.reservationStatus) {
+      conditions.push("r.reservationStatus = ?");
+      bindParams.push(options.reservationStatus);
+    }
+    if (options.buildingId) {
+      conditions.push("b.buildingId = ?");
+      bindParams.push(options.buildingId);
+    }
+    if (options.checkinDate) {
+      conditions.push("DATE(r.checkinDate) >= ?");
+      bindParams.push(options.checkinDate);
+    }
+    if (options.checkoutDate) {
+      conditions.push("DATE(r.checkoutDate) <= ?");
+      bindParams.push(options.checkoutDate);
+    }
+    if (options.facilityIds && options.facilityIds.length > 0) {
+      conditions.push(`r.facilityId IN (${options.facilityIds.map(() => "?").join(",")})`);
+      bindParams.push(...options.facilityIds);
+    }
+
+    const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
+    const sql = `${this.selectQuery} ${whereClause};`;
 
     await this.CONNECTION.connect();
     const rows = await this.CONNECTION.executeWithParams(sql, bindParams);
@@ -68,8 +80,7 @@ export class ReservationsRepository {
   }
 
   public static async getById(id: string): Promise<ReservationDto | null> {
-    const sql = `SELECT * FROM tbReservations 
-                  WHERE reservationId = ?;`;
+    const sql = `${this.selectQuery} WHERE reservationId = ?;`;
     const bindParams = [id];
 
     await this.CONNECTION.connect();
@@ -106,7 +117,7 @@ export class ReservationsRepository {
       reservation.checkinDate,
       reservation.checkoutDate,
       new Date(),
-      new Date()
+      new Date(),
     ];
 
     await this.CONNECTION.connect();
@@ -128,7 +139,7 @@ export class ReservationsRepository {
       reservation.checkoutDate,
       reservation.updatedDate,
       new Date(),
-      reservation.reservationId
+      reservation.reservationId,
     ];
 
     await this.CONNECTION.connect();

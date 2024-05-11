@@ -2,29 +2,37 @@ import { IdbServices } from "../../shared/infra/db/Idb.services";
 import MysqlDbServices from "../../shared/infra/db/mysql/mysqlDB.services";
 import { FacilityDto } from "../dtos/facility/facility.dto";
 import { FacilityAssetDto } from "../dtos/facility/facilityAsset.dto";
+import { FacilityAvailabilityQuery } from "../dtos/facility/facilityAvailabilityQuery.dto";
 import { FacilityTypeDto } from "../dtos/facility/facilityType.dto";
 
 export class FacilitiesRepository {
   private static readonly CONNECTION: IdbServices = new MysqlDbServices();
 
-  public static async getAll(buildingId: string | null, facilityTypeId: string | null): Promise<FacilityDto[]> {
+  public static readonly selectQuery = `SELECT f.*, t.facilityTypeDescription, b.buildingName  
+  FROM tbFacilities f
+  INNER JOIN tbBuildings b ON b.buildingId = f.buildingId
+  INNER JOIN tbFacilityTypes t ON t.facilityTypeId = f.facilityTypeId`;
+
+  public static async getAll(buildingId: string | null, facilityTypeId: string | null, minimumCapacity: number | null): Promise<FacilityDto[]> {
     
-    let sql = `SELECT f.*, t.facilityTypeDescription, b.buildingName  
-                FROM tbFacilities f
-                INNER JOIN tbBuildings b ON b.buildingId = f.buildingId
-                INNER JOIN tbFacilityTypes t ON t.facilityTypeId = f.facilityTypeId`;
+    const conditions = [];
     const bindParams = [];
 
-    if (buildingId && facilityTypeId) {
-      sql += ` WHERE f.buildingId = ? AND f.facilityTypeId = ?`;
-      bindParams.push(buildingId, facilityTypeId);
-    } else if (buildingId) {
-      sql += ` WHERE f.buildingId = ?`;
+    if (buildingId) {
+      conditions.push("f.buildingId = ?");
       bindParams.push(buildingId);
-    } else if (facilityTypeId) {
-      sql += ` WHERE f.facilityTypeId = ?`;
+    }
+    if (facilityTypeId) {
+      conditions.push("f.facilityTypeId = ?");
       bindParams.push(facilityTypeId);
     }
+    if (minimumCapacity) {
+      conditions.push("f.minimumCapacity >= ?");
+      bindParams.push(minimumCapacity);
+    }
+
+    const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
+    const sql = `${this.selectQuery} ${whereClause};`;
 
     await this.CONNECTION.connect();
     const rows = await this.CONNECTION.executeWithParams(sql, bindParams);
@@ -41,8 +49,7 @@ export class FacilitiesRepository {
   }
 
   public static async getById(id: string): Promise<FacilityDto | null> {
-    const sql = `SELECT * FROM tbFacilities 
-                  WHERE facilityId = ?;`;
+    const sql = `${this.selectQuery} WHERE f.facilityId = ?;`;
     const bindParams = [id];
 
     await this.CONNECTION.connect();
@@ -57,9 +64,64 @@ export class FacilitiesRepository {
   }
 
   public static async getAllByBuilding(buildingId: string): Promise<FacilityDto[]> {
-    const sql = `SELECT * FROM tbFacilities 
-                  WHERE buildingId = ?;`;
+    const sql = `${this.selectQuery} WHERE buildingId = ?;`;
     const bindParams = [buildingId];
+
+    await this.CONNECTION.connect();
+    const rows = await this.CONNECTION.executeWithParams(sql, bindParams);
+    await this.CONNECTION.disconnect();
+
+    if (rows && rows.length > 0) {
+      const facilities: FacilityDto[] = rows.map((row: any) => {
+        return new FacilityDto(row, row.facilityId);
+      });
+      return facilities;
+    } else {
+      return [];
+    }
+  }
+
+  public static async getAvailables(query: FacilityAvailabilityQuery): Promise<FacilityDto[]> {
+    
+    let bindParams: any = [];
+    let sqlCapacity = '';
+    
+    if (query.minimumCapacity) {
+      sqlCapacity = ' f.capacity >= ? AND ';
+      bindParams.push(query.minimumCapacity);
+    };
+
+    let sql = ` SELECT DISTINCT  
+                    f.*, 
+                    t.facilityTypeDescription, 
+                    b.buildingName
+                FROM 
+                    tbreservations r
+                    INNER JOIN tbFacilities f ON r.facilityId = f.facilityId
+                    INNER JOIN tbBuildings b ON f.buildingId = b.buildingId
+                    INNER JOIN tbFacilityTypes t ON t.facilityTypeId = f.facilityTypeId
+                WHERE 
+                    !(
+                      ${sqlCapacity}
+                      DATE(r.checkinDate) >= ? AND 
+                      DATE(r.checkoutDate) <= ? AND 
+                      f.facilityTypeId = ? AND
+                      f.buildingId = ?
+                    ) AND
+                    ${sqlCapacity}
+                    f.facilityTypeId = ? AND
+                    f.buildingId = ?
+                `;
+                      
+    bindParams.push(query.checkinDate);
+    bindParams.push(query.checkoutDate);
+    bindParams.push(query.facilityTypeId);
+    bindParams.push(query.buildingId);
+    if (query.minimumCapacity) {
+      bindParams.push(query.minimumCapacity);
+    }
+    bindParams.push(query.facilityTypeId);
+    bindParams.push(query.buildingId);
 
     await this.CONNECTION.connect();
     const rows = await this.CONNECTION.executeWithParams(sql, bindParams);
