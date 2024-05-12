@@ -8,6 +8,8 @@ import Filters from "../components/filters/filters";
 import { useEffect, useState } from "react";
 import CardReadFacility from "../components/cardReadFacility/cardReadFacility";
 import FormFacility from "../components/formFacility/formFacility";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Facilities() {
   useEffect(() => {
@@ -15,6 +17,13 @@ function Facilities() {
       window.location = "/";
     }
   })
+
+  useEffect(() => {
+      toast(localStorage.getItem("responseMessage"))
+      setTimeout(() => {
+        localStorage.removeItem("responseMessage")
+      }, 2000)
+  }, [localStorage.getItem("responseMessage")])
 
   const [facilities, setFacilities] = useState([]);
   const [buildings, setBuildings] = useState([]);
@@ -28,10 +37,7 @@ function Facilities() {
   const [showReadFacility, setShowReadFacility] = useState(false);
   const [facilityById, setFacilityById] = useState();
 
-  const [showEditFacility, setShowEditFacility] = useState(false);
-  const [showCreateFacility, setShowCreateFacility] = useState(false);
   const [triggerFacilityForm, setTriggerFacilityForm] = useState(false);
-
  
   useEffect(() => {
     getAllFacilities().then((response) => setFacilities(response));
@@ -75,20 +81,6 @@ function Facilities() {
       setFacilityById(facility);
     }
   }
-
-  // function editFacility(facility, event) {
-  //   if (event.target.classList.contains("show-edit-form")) {
-  //     showEditFacility ? setShowEditFacility(false) : setShowEditFacility(true);
-  //     setFacilityById(facility);
-  //   }
-  // }
-
-  // function createFacility(event) {
-  //   console.log(event.target)
-  //   if (event.target.classList.contains("show-create-form")) {
-  //     showCreateFacility ? setShowCreateFacility(false) : setShowCreateFacility(true);
-  //   }
-  // }
 
   function showFacilityForm(facility, event) {
     if (event.target.classList.contains("show-form")) {
@@ -145,6 +137,8 @@ function Facilities() {
           facility={facilityById}
         />
       }
+
+      <ToastContainer />
     </>
   );
 }

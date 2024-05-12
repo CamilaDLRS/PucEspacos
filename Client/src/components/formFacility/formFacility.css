@@ -70,19 +70,21 @@
 .form-facility .facility-assets-info {
     display: flex;
     align-items: center;
-    width: fit-content;
-    gap: 10%;
+    width: 100%;
+    gap: 3%;
 }
 
 .form-facility .facility-assets-info input[type="number"] {
-    width: 10%;
+    width: 8%;
+    text-align: end;
+    padding: .2rem .6rem;
 }
 
 .form-facility .facilty-assets .icon-trash {
     margin-right: 10px;
 }
 
-.form-facility .error-filters {
+.form-facility .error-area {
     display: flex;
     justify-content: space-between;
 }

@@ -5,6 +5,7 @@ import { getAllUser, getAllUserTypes } from "../services/user";
 import { useEffect, useState } from "react";
 import Filters from "../components/filters/filters";
 import FormEditUser from "../components/formEditUser/formEditUser";
+import { ToastContainer, toast } from 'react-toastify';
 
 function Users() {
   useEffect(() => {
@@ -15,7 +16,12 @@ function Users() {
     }
   })
 
-
+  useEffect(() => {
+      toast(localStorage.getItem("responseMessage"))
+      setTimeout(() => {
+        localStorage.removeItem("responseMessage")
+      }, 2000)
+  }, [localStorage.getItem("responseMessage")])
 
   const [users, setUsers] = useState([]);
   const [userTypes, setUserTypes] = useState([]);
@@ -102,14 +108,15 @@ function Users() {
         );
       })}
 
-    { showFormEditUser && 
-      <FormEditUser 
-        showFormUser={showFormUser} 
-        user={userById}
-        userTypes={userTypes}
-      />
-    }    
+      { showFormEditUser && 
+        <FormEditUser 
+          showFormUser={showFormUser} 
+          user={userById}
+          userTypes={userTypes}
+        />
+      }    
 
+      <ToastContainer />
     </div>
   );
 }

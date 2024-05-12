@@ -193,7 +193,7 @@ function FormEditFacility({ facility, facilityFunction, buildings, facilityTypes
                     </div>
                 </div>
 
-                <div className="error-filters">  
+                <div className="error-area">  
                     {errors.facilityName ? <span className="error">{errors.facilityName}</span> : <span className="error"></span>}
                     {errors.capacity ? <span className="error">{errors.capacity}</span> : <span className="error"></span>}
                 </div>
@@ -221,7 +221,7 @@ function FormEditFacility({ facility, facilityFunction, buildings, facilityTypes
                         ]}
                     />
 
-                    <div className="error-filters">  
+                    <div className="error-area">  
                             {errors.building ? <span className="error">{errors.building}</span> : <span className="error"></span>}
                             {errors.facilityType ? <span className="error">{errors.facilityType}</span> : <span className="error"></span>}
                     </div>
@@ -259,6 +259,9 @@ function FormEditFacility({ facility, facilityFunction, buildings, facilityTypes
                                     value={asset.quantity ? asset.quantity : ''} 
                                     placeholder="0"
                                     onChange={(e) => { 
+                                        if (e.target.value.length > 4) {
+                                            e.target.value = e.target.value.slice(0, 4)
+                                        }
                                         asset.quantity = e.target.value;   
                                         setFacilityTemplate({...facilityTemplate, assets: [...facilityTemplate.assets]});
                                         setErrors({ ...errors, assets: errors.assets.map((err, i) => i === index ? '' : err) });
@@ -286,7 +289,7 @@ function FormEditFacility({ facility, facilityFunction, buildings, facilityTypes
                 <CardConfirmation 
                     message={facility ? "Tem certeza que deseja editar este espaço?" : "Tem certeza que deseja criar este espaço?"}
                     showConfirmationCard={showConfirmationCard}
-                    action={() => facility ? updateFacility(facility.facilityId, facilityTemplate) :createFacility(facilityTemplate)} 
+                    action={() => facility ? updateFacility(facility.facilityId, facilityTemplate) :  createFacility(facilityTemplate)} 
                 />
             }
         </div>

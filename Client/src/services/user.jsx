@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from 'react-toastify';
 
 const httpOptions = {
   headers: {
@@ -15,11 +16,11 @@ export async function signUp(data) {
       httpOptions
     )
     .then((response) => {
-      alert(response.data.message);
+      localStorage.setItem("responseMessage", response.data.message)
       window.location = "/";
     })
     .catch((e) => {
-      alert(e.response.data.error.message);
+      toast(e.response.data.error.message);
     });
 }
 
@@ -36,11 +37,12 @@ export async function login(data) {
     .then((response) => {
       const data = response.data.data;
       localStorage.setItem("userId", data.userId);
+      localStorage.setItem("userName", data.userName);
       localStorage.setItem("userType", data.userType);
       window.location = "/reservations";
     })
     .catch((e) => {
-      alert(e.response.data.error.message);
+      toast(e.response.data.error.message);
     });
 }
 
@@ -54,7 +56,7 @@ export async function getAllUser() {
         return response.data.data;
     })
     .catch((e) => {
-        alert(e.response.data.error.message);
+        toast(e.response.data.error.message);
     });
 }
 
@@ -68,7 +70,7 @@ export async function getAllUserTypes() {
       return response.data.data;
   })
   .catch((e) => {
-      alert(e.response.data.error.message);
+      toast(e.response.data.error.message);
   });
 }
 
@@ -83,10 +85,10 @@ export async function editUser(id, data) {
     httpOptions
   )
   .then((response) => {
-      alert(response.data.message)
+      localStorage.setItem("responseMessage", response.data.message)
       window.location = "/users"
   })
   .catch((e) => {
-      alert(e.response.data.error.message);
+      toast(e.response.data.error.message);
   })
 }

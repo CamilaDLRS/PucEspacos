@@ -6,11 +6,12 @@ header {
 
 header .header-title{
     display: flex;
-    align-items: center;
+    align-items: end;
+    justify-content: space-between;
     padding: .625rem 2rem;
 }
 
-header h1, header .nav-link{
+header h1, header h4, header .nav-link{
     color: white;
     text-decoration: none;
 }

@@ -14,6 +14,7 @@ function Header(prop) {
         <header>
             <div className="header-title">
                 <h1>Puc Espaços</h1>
+                <h4>Seja bem-vindo {localStorage.getItem("userName")}</h4>
             </div>
 
             <nav>
