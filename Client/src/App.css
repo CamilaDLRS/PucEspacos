@@ -7,3 +7,28 @@ body {
   font-size: 16px;
   background-color: #EEEEEE;
 }
+
+.error {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
+}
+
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.icon {
+  cursor: pointer;
+  transition: .3s;
+}
+
+.icon:hover {
+  transform: scale(1.1);
+  transition: .3s;
+}

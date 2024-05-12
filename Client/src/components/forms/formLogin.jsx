@@ -34,7 +34,7 @@ function FormLogin() {
             {() => (
                 <Form className="login-container">
                     <Field name="email" type="text" placeholder="Email..."/>
-                    <ErrorMessage name="email" component="div"/>
+                    <ErrorMessage name="email" component="div" className="error"/>
                     
                     <div className="input-password">
                         <Field 
@@ -47,7 +47,7 @@ function FormLogin() {
                             {iconEye} 
                         </div>
                     </div>
-                    <ErrorMessage name="password" component="div"/> 
+                    <ErrorMessage name="password" component="div" className="error"/> 
 
                     <button type="submit">Acessar</button>
                     <div className="divider"></div>

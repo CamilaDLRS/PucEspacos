@@ -35,6 +35,7 @@ export async function login(data) {
     )
     .then((response) => {
       const data = response.data.data;
+      localStorage.setItem("userId", data.userId);
       localStorage.setItem("userType", data.userType);
       window.location = "/reservations";
     })

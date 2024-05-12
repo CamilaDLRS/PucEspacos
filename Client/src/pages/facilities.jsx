@@ -6,9 +6,8 @@ import { getAllBuildings } from "../services/building";
 import CardFacility from "../components/cardFacility/cardFacility";
 import Filters from "../components/filters/filters";
 import { useEffect, useState } from "react";
-import FormEditFacility from "../components/formEditFacility/formEditFacility";
 import CardReadFacility from "../components/cardReadFacility/cardReadFacility";
-import FormCreateFacility from "../components/formCreateFacility/formCreateFacility";
+import FormFacility from "../components/formFacility/formFacility";
 
 function Facilities() {
   useEffect(() => {
@@ -30,8 +29,9 @@ function Facilities() {
   const [facilityById, setFacilityById] = useState();
 
   const [showEditFacility, setShowEditFacility] = useState(false);
-
   const [showCreateFacility, setShowCreateFacility] = useState(false);
+  const [triggerFacilityForm, setTriggerFacilityForm] = useState(false);
+
  
   useEffect(() => {
     getAllFacilities().then((response) => setFacilities(response));
@@ -76,17 +76,24 @@ function Facilities() {
     }
   }
 
-  function editFacility(facility, event) {
-    if (event.target.classList.contains("show-edit-form")) {
-      showEditFacility ? setShowEditFacility(false) : setShowEditFacility(true);
-      setFacilityById(facility);
-    }
-  }
+  // function editFacility(facility, event) {
+  //   if (event.target.classList.contains("show-edit-form")) {
+  //     showEditFacility ? setShowEditFacility(false) : setShowEditFacility(true);
+  //     setFacilityById(facility);
+  //   }
+  // }
 
-  function createFacility(event) {
-    console.log(event.target)
-    if (event.target.classList.contains("show-create-form")) {
-      showCreateFacility ? setShowCreateFacility(false) : setShowCreateFacility(true);
+  // function createFacility(event) {
+  //   console.log(event.target)
+  //   if (event.target.classList.contains("show-create-form")) {
+  //     showCreateFacility ? setShowCreateFacility(false) : setShowCreateFacility(true);
+  //   }
+  // }
+
+  function showFacilityForm(facility, event) {
+    if (event.target.classList.contains("show-form")) {
+      triggerFacilityForm ? setTriggerFacilityForm(false) : setTriggerFacilityForm(true);
+      setFacilityById(facility);
     }
   }
 
@@ -110,7 +117,7 @@ function Facilities() {
         ]}
         
         showAddButton={true}
-        triggerFunction={createFacility}
+        triggerFunction={showFacilityForm}
         addSomething="Adicionar Espaço"
       />
 
@@ -119,25 +126,18 @@ function Facilities() {
         <CardFacility
           facility={facility}
           showFacility={showFacility}
-          editFacility={editFacility}
+          showFacilityForm={showFacilityForm}
         />
       ))}
 
-      {showCreateFacility &&
-        <FormCreateFacility 
-          triggerFunction={createFacility}
-          buildings = {buildings}
-          facilityTypes = {facilityTypes} 
+      {triggerFacilityForm &&
+        <FormFacility 
+          facilityFunction={showFacilityForm}
+          facility = {facilityById}
+          buildings= {buildings}
+          facilityTypes = {facilityTypes}
         />   
       }
-
-      {showEditFacility &&
-        <FormEditFacility
-          editFacility={editFacility}
-          facility = {facilityById}
-          buildings = {buildings}
-          facilityTypes = {facilityTypes} 
-        />}
 
       {showReadFacility &&
         <CardReadFacility
