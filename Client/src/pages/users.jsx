@@ -25,7 +25,7 @@ function Users() {
 
   const [users, setUsers] = useState([]);
   const [userTypes, setUserTypes] = useState([]);
-
+  const [userById, setUserById] = useState();
   const [loggedUser, setLoggedUser] = useState();
 
   const [typeFilter, setTypeFilter] = useState("");
