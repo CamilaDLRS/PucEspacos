@@ -114,13 +114,23 @@ function Facilities() {
       />
 
 
-      {filteredFacilities.map((facility) => (
-        <CardFacility
-          facility={facility}
-          showFacility={showFacility}
-          showFacilityForm={showFacilityForm}
-        />
-      ))}
+      {(localStorage.getItem("userType") === "Docente" ||
+        localStorage.getItem("userType") === "Discente") ? 
+        filteredFacilities.map((facility) => { 
+          return facility.isActive ? (<CardFacility
+            facility={facility}
+            showFacility={showFacility}
+            showFacilityForm={showFacilityForm}
+          />) : <></>
+        })
+        : filteredFacilities.map((facility) => { 
+          return (<CardFacility
+            facility={facility}
+            showFacility={showFacility}
+            showFacilityForm={showFacilityForm}
+          />)
+        }) 
+      }
 
       {triggerFacilityForm &&
         <FormFacility 
