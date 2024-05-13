@@ -26,7 +26,7 @@ function Users() {
   const [users, setUsers] = useState([]);
   const [userTypes, setUserTypes] = useState([]);
 
-  const [userById, setUserById] = useState();
+  const [loggedUser, setLoggedUser] = useState();
 
   const [typeFilter, setTypeFilter] = useState("");
   const [typeFilterOptions, setTypeFilterOptions] = useState([]);
@@ -40,6 +40,10 @@ function Users() {
     getAllUser().then((response) => setUsers(response));
     getAllUserTypes().then((response) => setUserTypes(response));
   }, []);
+
+  useEffect(() => {
+    setLoggedUser(users.find(u => u.userId === localStorage.getItem("userId")));
+  }, [users])
 
   useEffect(() => {
     const typeFilterOptions = [{ key: 0, value: "", label: "Todos" }];
@@ -77,7 +81,6 @@ function Users() {
       setUserById(user)
     }
   }
-
   return (
     <div>
       <Header local="users" />
@@ -97,15 +100,22 @@ function Users() {
             options: statusFilterOptions,
           },
         ]}
-      />
+      />  
+      
+      {loggedUser &&
+        <CardUser 
+            user = {loggedUser}
+            showFormUser = {showFormUser}
+        />
+      }
 
       {filteredUsers.map((user) => {
-        return (
+        return user.userId != localStorage.getItem("userId") ? (
           <CardUser 
             user = {user}
             showFormUser = {showFormUser}
           />
-        );
+        ) : <div></div>;
       })}
 
       { showFormEditUser && 

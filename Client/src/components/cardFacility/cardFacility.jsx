@@ -37,11 +37,11 @@ function CardFacility({ facility, showFacility, showFacilityForm}) {
           <div className="card-facility-icons">       
             <IconPower 
               onClick={(e) => showStatusCardConfirmation()} 
-              className="card-facility-icon" 
+              className="icon card-facility-icon" 
               color={facility.isActive ? "green" : "red"} 
             /> 
             <IconBxsEdit 
-              className="card-facility-icon show-form" 
+              className="icon card-facility-icon show-form" 
               onClick={showFacilityForm.bind(event, facility)} 
             />
           </div>

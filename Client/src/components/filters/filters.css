@@ -1,5 +1,6 @@
 .filter-container {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid black;
   width: 70%;
@@ -39,17 +40,7 @@
 
 .add-something {
   display: flex;
+  gap: 10px;
   flex-direction: row;
   align-items: center;
-  cursor: pointer;
-  transition: .3s;
-}
-
-.add-something:hover {
-  transform: scale(1.1);
-  transition: .3s;
-}
-
-.icon-add {
-  margin-left: 10px;
 }

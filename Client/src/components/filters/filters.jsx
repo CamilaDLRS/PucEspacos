@@ -28,7 +28,7 @@ function Filters({ filters, showAddButton, triggerFunction, addSomething }) {
         
         {(localStorage.getItem("userType") === "Administrador") && 
             showAddButton &&
-            <div className="add-something show-form"  onClick={triggerFunction.bind(event, null)}>
+            <div className="add-something icon show-form"  onClick={triggerFunction.bind(event, null)}>
               <p className="show-form"> {addSomething} </p>
               <IconPlusCircle className="icon-add show-form"/>
             </div>

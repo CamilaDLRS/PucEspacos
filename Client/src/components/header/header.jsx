@@ -1,20 +1,28 @@
-import { useEffect } from "react";
 import "./header.css"
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
+import CardConfirmation from "../cardConfirmation/cardConfirmation";
 
 
 function Header(prop) {
+    const [triggerCardConfirmation, settriggerCardConfirmation] = useState(false);
+
     useEffect(() => {
         if (localStorage.getItem("userType")) {
             document.getElementById(prop.local).style.background =  "rgb(128, 9, 54)";
         }
     }, [])
 
+    function showCardConfirmation() {
+        triggerCardConfirmation ? settriggerCardConfirmation(false) : settriggerCardConfirmation(true)
+    }
+
     return ( 
         <header>
             <div className="header-title">
                 <h1>Puc Espaços</h1>
-                <h4>Seja bem-vindo {localStorage.getItem("userName")}</h4>
+                <h4>Seja bem-vindo(a) {localStorage.getItem("userName")}</h4>
             </div>
 
             <nav>
@@ -26,11 +34,21 @@ function Header(prop) {
                 }
                 
                 <Link 
-                    to="/" 
                     className="nav-link nav-link-leave"
-                    onClick={() => localStorage.clear()}
+                    onClick={() => showCardConfirmation()}
                 > Sair </Link>
             </nav>
+
+            { triggerCardConfirmation &&
+                <CardConfirmation 
+                    message="Deseja sair?"
+                    showConfirmationCard={showCardConfirmation}
+                    action={() => {
+                        window.location = "/";
+                        localStorage.clear();
+                    }}
+                />
+            }
         </header>
      );
 }
