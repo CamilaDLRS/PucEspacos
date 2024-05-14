@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-export const getReservationSchema =  yup.object({
+export const getReservationSchema = yup.object({
   body: yup.object().shape({
     responsibleUserId: yup
       .string()
@@ -22,11 +22,11 @@ export const getReservationSchema =  yup.object({
   })
 });
 
-export const createReservationSchema =  yup.object({
+export const createReservationSchema = yup.object({
   body: yup.object().shape({
     responsibleUserId: yup
-    .string()
-    .required("Identificação do usuário responsável é obrigatória."),
+      .string()
+      .required("Identificação do usuário responsável é obrigatória."),
     requestingUserId: yup
       .string()
       .nullable(),
@@ -45,7 +45,7 @@ export const createReservationSchema =  yup.object({
   })
 });
 
-export const updateReservationSchema =  yup.object({
+export const updateReservationSchema = yup.object({
   body: yup.object().shape({
     reservationPurpose: yup
       .string()
@@ -56,5 +56,16 @@ export const updateReservationSchema =  yup.object({
     checkoutDate: yup
       .date()
       .required("Checkout é obrigatório.")
+  })
+});
+
+export const deletReservationSchema = yup.object({
+  body: yup.object().shape({
+    responsibleUserId: yup
+      .string()
+      .nullable(),
+    reservationStatus: yup
+      .string()
+      .nullable(),
   })
 });

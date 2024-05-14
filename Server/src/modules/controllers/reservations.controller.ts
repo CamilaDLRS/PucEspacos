@@ -64,4 +64,15 @@ export class ReservationsController {
       await ExpressHandlers.handleError(req, res, error);
     }
   }
+
+  public static async deleteNotStarted(req: Request, res: Response) {
+    try {
+      let reservationId = String(req.params.id);
+      await ReservationsServices.deleteNotStarted(reservationId);
+
+      await ExpressHandlers.handleResponse(req, res, "Reserva excluida com sucesso!");
+    } catch (error) {
+      await ExpressHandlers.handleError(req, res, error);
+    }
+  }
 }
