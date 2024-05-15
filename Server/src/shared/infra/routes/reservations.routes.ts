@@ -37,9 +37,9 @@ reservationsRouter.put(
 // );
 
 reservationsRouter.delete(
-  "/notStarted/:id",
+  "/:id/:userId",
   ValidationMiddleware.validateRequest(deletReservationSchema),
-  ReservationsController.deleteNotStarted
+  ReservationsController.delete
 )
 
 export default reservationsRouter;
