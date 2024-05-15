@@ -5,6 +5,7 @@ import { getAllUser, getAllUserTypes } from "../services/user";
 import { useEffect, useState } from "react";
 import Filters from "../components/filters/filters";
 import FormEditUser from "../components/formEditUser/formEditUser";
+import { ToastContainer, toast } from 'react-toastify';
 
 function Users() {
   useEffect(() => {
@@ -15,12 +16,17 @@ function Users() {
     }
   })
 
-
+  useEffect(() => {
+      toast(localStorage.getItem("responseMessage"))
+      setTimeout(() => {
+        localStorage.removeItem("responseMessage")
+      }, 2000)
+  }, [localStorage.getItem("responseMessage")])
 
   const [users, setUsers] = useState([]);
   const [userTypes, setUserTypes] = useState([]);
-
   const [userById, setUserById] = useState();
+  const [loggedUser, setLoggedUser] = useState();
 
   const [typeFilter, setTypeFilter] = useState("");
   const [typeFilterOptions, setTypeFilterOptions] = useState([]);
@@ -34,6 +40,10 @@ function Users() {
     getAllUser().then((response) => setUsers(response));
     getAllUserTypes().then((response) => setUserTypes(response));
   }, []);
+
+  useEffect(() => {
+    setLoggedUser(users.find(u => u.userId === localStorage.getItem("userId")));
+  }, [users])
 
   useEffect(() => {
     const typeFilterOptions = [{ key: 0, value: "", label: "Todos" }];
@@ -71,7 +81,6 @@ function Users() {
       setUserById(user)
     }
   }
-
   return (
     <div>
       <Header local="users" />
@@ -91,25 +100,33 @@ function Users() {
             options: statusFilterOptions,
           },
         ]}
-      />
+      />  
+      
+      {loggedUser &&
+        <CardUser 
+            user = {loggedUser}
+            showFormUser = {showFormUser}
+        />
+      }
 
       {filteredUsers.map((user) => {
-        return (
+        return user.userId != localStorage.getItem("userId") ? (
           <CardUser 
             user = {user}
             showFormUser = {showFormUser}
           />
-        );
+        ) : <div></div>;
       })}
 
-    { showFormEditUser && 
-      <FormEditUser 
-        showFormUser={showFormUser} 
-        user={userById}
-        userTypes={userTypes}
-      />
-    }    
+      { showFormEditUser && 
+        <FormEditUser 
+          showFormUser={showFormUser} 
+          user={userById}
+          userTypes={userTypes}
+        />
+      }    
 
+      <ToastContainer />
     </div>
   );
 }

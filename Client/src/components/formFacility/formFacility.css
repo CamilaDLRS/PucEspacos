@@ -1,0 +1,90 @@
+.form-facility {
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+    width: 35%;
+    padding: 2rem 2rem;
+    background-color: white;
+    border: 3px solid rgba(0, 0, 0, .6);
+    border-radius: .6rem;
+}
+
+.form-facility .facitityName-capacity {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5%;
+}
+
+.form-facility .facitityName-capacity .facility-name {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.form-facility .facitityName-capacity .facility-capacity {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 30%;
+}
+
+.form-facility .facitityName-capacity .facility-capacity input[type="number"] {
+    text-align: end;
+    width: 100%;
+}
+
+.form-facility .facitityName-capacity .facility-capacity .icon-person {
+    position: absolute;
+    margin-left: 5px;
+}
+
+.form-facility .filter-container {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+.form-facility .select-area {
+    justify-content: space-between;
+    width: 100%;
+    gap: 5%;
+}
+
+.form-facility .select-area div {
+    width: 100%;
+}
+
+.form-facility .filter-select {
+    margin: 0;
+    width: 100%;
+}
+
+.form-facility .facilty-assets {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.form-facility .facility-assets-info {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 3%;
+}
+
+.form-facility .facility-assets-info input[type="number"] {
+    width: 8%;
+    text-align: end;
+    padding: .2rem .6rem;
+}
+
+.form-facility .facilty-assets .icon-trash {
+    margin-right: 10px;
+}
+
+.form-facility .error-area {
+    display: flex;
+    justify-content: space-between;
+}

@@ -36,10 +36,10 @@ function FormSingUp() {
             {() => (
                 <Form className="login-container">
                     <Field name="userName" type="text" placeholder="Nome..."/>
-                    <ErrorMessage name="userName" component="div"/>
+                    <ErrorMessage name="userName" component="div" className="error"/>
 
                     <Field name="email" type="text" placeholder="Email..."/>
-                    <ErrorMessage name="email" component="div"/>
+                    <ErrorMessage name="email" component="div" className="error"/>
                     
                     <div className="input-password">
                         <Field 
@@ -52,7 +52,7 @@ function FormSingUp() {
                             {iconEye} 
                         </div>
                     </div>
-                    <ErrorMessage name="password" component="div"/>
+                    <ErrorMessage name="password" component="div" className="error"/>
 
                     <div className="input-password">
                         <Field 
@@ -64,7 +64,7 @@ function FormSingUp() {
                             {iconEye} 
                         </div>
                     </div>
-                    <ErrorMessage name="passwordConfirmation" component="div"/>
+                    <ErrorMessage name="passwordConfirmation" component="div" className="error"/>
 
                     <button type="submit">Criar Conta</button>
                     <div className="divider"></div>

@@ -1,5 +1,5 @@
 import "./pages.css"
-
+import { ToastContainer} from 'react-toastify';
 import Title from "../components/title/title";
 import FormSignUp from "../components/forms/formSignUp"
 
@@ -12,6 +12,7 @@ function SignUp() {
         <div className="page-container">
             <Title />
             <FormSignUp />
+            <ToastContainer />
         </div>
      );
 }

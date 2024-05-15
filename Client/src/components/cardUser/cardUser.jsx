@@ -10,7 +10,11 @@ function CardUser({user, showFormUser}) {
 
         <div className="card-header-user-type">
           <p> { user.userType } </p>
-          <IconBxsEdit className="edit-icon showFormUser" onClick={showFormUser.bind(event, user)} />
+          {localStorage.getItem("userId") !== user.userId &&
+            <div className="edit-icon showFormUser" onClick={showFormUser.bind(event, user)}>
+              <IconBxsEdit className="showFormUser" />
+            </div>
+          }
         </div>
       </div>
 

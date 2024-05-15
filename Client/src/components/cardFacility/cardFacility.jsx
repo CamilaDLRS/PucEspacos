@@ -7,7 +7,7 @@ import { updateFacilityStatus } from "../../services/facility";
 import { useState } from "react";
 
 
-function CardFacility({ facility, showFacility, editFacility }) {
+function CardFacility({ facility, showFacility, showFacilityForm}) {
 
   const [showStausCard, setShowStausCard] = useState(false);    
 
@@ -37,12 +37,12 @@ function CardFacility({ facility, showFacility, editFacility }) {
           <div className="card-facility-icons">       
             <IconPower 
               onClick={(e) => showStatusCardConfirmation()} 
-              className="card-facility-icon" 
+              className="icon card-facility-icon" 
               color={facility.isActive ? "green" : "red"} 
             /> 
             <IconBxsEdit 
-              className="card-facility-icon show-edit-form" 
-              onClick={editFacility.bind(event, facility)} 
+              className="icon card-facility-icon show-form" 
+              onClick={showFacilityForm.bind(event, facility)} 
             />
           </div>
         }

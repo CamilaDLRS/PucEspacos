@@ -1,4 +1,6 @@
 import axios from "axios";
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 const httpOptions = {
   headers: {
@@ -17,7 +19,7 @@ export async function getAllFacilities() {
       return response.data.data;
     })
     .catch((e) => {
-      alert(e.response.data.error.message);
+      toast(e.response.data.error.message);
     });
 }
 
@@ -31,7 +33,7 @@ export async function getAllFacilityTypes() {
     return response.data.data;
   })
   .catch((e) => {
-    alert(e.response.data.error.message);
+    toast(e.response.data.error.message);
   });
 }
 
@@ -42,11 +44,11 @@ export async function createFacility(data) {
     httpOptions
   )
   .then((response) => {
-      alert(response.data.message)
-      window.location = "/facilities"
+      window.location = "/facilities";
+      localStorage.setItem("responseMessage", response.data.message)
   })
   .catch((e) => {
-      alert(e.response.data.error.message);
+      toast(e.response.data.error.message);
   })
 }
 
@@ -60,11 +62,11 @@ export async function updateFacility(id, data) {
     httpOptions
   )
   .then((response) => {
-      alert(response.data.message)
-      window.location = "/facilities"
+    localStorage.setItem("responseMessage", response.data.message)
+    window.location = "/facilities"
   })
   .catch((e) => {
-      alert(e.response.data.error.message);
+    toast(e.response.data.error.message);
   })
 }
 
@@ -76,11 +78,11 @@ export async function updateFacilityStatus(id, isActive) {
     httpOptions
   )
   .then((response) => {
-      alert(response.data.message)
+      localStorage.setItem("responseMessage", response.data.message)
       window.location = "/facilities"
   })
   .catch((e) => {
-      alert(e.response.data.error.message);
+    toast(e.response.data.error.message);
   })
 }
 
@@ -94,6 +96,6 @@ export async function getFacilityById(id) {
         return response.data.data;
     })
     .catch((e) => {
-        alert(e.response.data.error.message);
+      toast(e.response.data.error.message);
     });
 }
