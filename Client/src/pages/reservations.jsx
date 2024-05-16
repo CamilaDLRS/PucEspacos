@@ -1,6 +1,7 @@
 import "./pages.css";
 import Header from "../components/header/header";
 import Inputs from "../components/inputs/input";
+import CardReservation from "../components/cardReservation/cardReservation";
 
 function Reservations() {
   if (!localStorage.getItem("userType")) {
@@ -20,11 +21,6 @@ function Reservations() {
               id: "myReservations"
             },
             {
-              type: "checkbox",
-              label: "No Meu Nome",
-              id: "myName"
-            }, 
-            {
               type: "date",
               label: "Inicio",
               id: "checkinDate"
@@ -33,10 +29,23 @@ function Reservations() {
               type: "date",
               label: "Fim",
               id: "checkoutDate"
+            },
+            {
+              type: "select",
+              onChange: (value) => console.log(value),
+              title: "Blocos",
+              options: [{key: 1, label: "Bloco 1", value:"2"}]
+            },
+            {
+              type: "button",
+              label: "Espaços",
+              id: "butoon"
             }
           ]}          
         />
       </div>
+
+      <CardReservation />
     </>
   );
 }
