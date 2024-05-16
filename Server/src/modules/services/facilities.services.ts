@@ -61,9 +61,8 @@ export class FacilitiesServices {
 
       const options: ReservationQueryOptionsDto = {
         buildingId: query.buildingId,
-        checkinDate: new Date(query.checkinDate.setHours(0, 0, 0, 0)),
-        checkoutDate: new Date(query.checkinDate.setHours(23, 59, 59, 0)),
-        //passar checkin conmo o checkin ooh e passar o checkout como o checkout 23.59h
+        checkinDate: new Date(query.checkinDate).setHours(0, 0, 0, 0),
+        checkoutDate: new Date(query.checkoutDate).setHours(23, 59, 59, 0),
         facilityIds: [facility.facilityId!]
       }
       let facilityReservations: ReservationDto[] = await ReservationsServices.getAll(options)
@@ -82,7 +81,12 @@ export class FacilitiesServices {
         facilitiesAvailable.push(facility);
       }
     }
-    return facilities;
+
+    if (facilitiesAvailable.length == 0) {
+      throw new ApiError(404, InternalCode.REGISTER_NOT_FOUND);
+    }
+
+    return facilitiesAvailable;
   }
 
   public static async create(facility: FacilityDto): Promise<string> {

@@ -27,7 +27,7 @@ export class FacilitiesRepository {
       bindParams.push(facilityTypeId);
     }
     if (minimumCapacity) {
-      conditions.push("f.minimumCapacity >= ?");
+      conditions.push("f.capacity >= ?");
       bindParams.push(minimumCapacity);
     }
 
@@ -103,8 +103,8 @@ export class FacilitiesRepository {
                 WHERE 
                     !(
                       ${sqlCapacity}
-                      DATE(r.checkinDate) >= ? AND 
-                      DATE(r.checkoutDate) <= ? AND 
+                      r.checkinDate >= ? AND 
+                      r.checkoutDate <= ? AND 
                       f.facilityTypeId = ? AND
                       f.buildingId = ?
                     ) AND
@@ -157,8 +157,8 @@ export class FacilitiesRepository {
       facility.facilityName,
       facility.capacity,
       facility.note,
-      new Date(),
-      new Date(),
+      new Date().getTime(),
+      new Date().getTime(),
     ];
 
     await this.CONNECTION.connect();
@@ -184,7 +184,7 @@ export class FacilitiesRepository {
       facility.facilityName,
       facility.capacity,
       facility.note,
-      new Date(),
+      new Date().getTime(),
       facility.facilityId,
     ];
 
@@ -260,8 +260,8 @@ export class FacilitiesRepository {
       facilityAsset.facilityId,
       facilityAsset.assetId,
       facilityAsset.quantity,
-      new Date(),
-      new Date(),
+      new Date().getTime(),
+      new Date().getTime(),
     ];
 
     await this.CONNECTION.connect();
@@ -277,7 +277,7 @@ export class FacilitiesRepository {
 
     const bindParams = [
       facilityAsset.quantity,
-      new Date(),
+      new Date().getTime(),
       facilityAsset.facilityId,
       facilityAsset.assetId,
     ];

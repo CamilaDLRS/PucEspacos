@@ -50,11 +50,11 @@ export class ReservationsRepository {
       bindParams.push(options.buildingId);
     }
     if (options.checkinDate) {
-      conditions.push("DATE(r.checkinDate) >= ?");
+      conditions.push("r.checkinDate >= ?");
       bindParams.push(options.checkinDate);
     }
     if (options.checkoutDate) {
-      conditions.push("DATE(r.checkoutDate) <= ?");
+      conditions.push("r.checkoutDate <= ?");
       bindParams.push(options.checkoutDate);
     }
     if (options.facilityIds && options.facilityIds.length > 0) {
@@ -116,8 +116,8 @@ export class ReservationsRepository {
       reservation.reservationPurpose,
       reservation.checkinDate,
       reservation.checkoutDate,
-      new Date(),
-      new Date(),
+      new Date().getTime(),
+      new Date().getTime(),
     ];
 
     await this.CONNECTION.connect();
@@ -138,7 +138,7 @@ export class ReservationsRepository {
       reservation.checkinDate,
       reservation.checkoutDate,
       reservation.updatedDate,
-      new Date(),
+      new Date().getTime(),
       reservation.reservationId,
     ];
 

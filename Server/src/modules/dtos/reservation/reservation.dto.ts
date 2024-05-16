@@ -9,10 +9,10 @@ export class ReservationDto {
   facilityId: string;
   reservationStatus: ReservationStatus;
   reservationPurpose: ReservationPurpose;
-  checkinDate: Date;
-  checkoutDate: Date;
-  createdDate: Date;
-  updatedDate: Date;
+  checkinDate: number;
+  checkoutDate: number;
+  createdDate: number;
+  updatedDate: number;
 
   //from joins
   requestingUserName: string;

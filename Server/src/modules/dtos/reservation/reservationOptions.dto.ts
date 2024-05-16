@@ -6,8 +6,8 @@ export class ReservationQueryOptionsDto {
   onlyByRequestingUserId?: boolean;
   reservationStatus?: string;
   buildingId?: string;
-  checkinDate?: Date;
-  checkoutDate?: Date;
+  checkinDate?: number;
+  checkoutDate?: number;
   facilityIds?: string[];
 
   constructor(options: any) {

@@ -116,10 +116,10 @@ export const getAvalableFacilitiesSchema =  yup.object({
       .string()
       .required("Identificação do Bloco é obrigatória."),
     checkinDate: yup
-      .date()
+      .number()
       .required("Checkin é obrigatório."),
     checkoutDate: yup
-      .date()
+      .number()
       .required("Checkout é obrigatório."),
     facilityTypeId: yup
       .string()

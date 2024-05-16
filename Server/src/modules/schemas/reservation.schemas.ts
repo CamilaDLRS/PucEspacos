@@ -12,10 +12,10 @@ export const getReservationSchema =  yup.object({
       .string()
       .nullable(),
     checkinDate: yup
-      .date()
+      .number()
       .nullable(),
     checkoutDate: yup
-      .date()
+      .number()
       .nullable(),
     facilityIds: yup
       .array().of(yup.string())
@@ -37,10 +37,10 @@ export const createReservationSchema =  yup.object({
       .string()
       .required("Propósito da reserva é obrigatório."),
     checkinDate: yup
-      .date()
+      .number()
       .required("Checkin é obrigatório."),
     checkoutDate: yup
-      .date()
+      .number()
       .required("Checkout é obrigatório.")
   })
 });
@@ -51,10 +51,10 @@ export const updateReservationSchema =  yup.object({
       .string()
       .required("Propósito da reserva é obrigatório."),
     checkinDate: yup
-      .date()
+      .number()
       .required("Checkin é obrigatório."),
     checkoutDate: yup
-      .date()
+      .number()
       .required("Checkout é obrigatório.")
   })
 });

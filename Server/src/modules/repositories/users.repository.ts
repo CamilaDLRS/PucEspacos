@@ -113,8 +113,8 @@ export class UsersRepository {
       user.userName,
       user.userType,
       user.isActive,
-      new Date(),
-      new Date()
+      new Date().getTime(),
+      new Date().getTime()
     ];
 
     await this.CONNECTION.connect();
@@ -134,7 +134,7 @@ export class UsersRepository {
       user.schoolId, 
       user.isActive, 
       user.userType, 
-      new Date(), 
+      new Date().getTime(), 
       user.userId
     ];
 

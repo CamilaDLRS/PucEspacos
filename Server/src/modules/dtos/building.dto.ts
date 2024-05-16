@@ -6,8 +6,8 @@ export class BuildingDto {
   schoolId: string;
   buildingName: string;
   
-  createdDate: Date;
-  updatedDate: Date;
+  createdDate: number;
+  updatedDate: number;
 
   //from join
   facilities: FacilityDto[];
