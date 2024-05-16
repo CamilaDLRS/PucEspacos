@@ -1,7 +1,7 @@
 import express from "express";
 import { ReservationsController } from "../../../modules/controllers/reservations.controller";
 import { ValidationMiddleware } from "../../utils/validationMiddleware";
-import { createReservationSchema, getReservationSchema, updateReservationSchema } from "../../../modules/schemas/reservation.schemas";
+import { createReservationSchema, deletReservationSchema, getReservationSchema, updateReservationSchema } from "../../../modules/schemas/reservation.schemas";
 
 const reservationsRouter = express.Router();
 
@@ -28,11 +28,18 @@ reservationsRouter.put(
   ReservationsController.update
 );
 
+// reservationsRouter.delete(
+//   "/:id",
+//   //TO DO
+//   //verificar de adicionar middleware geral de verificação do usuário, por mais que seja simples
+//   ValidationMiddleware.validateRequest(deletReservationSchema),
+//   ReservationsController.delete
+// );
+
 reservationsRouter.delete(
-  "/:id",
-  //TO DO
-  //verificar de adicionar middleware geral de verificação do usuário, por mais que seja simples
+  "/:id/:userId",
+  ValidationMiddleware.validateRequest(deletReservationSchema),
   ReservationsController.delete
-);
+)
 
 export default reservationsRouter;

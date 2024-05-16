@@ -5,7 +5,7 @@ import { ReservationDto } from "../dtos/reservation/reservation.dto";
 import { ReservationQueryOptionsDto } from "../dtos/reservation/reservationOptions.dto";
 
 export class ReservationsController {
-  
+
   public static async getAll(req: Request, res: Response) {
     try {
       const options: ReservationQueryOptionsDto = new ReservationQueryOptionsDto(req.body);
@@ -35,7 +35,7 @@ export class ReservationsController {
 
       reservation = await ReservationsServices.getById(newReservationId);
 
-      await ExpressHandlers.handleResponse(req,res,reservation,"Reserva criada com sucesso!");
+      await ExpressHandlers.handleResponse(req, res, reservation, "Reserva criada com sucesso!");
     } catch (error: any) {
       await ExpressHandlers.handleError(req, res, error);
     }
@@ -43,7 +43,7 @@ export class ReservationsController {
 
   public static async update(req: Request, res: Response) {
     try {
-      let reservation: ReservationDto = new ReservationDto({...req.body, id: req.params.id});
+      let reservation: ReservationDto = new ReservationDto({ ...req.body, id: req.params.id });
       await ReservationsServices.update(reservation);
 
       reservation = await ReservationsServices.getById(req.params.id);
@@ -54,10 +54,22 @@ export class ReservationsController {
     }
   }
 
+  // public static async delete(req: Request, res: Response) {
+  //   try {
+  //     let reservationId = String(req.params.id);
+  //     await ReservationsServices.delete(reservationId);
+
+  //     await ExpressHandlers.handleResponse(req, res, "Reserva excluida com sucesso!");
+  //   } catch (error) {
+  //     await ExpressHandlers.handleError(req, res, error);
+  //   }
+  // }
+
   public static async delete(req: Request, res: Response) {
     try {
       let reservationId = String(req.params.id);
-      await ReservationsServices.delete(reservationId);
+      let userId = String(req.params.userId)
+      await ReservationsServices.delete(reservationId, userId);
 
       await ExpressHandlers.handleResponse(req, res, "Reserva excluida com sucesso!");
     } catch (error) {
