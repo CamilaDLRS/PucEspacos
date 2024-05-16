@@ -82,7 +82,7 @@ CREATE TABLE tbReservations (
     requestingUserId  Varchar(40),
     responsibleUserId Varchar(40),
     facilityId Varchar(40),
-    reservationStatus Enum('Solicitada','Ativa','Cancelada','Em Andamento','Finalizada'),
+    reservationStatus Enum('Solicitada','Aprovada'),
     reservationPurpose Enum('Aula','Palestra','Lazer','Evento','Estudo','Outro'),
     checkinDate BIGINT,
     checkoutDate BIGINT,
@@ -263,27 +263,27 @@ VALUES
 -- Inserção Reserva
 INSERT INTO tbReservations (reservationId, requestingUserId, responsibleUserId, facilityId, reservationStatus, reservationPurpose, checkinDate, checkoutDate, createdDate, updatedDate)
 VALUES 
-	(@reserva1, @maria_id, @lucia_id, @espaco1, 'Finalizada', 'Aula', 1711277400000, 1711282800000, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000),
-    (@reserva2, NULL, @lucia_id, @espaco2, 'Finalizada', 'Palestra', 1711556700000, 1711566000000, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000),
-    ('6c7b5e7c-2682-4962-a92d-0c359e147779', @maria_id, @lucia_id, @espaco2, 'Finalizada', 'Aula', 1711795800000, 1711795800000, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000), 
-    ('0b668249-0526-40da-832d-c5ac9d54e6fc', NULL, @lucia_id, @espaco6, 'Finalizada', 'Aula', 1711968600000, 1711974000000, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000),
-    ('4c1a3fc4-45d8-4ee6-a2af-5ae43290ed5e', @maria_id, @lucia_id, @espaco3, 'Finalizada', 'Estudo', 1711364400000, 1711371600000, 1711363800000, UNIX_TIMESTAMP(NOW()) * 1000), 
-    ('0ec826a2-60d7-4b51-9b7d-c5ac0b9e92e4', NULL, @camila_id, @espaco4, 'Ativa', 'Evento', 1716742800000, 1716753600000, 1711471500000, UNIX_TIMESTAMP(NOW()) * 1000),
-    ('0ea6d27c-b2e4-4fc2-b263-ba7d8569f71f', NULL, @joana_id, @espaco5, 'Ativa', 'Estudo', 1719489600000, 1719500400000, 1711540200000, UNIX_TIMESTAMP(NOW()) * 1000),
-    ('1f67873a-6b1b-4f3b-9178-2d650d00f7d5', NULL, @joao_id, @espaco1, 'Finalizada', 'Estudo', 1711632600000, 1711641600000, 1711632000000, UNIX_TIMESTAMP(NOW()) * 1000),
-    ('3c5b8248-e685-4a1c-a511-366faefcb3ad', @maria_id, @pedro_id, @espaco2, 'Solicitada', 'Evento', 1719666000000, 1719673200000, 1711716600000, UNIX_TIMESTAMP(NOW()) * 1000),
-    ('6a7b61ff-d4a1-4662-b2c4-7d29050b30db', @maria_id, @vera_id, @espaco3, 'Ativa', 'Estudo', 1717092000000, 1717099200000, 1711821000000, UNIX_TIMESTAMP(NOW()) * 1000),
-    ('9d518d1e-2f92-4f4e-8750-3e89f38411b2', @maria_id, @vera_id, @espaco4, 'Finalizada', 'Palestra', 1711904400000, 1711911600000, 1711903500000, UNIX_TIMESTAMP(NOW()) * 1000),
-    ('23c7f5e3-0c3a-4b85-a0c1-fb754ae6194c', @maria_id, @lucia_id, @espaco5, 'Finalizada', 'Estudo', 1711972800000, 1711983600000, 1711972200000, UNIX_TIMESTAMP(NOW()) * 1000),
-    ('40a25ae1-59c9-4a43-8de8-6d52892b1726', NULL, @joana_id, @espaco1, 'Ativa', 'Evento', 1719936000000, 1719943200000, 1712072700000, UNIX_TIMESTAMP(NOW()) * 1000),
-    ('63e87b24-c536-4d5d-b1e2-868bb6b160cf', NULL, @dimitri_id, @espaco2, 'Ativa', 'Estudo', 1720011600000, 1720018800000, 1712148600000, UNIX_TIMESTAMP(NOW()) * 1000),
-    ('81b924c5-881d-49f3-a3ed-4d51892ae086', NULL, @dimitri_id, @espaco3, 'Ativa', 'Estudo', 1720112400000, 1720119600000, 1712249400000, UNIX_TIMESTAMP(NOW()) * 1000),
+	(@reserva1, @maria_id, @lucia_id, @espaco1, 'Aprovada', 'Aula', 1711277400000, 1711282800000, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000),
+    (@reserva2, NULL, @lucia_id, @espaco2, 'Aprovada', 'Palestra', 1711556700000, 1711566000000, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000),
+    ('6c7b5e7c-2682-4962-a92d-0c359e147779', @maria_id, @lucia_id, @espaco2, 'Aprovada', 'Aula', 1711795800000, 1711795800000, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000), 
+    ('0b668249-0526-40da-832d-c5ac9d54e6fc', NULL, @lucia_id, @espaco6, 'Aprovada', 'Aula', 1711968600000, 1711974000000, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000),
+    ('4c1a3fc4-45d8-4ee6-a2af-5ae43290ed5e', @maria_id, @lucia_id, @espaco3, 'Aprovada', 'Estudo', 1711364400000, 1711371600000, 1711363800000, UNIX_TIMESTAMP(NOW()) * 1000), 
+    ('0ec826a2-60d7-4b51-9b7d-c5ac0b9e92e4', NULL, @camila_id, @espaco4, 'Aprovada', 'Evento', 1716742800000, 1716753600000, 1711471500000, UNIX_TIMESTAMP(NOW()) * 1000),
+    ('0ea6d27c-b2e4-4fc2-b263-ba7d8569f71f', NULL, @joana_id, @espaco5, 'Aprovada', 'Estudo', 1719489600000, 1719500400000, 1711540200000, UNIX_TIMESTAMP(NOW()) * 1000),
+    ('1f67873a-6b1b-4f3b-9178-2d650d00f7d5', NULL, @joao_id, @espaco1, 'Aprovada', 'Estudo', 1711632600000, 1711641600000, 1711632000000, UNIX_TIMESTAMP(NOW()) * 1000),
+    ('3c5b8248-e685-4a1c-a511-366faefcb3ad', @maria_id, @pedro_id, @espaco2, 'Aprovada', 'Evento', 1719666000000, 1719673200000, 1711716600000, UNIX_TIMESTAMP(NOW()) * 1000),
+    ('6a7b61ff-d4a1-4662-b2c4-7d29050b30db', @maria_id, @vera_id, @espaco3, 'Aprovada', 'Estudo', 1717092000000, 1717099200000, 1711821000000, UNIX_TIMESTAMP(NOW()) * 1000),
+    ('9d518d1e-2f92-4f4e-8750-3e89f38411b2', @maria_id, @vera_id, @espaco4, 'Aprovada', 'Palestra', 1711904400000, 1711911600000, 1711903500000, UNIX_TIMESTAMP(NOW()) * 1000),
+    ('23c7f5e3-0c3a-4b85-a0c1-fb754ae6194c', @maria_id, @lucia_id, @espaco5, 'Aprovada', 'Estudo', 1711972800000, 1711983600000, 1711972200000, UNIX_TIMESTAMP(NOW()) * 1000),
+    ('40a25ae1-59c9-4a43-8de8-6d52892b1726', NULL, @joana_id, @espaco1, 'Aprovada', 'Evento', 1719936000000, 1719943200000, 1712072700000, UNIX_TIMESTAMP(NOW()) * 1000),
+    ('63e87b24-c536-4d5d-b1e2-868bb6b160cf', NULL, @dimitri_id, @espaco2, 'Aprovada', 'Estudo', 1720011600000, 1720018800000, 1712148600000, UNIX_TIMESTAMP(NOW()) * 1000),
+    ('81b924c5-881d-49f3-a3ed-4d51892ae086', NULL, @dimitri_id, @espaco3, 'Aprovada', 'Estudo', 1720112400000, 1720119600000, 1712249400000, UNIX_TIMESTAMP(NOW()) * 1000),
     
-    ('58f5f999-aecc-464e-a997-78df9df6c8a3', NULL, @dimitri_id, @espaco2, 'Ativa', 'Estudo', 1727776800000, 1727787600000, 1712249400000, UNIX_TIMESTAMP(NOW()) * 1000),
-    ('6f41ad0a-cceb-4fcf-b6db-c272d4aef1fc', NULL, @joana_id, @espaco7, 'Ativa', 'Estudo', 1727780400000, 1712249400000, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000),
-    ('be82177b-90ce-48eb-b87c-8f3ede5d839e', NULL, @joao_id, @espaco8, 'Ativa', 'Estudo', 1727780400000, 1727782200000, 1712249400000, UNIX_TIMESTAMP(NOW()) * 1000),
-    ('a6d0870e-552e-4f68-b4b9-eec9bf742516', NULL, @vera_id, @espaco9, 'Ativa', 'Estudo', 1727784000000, 1728565200000, 1712249400000, UNIX_TIMESTAMP(NOW()) * 1000),
-    ('46da7e99-8815-4385-8f3a-6152d8cd17f3', NULL, @joana_id, @espaco10, 'Ativa', 'Estudo', 1727769600000, 1728550800000, 1712249400000, UNIX_TIMESTAMP(NOW()) * 1000);
+    ('58f5f999-aecc-464e-a997-78df9df6c8a3', NULL, @dimitri_id, @espaco2, 'Aprovada', 'Estudo', 1727776800000, 1727787600000, 1712249400000, UNIX_TIMESTAMP(NOW()) * 1000),
+    ('6f41ad0a-cceb-4fcf-b6db-c272d4aef1fc', NULL, @joana_id, @espaco7, 'Aprovada', 'Estudo', 1727780400000, 1712249400000, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000),
+    ('be82177b-90ce-48eb-b87c-8f3ede5d839e', NULL, @joao_id, @espaco8, 'Aprovada', 'Estudo', 1727780400000, 1727782200000, 1712249400000, UNIX_TIMESTAMP(NOW()) * 1000),
+    ('a6d0870e-552e-4f68-b4b9-eec9bf742516', NULL, @vera_id, @espaco9, 'Aprovada', 'Estudo', 1727784000000, 1728565200000, 1712249400000, UNIX_TIMESTAMP(NOW()) * 1000),
+    ('46da7e99-8815-4385-8f3a-6152d8cd17f3', NULL, @joana_id, @espaco10, 'Aprovada', 'Estudo', 1727769600000, 1728550800000, 1712249400000, UNIX_TIMESTAMP(NOW()) * 1000);
 
    
    
@@ -308,3 +308,59 @@ where r.responsibleUserId = u.userId AND
 update tbUsers
 set isActive = false
 where userId = @maria_id;
+
+
+
+
+select distinct  f.*, t.facilityTypeDescription, b.buildingName
+from tbreservations r
+INNER JOIN tbFacilities f ON r.facilityId = f.facilityId
+INNER JOIN tbBuildings b ON f.buildingId = b.buildingId
+INNER JOIN tbFacilityTypes t ON t.facilityTypeId = f.facilityTypeId
+where !(r.checkinDate >= 1704078000000 and r.checkoutDate <= 1709262000000 and 
+f.buildingId = @azul_uuid) and 
+f.capacity  >= 0;
+
+
+
+SELECT DISTINCT  
+    f.*, 
+    t.facilityTypeDescription, 
+    b.buildingName
+FROM 
+    tbreservations r
+    INNER JOIN tbFacilities f ON r.facilityId = f.facilityId
+    INNER JOIN tbBuildings b ON f.buildingId = b.buildingId
+    INNER JOIN tbFacilityTypes t ON t.facilityTypeId = f.facilityTypeId
+WHERE 
+    !(
+      f.capacity >= 10 AND
+      (
+      	r.checkinDate < 1727773200000 Or
+      	r.checkinDate >=1727784000000
+  	  ) and
+      (
+      	r.checkoutDate <= 1727773200000 or
+      	r.checkoutDate >= 1727784000000
+  	  ) AND
+      f.facilityTypeId = 'ceb542b3-26de-4c9c-bfd3-a57f06f6fc14' AND
+      f.buildingId = '376d163d-e00b-40e6-8857-f402e2feb6a8'
+    ) AND
+    f.capacity >= 10 AND
+    f.facilityTypeId = 'ceb542b3-26de-4c9c-bfd3-a57f06f6fc14'  AND
+    f.buildingId = '376d163d-e00b-40e6-8857-f402e2feb6a8';
+
+   
+-- ler todas as salas correspondente ao filtro
+ SELECT  
+    f.*,
+    t.facilityTypeDescription, 
+    b.buildingName
+FROM 
+    tbFacilities f
+    INNER JOIN tbBuildings b ON f.buildingId = b.buildingId
+    INNER JOIN tbFacilityTypes t ON t.facilityTypeId = f.facilityTypeId
+WHERE 
+    f.capacity >= 10 AND
+    f.facilityTypeId = 'ceb542b3-26de-4c9c-bfd3-a57f06f6fc14'  AND
+    f.buildingId = '376d163d-e00b-40e6-8857-f402e2feb6a8';
