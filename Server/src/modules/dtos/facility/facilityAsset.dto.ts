@@ -5,8 +5,8 @@ export class FacilityAssetDto { //herdar Asset
   quantity: number;
   assetDescription?: string;
 
-  createdDate?: Date;
-  updatedDate?: Date;
+  createdDate?: number;
+  updatedDate?: number;
 
   constructor(data: any, facilityId: string) {
     this.facilityId = facilityId;

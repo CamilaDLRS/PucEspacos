@@ -3,8 +3,8 @@ export class CampusDto {
   campusId: string;
   campusName: string;
 
-  createdDate: Date;
-  updatedDate: Date;
+  createdDate: number;
+  updatedDate: number;
 
   constructor(data: any) {
     this.campusId = data.campusId;

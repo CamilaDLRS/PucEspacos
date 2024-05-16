@@ -11,8 +11,8 @@ export class UserDto {
   userType?: UserType;
   isActive?: boolean;
 
-  createdDate?: Date;
-  updatedDate?: Date;
+  createdDate?: number;
+  updatedDate?: number;
 
   constructor(data: any, userId?: string) {
     this.schoolId = data.schoolId || null;

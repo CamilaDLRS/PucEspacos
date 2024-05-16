@@ -2,8 +2,8 @@ export class SchoolDto {
   schoolId: string;
   nameSchool: string;
 
-  createdDate: Date;
-  updatedDate: Date;
+  createdDate: number;
+  updatedDate: number;
 
   constructor(data: any) {
     this.schoolId = data.schoolId;

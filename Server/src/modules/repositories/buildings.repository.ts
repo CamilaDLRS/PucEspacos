@@ -23,4 +23,20 @@ export class BuildingsRepository {
       return [];
     }
   }
+
+  public static async getById(id: string): Promise<BuildingDto | null> {
+    const sql = `SELECT * FROM tbBuildings 
+                  WHERE buildingId = ?;`;
+    const bindParams = [id];
+
+    await this.CONNECTION.connect();
+    const rows = await this.CONNECTION.executeWithParams(sql, bindParams);
+    await this.CONNECTION.disconnect();
+
+    if (rows[0]) {
+      return new BuildingDto({...rows[0], buildingId: id});
+    } else {
+      return null;
+    }
+  }
 }
