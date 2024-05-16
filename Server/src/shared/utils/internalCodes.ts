@@ -12,7 +12,9 @@ export enum InternalCode {
   NOT_IMPLEMENTED = 'NOT_IMPLEMENTED',
 
   INVALID_REQUEST = 'INVALID_REQUEST',
-  INVALID_EMAIL_DOMAIN = "INVALID_EMAIL_DOMAIN"
+  INVALID_EMAIL_DOMAIN = "INVALID_EMAIL_DOMAIN",
+
+  INVALID_PERMISION = 'INVALID_PERMISION'
 }
 
 export const ErrorMessage: Record<InternalCode, string> = {
@@ -27,5 +29,7 @@ export const ErrorMessage: Record<InternalCode, string> = {
 
   [InternalCode.REGISTER_NOT_FOUND]: 'Registro não encontrado.',
   [InternalCode.NOT_IMPLEMENTED]: 'Código ainda não implementado.',
-  [InternalCode.INVALID_REQUEST]: 'Requisição inválida, verifique os paramêtros e corpo.'
+  [InternalCode.INVALID_REQUEST]: 'Requisição inválida, verifique os paramêtros e corpo.',
+
+  [InternalCode.INVALID_PERMISION]: 'O usuário não possui permissão para realizar essa operação, verifique suas permissões.'
 };

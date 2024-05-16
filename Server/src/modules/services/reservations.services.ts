@@ -6,9 +6,11 @@ import * as uuid from "uuid";
 import { ReservationsRepository } from "../repositories/reservations.repository";
 // import { UsersServices } from "./users.services";
 // import reservationsRouter from "../../shared/infra/routes/reservations.routes";
-import { ReservationStatus } from "../enums/reservationStatus.enum";
+// import { ReservationStatus } from "../enums/reservationStatus.enum";
 import { UsersServices } from "./users.services";
 import { UserDto } from "../dtos/user.dto";
+// import { date } from "yup";
+import { UserType } from "../enums/userType.enum";
 
 export class ReservationsServices {
   public static async getAll(options: ReservationQueryOptionsDto): Promise<ReservationDto[]> {
@@ -52,20 +54,19 @@ export class ReservationsServices {
   }
 
 
-  public static sendEmail(responsibleUser: UserDto, admUser: UserDto) {
+  private static sendEmail(responsibleUser: UserDto, admUser: UserDto) {
     const nodemailer = require('nodemailer');
 
     let transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: "leosilva1698@gmail.com",
-        pass: "hxqbcdfcnmdzyjmd",
+        user: "pucespacos.noreply@gmail.com",
+        pass: "hztxqqgwilnulzlx",
       },
     });
 
-    console.log(responsibleUser.email);
     var message = {
-      from: 'suport@pucespacos.no-reply.br',
+      from: 'Puc Espaços <suport@pucespacos.no-reply.br>',
       to: responsibleUser.email,
       subject: 'Cancelamento de Reserva no Sistema PUC Espaços',
       text: `Prezado(a),\n\n Espero que esteja bem. Gostaríamos de informar que a sua reserva de espaço no Sistema PUC Espaços foi cancelada. Compreendemos que isso pode ser inconveniente e estamos aqui para auxiliá-lo(a) em qualquer dúvida ou problema que possa surgir.\n\nEntendemos que podem haver diversos motivos para o cancelamento de uma reserva, incluindo:\n\n Conflitos de agenda: Algum evento da instituição pode ter sido programado para o mesmo horário e local, resultando na necessidade de cancelamento da sua reserva.\n\nManutenção ou problemas técnicos: Em alguns casos, pode ser necessário cancelar reservas devido a manutenção ou problemas técnicos no espaço reservado.\n\nPedimos desculpas por qualquer inconveniente causado por este cancelamento.\n\nAtenciosamente,\n` + admUser.userName + `\n` + admUser.email + `\nSuporte do Sistema PUC Espaços`,
@@ -75,8 +76,6 @@ export class ReservationsServices {
     const sendEmail = async () => {
       try {
         await transporter.sendMail(message);
-        console.log('ok');
-        process.exit();
       }
       catch (e: any) {
         throw new ApiError(404, InternalCode.INTERNAL_ERROR);
@@ -88,17 +87,29 @@ export class ReservationsServices {
   public static async delete(id: string, userId: string): Promise<void> {
 
     const reservation = await this.getById(id);
-    console.log(reservation);
-
+    const dateNow = new Date(); // Data e hora
+    // const dateNow = new Date().getTime(); // Timestamp
     const responsibleUser = await UsersServices.getById(reservation.responsibleUserId);
     const admUser = await UsersServices.getById(userId);
-    // const deleterUser = await UsersServices.getById(userId)
-    await ReservationsRepository.delete(id);
-    if (reservation.reservationStatus == ReservationStatus.ACTIVE && userId != responsibleUser.userId) {
-      this.sendEmail(responsibleUser, admUser)
 
+    // Verifica se o usuario esta ativo
+    if (admUser.isActive == false) {
+      throw new ApiError(404, InternalCode.USER_DISABLED);
     }
 
+
+    if (reservation.checkinDate >= dateNow && (admUser.userType == UserType.ADMINISTRATOR || admUser.userType == UserType.SECRETARY || admUser.userId == reservation.responsibleUserId)) {
+
+      await ReservationsRepository.delete(id);
+
+      if (userId != responsibleUser.userId) {
+        this.sendEmail(responsibleUser, admUser)
+      }
+
+    }
+    else {
+      throw new ApiError(404, InternalCode.INVALID_PERMISION);
+    }
 
   }
 
