@@ -87,8 +87,7 @@ export class ReservationsServices {
   public static async delete(id: string, userId: string): Promise<void> {
 
     const reservation = await this.getById(id);
-    const dateNow = new Date(); // Data e hora
-    // const dateNow = new Date().getTime(); // Timestamp
+    const dateNow = new Date().getTime();
     const responsibleUser = await UsersServices.getById(reservation.responsibleUserId);
     const admUser = await UsersServices.getById(userId);
 
