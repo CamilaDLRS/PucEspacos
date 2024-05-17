@@ -45,8 +45,9 @@ function Inputs({inputs}) {
                     }
                 </div>
             ))}
-            <IconBxSearchAlt />
-            <div className="btn-search filter">Buscar</div>
+            <div className="icon-search">
+              <IconBxSearchAlt height="1.7rem" width="1.7rem" className="icon"/>
+            </div>
         </div>
      );
 }

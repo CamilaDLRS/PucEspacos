@@ -2,6 +2,8 @@ import "./pages.css";
 import Header from "../components/header/header";
 import Inputs from "../components/inputs/input";
 import CardReservation from "../components/cardReservation/cardReservation";
+import IconPlusCircle from "../imgs/iconPlusCircle"
+import { Link } from "react-router-dom";
 
 function Reservations() {
   if (!localStorage.getItem("userType")) {
@@ -11,6 +13,14 @@ function Reservations() {
   return (
     <>
       <Header local="reservations" />
+
+      <Link to="/reservationsCreate" className="create-reservation-link"> 
+        <div className="icon">
+          Criar Nova Reserva
+          <IconPlusCircle className="icon" /> 
+        </div>
+      </Link>
+
 
       <div className="reservation-filter">
         <Inputs 

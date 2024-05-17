@@ -61,3 +61,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     top: 0;
     width: 100%;
 }
+
+.icon-search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
