@@ -108,8 +108,8 @@ export class ReservationsRepository {
                   createdDate)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
     const bindParams = [
-      reservation.facilityId,
-      reservation.requestingUserId,
+      reservation.reservationId,
+      reservation.requestingUserId || null,
       reservation.responsibleUserId,
       reservation.facilityId,
       reservation.reservationStatus,
@@ -137,9 +137,8 @@ export class ReservationsRepository {
       reservation.reservationPurpose,
       reservation.checkinDate,
       reservation.checkoutDate,
-      reservation.updatedDate,
       new Date().getTime(),
-      reservation.reservationId,
+      reservation.reservationId
     ];
 
     await this.CONNECTION.connect();
