@@ -1,4 +1,4 @@
-drop database if exists pucEspacos;
+DROP DATABASE IF EXISTS pucEspacos; 
 
 CREATE DATABASE pucEspacos;
 
@@ -68,7 +68,7 @@ CREATE TABLE tbUsers (
     userId Varchar(40) PRIMARY KEY,
     schoolId Varchar(40),
     email Varchar(50) UNIQUE,
-    password Varchar(50),
+    password Varchar(200),
     userName Varchar(100),
     userType Enum('Secretário','Docente','Discente','Administrador'),
     isActive Bool,
@@ -246,18 +246,18 @@ VALUES
 -- Inserção Usuáios Sem Escola
 INSERT INTO tbUsers ( userId, email, password, userName, userType, isActive, createdDate, updatedDate)
 VALUES 
-	(@maria_id, 'maria@pucpr.edu.br', 'Password.123', 'Maria', 'Discente', 1, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000),
-	(@pedro_id, 'pedro@pucpr.edu.br', 'Password.123', 'Pedro', 'Discente', 1, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000),
-	(@lucia_id, 'lucia@pucpr.br', 'Password.123', 'Lucia', 'Docente', 1, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000),
-	(@vera_id, 'vera@pucpr.br', 'Password.123', 'Vera', 'Docente', 1, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000),
-	(@camila_id, 'camila@pucpr.br', 'Password.123', 'Camila', 'Administrador', 1, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000),
-    (@dimitri_id, 'dimitri@pucpr.br', 'Password.123', 'Dimitri', 'Administrador', 1, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000);
+	(@maria_id, 'maria@pucpr.edu.br', ' ', 'Maria', 'Discente', 1, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000),
+	(@pedro_id, 'pedro@pucpr.edu.br', '880b056f8d68c94a411c21a9fc8084cfa55d9ec18c8d5156524e64ade2795ed3', 'Pedro', 'Discente', 1, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000),
+	(@lucia_id, 'lucia@pucpr.br', '880b056f8d68c94a411c21a9fc8084cfa55d9ec18c8d5156524e64ade2795ed3', 'Lucia', 'Docente', 1, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000),
+	(@vera_id, 'vera@pucpr.br', '880b056f8d68c94a411c21a9fc8084cfa55d9ec18c8d5156524e64ade2795ed3', 'Vera', 'Docente', 1, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000),
+	(@camila_id, 'camila@pucpr.br', '880b056f8d68c94a411c21a9fc8084cfa55d9ec18c8d5156524e64ade2795ed3', 'Camila', 'Administrador', 1, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000),
+    (@dimitri_id, 'dimitri@pucpr.br', '880b056f8d68c94a411c21a9fc8084cfa55d9ec18c8d5156524e64ade2795ed3', 'Dimitri', 'Administrador', 1, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000);
 
 -- Inserção Usuáios Com Escola
 INSERT INTO tbUsers (userId, schoolId, email, password, userName, userType, isActive, createdDate, updatedDate)
 VALUES 
-	(@joao_id, @direito_id, 'joao@pucpr.br', 'Password.123', 'João', 'Secretário', 1, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000),
-	(@joana_id, @educacao_humanidades_id, 'joana@pucpr.br', 'Password.123', 'Joana', 'Secretário', 1, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000);
+	(@joao_id, @direito_id, 'joao@pucpr.br', '880b056f8d68c94a411c21a9fc8084cfa55d9ec18c8d5156524e64ade2795ed3', 'João', 'Secretário', 1, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000),
+	(@joana_id, @educacao_humanidades_id, 'joana@pucpr.br', '880b056f8d68c94a411c21a9fc8084cfa55d9ec18c8d5156524e64ade2795ed3', 'Joana', 'Secretário', 1, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000);
     
 
 -- Inserção Reserva
