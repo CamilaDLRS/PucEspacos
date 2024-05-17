@@ -7,8 +7,7 @@ import { FacilityTypeDto } from "../dtos/facility/facilityType.dto";
 import { FacilitiesRepository } from "../repositories/facilities.repository";
 import * as uuid from "uuid";
 import { ReservationsServices } from "./reservations.services";
-import { ReservationQueryOptionsDto } from "../dtos/reservation/reservationOptions.dto";
-import { ReservationDto } from "../dtos/reservation/reservation.dto";
+import { ReservationAvailabilityQueryOptionsDto } from "../dtos/reservation/reservationAvailabilityOptions.dto";
 
 export class FacilitiesServices {
   public static async getAll(buildingId: string | null, facilityTypeId: string | null, minimumCapacity: number | null): Promise<FacilityDto[]> {
@@ -59,31 +58,20 @@ export class FacilitiesServices {
 
     for await (const facility of facilities) {
 
-      const options: ReservationQueryOptionsDto = {
-        buildingId: query.buildingId,
-        checkinDate: new Date(query.checkinDate).setHours(0, 0, 0, 0),
-        checkoutDate: new Date(query.checkoutDate).setHours(23, 59, 59, 0),
-        facilityIds: [facility.facilityId!]
-      }
-      let facilityReservations: ReservationDto[] = await ReservationsServices.getAll(options)
-      .then((reservations) =>{ return reservations })
-      .catch((err) =>{ return [] });
+      const options: ReservationAvailabilityQueryOptionsDto = {
+        checkinDate: query.checkinDate,
+        checkoutDate: query.checkoutDate,
+        facilityId: facility.facilityId!
+      };
+      const facilityAvailable = await ReservationsServices.isAvailable(options);
 
-      let facilityAvailable = true;
-
-      for await (const reservation of facilityReservations) {
-        if (query.checkinDate < reservation.checkoutDate && query.checkoutDate > reservation.checkoutDate) {
-          facilityAvailable = false;
-          break;
-        }
-      }
       if (facilityAvailable) {
         facilitiesAvailable.push(facility);
       }
     }
 
     if (facilitiesAvailable.length == 0) {
-      throw new ApiError(404, InternalCode.REGISTER_NOT_FOUND);
+      throw new ApiError(404, InternalCode.REGISTER_NOT_FOUND, "Não há espaços disponíveis com base nos filtros de busca.");
     }
 
     return facilitiesAvailable;
