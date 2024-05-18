@@ -43,3 +43,9 @@
   background-color: #31458E;
   color: white;
 }
+
+.card-facility-button-box{
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
