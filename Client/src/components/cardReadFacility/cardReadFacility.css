@@ -7,10 +7,11 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 1.5rem 3rem;
-  border-radius: 5px;
   width: 35%;
   background-color: white;
-  gap: 15px
+  gap: 15px;
+  border: 3px solid rgba(0, 0, 0, .6);
+  border-radius: .6rem;
 }
 
 .title-container {

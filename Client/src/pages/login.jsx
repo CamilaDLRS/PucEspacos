@@ -13,11 +13,11 @@ function Login() {
       toast(localStorage.getItem("responseMessage"))
       setTimeout(() => {
         localStorage.removeItem("responseMessage")
-      }, 2000)
+      }, 100)
   }, [localStorage.getItem("responseMessage")])
 
   return (
-    <div className="page-container">
+    <div className="page-container-login">
       <Title />
       <FormLogin />
       <ToastContainer />

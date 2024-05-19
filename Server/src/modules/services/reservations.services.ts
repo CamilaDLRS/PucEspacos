@@ -4,13 +4,12 @@ import { ReservationDto } from "../dtos/reservation/reservation.dto";
 import { ReservationQueryOptionsDto } from "../dtos/reservation/reservationOptions.dto";
 import * as uuid from "uuid";
 import { ReservationsRepository } from "../repositories/reservations.repository";
-// import { UsersServices } from "./users.services";
-// import reservationsRouter from "../../shared/infra/routes/reservations.routes";
-// import { ReservationStatus } from "../enums/reservationStatus.enum";
 import { UsersServices } from "./users.services";
 import { UserDto } from "../dtos/user.dto";
-// import { date } from "yup";
 import { UserType } from "../enums/userType.enum";
+import { FacilitiesServices } from "./facilities.services";
+import { ReservationAvailabilityQueryOptionsDto } from "../dtos/reservation/reservationAvailabilityOptions.dto";
+import { ReservationStatus } from "../enums/reservationStatus.enum";
 
 export class ReservationsServices {
   public static async getAll(options: ReservationQueryOptionsDto): Promise<ReservationDto[]> {
@@ -33,26 +32,136 @@ export class ReservationsServices {
   }
 
   public static async create(reservation: ReservationDto): Promise<string> {
-    //TO DO
-    //verificar id do facility
-    //verificar id dos usuários se estes estão ativos
-    //verificar datas
-    //adicionar verificação de regras de negócio
+
+    const facility = await FacilitiesServices.getById(reservation.facilityId, { getAssets: false } );
+    if (!facility.isActive) {
+      throw new ApiError(404, InternalCode.INVALID_PERMISION);
+    }
+
+    const responsibleUser = await UsersServices.getById(reservation.responsibleUserId);    
+    if (!responsibleUser.isActive) {
+      throw new ApiError(404, InternalCode.INVALID_PERMISION);
+    }
+    reservation.reservationStatus = ReservationStatus.APPROVED;
+    
+    if (reservation.requestingUserId) {
+      reservation.reservationStatus = ReservationStatus.REQUESTED;
+     
+      const requestingUser = await UsersServices.getById(reservation.responsibleUserId);
+      if (!requestingUser.isActive) {
+        throw new ApiError(404, InternalCode.INVALID_PERMISION);
+      }
+    }
+    await ReservationsServices.isValid(reservation);
+
     reservation.reservationId = uuid.v4();
     await ReservationsRepository.create(reservation);
     return reservation.reservationId;
   }
 
   public static async update(reservationUpdated: ReservationDto): Promise<void> {
-
+    
     const reservation = await this.getById(reservationUpdated.reservationId!);
-    //TO DO
-    //adicionar verificação de regras de negócio
+    
     reservation.update(reservationUpdated);
-
+    await ReservationsServices.isValid(reservation);
+    
     await ReservationsRepository.update(reservation);
   }
+  
+  public static async delete(id: string, userId: string): Promise<void> {
 
+    const reservation = await this.getById(id);
+    const dateNow = new Date().getTime();
+    const responsibleUser = await UsersServices.getById(reservation.responsibleUserId);
+    const admUser = await UsersServices.getById(userId);
+
+    // Verifica se o usuario esta ativo
+    if (admUser.isActive == false) {
+      throw new ApiError(404, InternalCode.USER_DISABLED);
+    }
+
+
+    if (reservation.checkinDate >= dateNow && (admUser.userType == UserType.ADMINISTRATOR || admUser.userType == UserType.SECRETARY || admUser.userId == reservation.responsibleUserId)) {
+
+      await ReservationsRepository.delete(id);
+
+      if (userId != responsibleUser.userId) {
+        this.sendEmail(responsibleUser, admUser)
+      }
+
+    }
+    else {
+      throw new ApiError(404, InternalCode.INVALID_PERMISION);
+    }
+
+  }
+
+  public static async isAvailable(options: ReservationAvailabilityQueryOptionsDto): Promise<boolean> {
+    
+    const optionsX: ReservationQueryOptionsDto = {
+      ...options,
+      checkinDate: new Date(options.checkinDate).setHours(0, 0, 0, 0),
+      checkoutDate: new Date(options.checkoutDate).setHours(23, 59, 59, 0),
+      facilityIds: (options.facilityId) ? [options.facilityId] : []
+    }
+    let reservations: ReservationDto[] = await ReservationsServices.getAll(optionsX)
+    .then((reservations) =>{ return reservations })
+    .catch((err) =>{ return [] });
+
+    
+    for await (const reservation of reservations) {
+      if (
+        options.checkinDate < reservation.checkoutDate &&
+        options.checkoutDate >= reservation.checkoutDate &&
+        options.reservationId != reservation.reservationId
+      ) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private static async isValid(reservation: ReservationDto): Promise<boolean> {
+    
+    if (reservation.checkinDate < new Date().getTime()) {
+      throw new ApiError(404, InternalCode.INVALID_REQUEST, "Reservas no passado não são permitidas.");
+    }
+    if (reservation.checkoutDate < reservation.checkinDate) {
+      throw new ApiError(404, InternalCode.INVALID_REQUEST, "Saída deve ser após a entrada.");
+    }
+
+    if (((new Date(reservation.checkinDate)).getDate() !== (new Date(reservation.checkoutDate)).getDate()) ||
+       ((new Date(reservation.checkinDate)).getMonth() !== (new Date(reservation.checkoutDate)).getMonth()) ||
+        ((new Date(reservation.checkinDate)).getFullYear() !== (new Date(reservation.checkoutDate)).getFullYear())) {
+      throw new ApiError(404, InternalCode.INVALID_REQUEST, "Não é permitido entrada e saída em dias distintos.");
+    }
+
+    let options: ReservationAvailabilityQueryOptionsDto = {
+      requestingUserId: reservation.requestingUserId || undefined,
+      responsibleUserId: (reservation.requestingUserId) ? undefined : reservation.responsibleUserId,
+      checkinDate: reservation.checkinDate,
+      checkoutDate: reservation.checkoutDate,
+      reservationId: reservation.reservationId|| undefined
+    }
+     
+    if (!await ReservationsServices.isAvailable(options)) {
+      throw new ApiError(404, InternalCode.INVALID_REQUEST, "Usuário já contém reserva que conflita com este dia e horário.");
+    };
+
+    options = {
+      requestingUserId: undefined,
+      responsibleUserId: undefined,
+      checkinDate: reservation.checkinDate,
+      checkoutDate: reservation.checkoutDate,
+      facilityId: reservation.facilityId,
+      reservationId: reservation.reservationId|| undefined
+    }
+    if (!await ReservationsServices.isAvailable(options)) {
+      throw new ApiError(404, InternalCode.INVALID_REQUEST, "Espaço indisponível.");
+    };
+    return true;
+  }
 
   private static sendEmail(responsibleUser: UserDto, admUser: UserDto) {
     const nodemailer = require('nodemailer');
@@ -83,35 +192,4 @@ export class ReservationsServices {
     };
     sendEmail();
   }
-
-  public static async delete(id: string, userId: string): Promise<void> {
-
-    const reservation = await this.getById(id);
-    const dateNow = new Date().getTime();
-    const responsibleUser = await UsersServices.getById(reservation.responsibleUserId);
-    const admUser = await UsersServices.getById(userId);
-
-    // Verifica se o usuario esta ativo
-    if (admUser.isActive == false) {
-      throw new ApiError(404, InternalCode.USER_DISABLED);
-    }
-
-
-    if (reservation.checkinDate >= dateNow && (admUser.userType == UserType.ADMINISTRATOR || admUser.userType == UserType.SECRETARY || admUser.userId == reservation.responsibleUserId)) {
-
-      await ReservationsRepository.delete(id);
-
-      if (userId != responsibleUser.userId) {
-        this.sendEmail(responsibleUser, admUser)
-      }
-
-    }
-    else {
-      throw new ApiError(404, InternalCode.INVALID_PERMISION);
-    }
-
-  }
-
-  //TO DO
-  //criar métodos privados de verificação de reserva
 }

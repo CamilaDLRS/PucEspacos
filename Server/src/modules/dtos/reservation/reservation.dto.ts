@@ -5,7 +5,7 @@ export class ReservationDto {
 
   reservationId: string;
   responsibleUserId: string;
-  requestingUserId: string;
+  requestingUserId: string | null;
   facilityId: string;
   reservationStatus: ReservationStatus;
   reservationPurpose: ReservationPurpose;
@@ -23,7 +23,7 @@ export class ReservationDto {
 
   constructor(data: any) {
     this.responsibleUserId = data.responsibleUserId,
-    this.requestingUserId = data.requestingUserId,
+    this.requestingUserId = data.requestingUserId || null,
     this.facilityId = data.facilityId,
     this.reservationStatus  = data.reservationStatus,
     this.reservationPurpose = data.reservationPurpose,

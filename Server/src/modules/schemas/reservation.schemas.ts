@@ -38,10 +38,18 @@ export const createReservationSchema = yup.object({
       .required("Propósito da reserva é obrigatório."),
     checkinDate: yup
       .number()
-      .required("Checkin é obrigatório."),
+      .required("Entrada é obrigatória."),
     checkoutDate: yup
       .number()
-      .required("Checkout é obrigatório.")
+      .required("Saída é obrigatória.")
+      .test(
+        'is-greater',
+        'Saída deve ser após a entrada.',
+        function (value) {
+          const { checkinDate } = this.parent;
+          return value > checkinDate;
+        }
+      )
   })
 });
 
@@ -52,10 +60,10 @@ export const updateReservationSchema = yup.object({
       .required("Propósito da reserva é obrigatório."),
     checkinDate: yup
       .number()
-      .required("Checkin é obrigatório."),
+      .required("Entrada é obrigatória."),
     checkoutDate: yup
       .number()
-      .required("Checkout é obrigatório.")
+      .required("Saída é obrigatória.")
   })
 });
 

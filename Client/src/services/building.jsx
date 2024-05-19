@@ -17,6 +17,6 @@ export async function getAllBuildings() {
         return response.data.data;
     })
     .catch((e) => {
-        alert(e.response.data.error.message);
+        toast(e.response.data.error.message);
     });
 }

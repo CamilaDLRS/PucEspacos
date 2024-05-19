@@ -1,35 +1,30 @@
-.container-absolute {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, .3);
-}
-
 .form-edit-user {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    padding: 1.5rem 3rem;
-    border-radius: 5px;
+    gap: .8rem;
     width: 35%;
+    padding: 2rem 2rem;
     background-color: white;
+    border: 3px solid rgba(0, 0, 0, .6);
+    border-radius: .6rem;
 }
 
 .form-edit-infos {
     display: flex;
     flex-direction: row;
     align-items: center;
+    gap: 3rem;
 }
 
 .form-edit-infos div {
     display: flex;
     flex-direction: column;
+}
+
+.form-edit-user .right-side {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
     width: 100%;
 }
 
@@ -37,13 +32,22 @@
     border: none;   
     border-left: 1px solid black;
     display: flex;
-    flex-direction: column;
+    margin: 0;
     gap: 1rem;
+    width: 100%;
 }
 
 .form-edit-user .right-side .select-area {
     display: flex;
+    width: 100%;
+    justify-content: space-between;
     flex-direction: column;
+}
+
+.form-edit-user .right-side .select-area div {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .right-side .filter-container div {
@@ -51,23 +55,4 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-}
-
-.btn-area {
-    display: flex;
-    align-items: center;
-    justify-content: end;
-}
-
-.btn-area div {
-    margin-left: 1rem;
-    cursor: pointer;
-    border: 1px solid rgba(0, 0, 0, .8);
-    padding: 5px 1rem;
-    color: white;
-    background-color: red;
-}
-
-.btn-area div + div {
-    background-color: green;
 }

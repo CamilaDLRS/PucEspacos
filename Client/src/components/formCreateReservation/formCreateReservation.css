@@ -1,0 +1,139 @@
+.form-create-reserve {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    margin: 20px 5%;
+    gap: 20px;
+}
+
+.form-create-reserve .form-field {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+    border: 2px solid rgba(0, 0, 0, .3);
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: white;
+}
+
+.form-create-reserve .form-field:hover{
+    border: 2px solid black;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.form-create-reserve .form-field * {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.form-create-reserve .date-select-area {
+    display: flex;
+    gap: 20px;
+}
+
+.form-create-reserve .date-select-area * {
+    width: 100%;
+}
+
+.form-create-reserve .btn-area {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+    gap: 15px;
+}
+
+.form-create-reserve .btn-area div {
+    margin: 0;
+    padding: 5px 0;
+    width: 100%;
+    background-color: lime;
+    border-color: green;
+}
+
+.form-create-reserve .btn-area div:hover {
+    color: green;
+    background-color: white;
+    transition: .5s;
+}
+
+.form-create-reserve .btn-area a {
+    text-decoration: none;
+    cursor: pointer;
+    border: 2px solid red;
+    border-radius: 5px;
+    padding: 5px 0rem;
+    font-weight: bolder;
+    color: white;
+    background-color: rgba(255, 0, 0, .7);
+    transition: .5s;
+    width: 80%;
+}
+
+.form-create-reserve .btn-area a:hover {
+    background-color: white;
+    color: red;
+    transition: .5s;
+}
+
+.form-create-reserve .reservation-list {
+    position: absolute;
+    top: 100%;
+    left: -2px;
+    z-index: 1;
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    height: 100px;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    list-style: none;
+    border: 2px solid;
+    border-radius: 0px 0px 5px 5px;
+    background-color: white;
+}
+
+.form-create-reserve .reservation-list li {
+    padding: 0 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, .3);
+}
+
+.form-create-reserve .reservation-list li:hover {
+    background-color: rgb(190, 190, 190);
+}
+
+.form-create-reserve input {
+    cursor: pointer;
+}
+
+.form-create-reserve input:focus, .form-create-reserve select:focus{
+    outline: none;
+}
+
+.form-create-reserve input[type="date"]::-webkit-calendar-picker-indicator, .form-create-reserve input[type="time"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    display: flex;
+    justify-content: end;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.form-create-reserve .reservation-icon {
+    position: absolute;
+    bottom: 15%;
+    right: 5%;
+    transform: scale(1.2);
+    width: fit-content;
+}
+
+.form-create-reserve .reservation-icon-clock{
+    right: 10%;
+}

@@ -9,7 +9,7 @@ function SignUp() {
     }
 
     return ( 
-        <div className="page-container">
+        <div className="page-container-login">
             <Title />
             <FormSignUp />
             <ToastContainer />
