@@ -7,9 +7,9 @@ import { updateFacilityStatus } from "../../services/facility";
 import { useState } from "react";
 
 
-function CardFacility({ facility, showFacility, showFacilityForm}) {
+function CardFacility({ facility, showFacility, showFacilityForm, isReserve, showCardReserve }) {
 
-  const [showStausCard, setShowStausCard] = useState(false);    
+  const [showStausCard, setShowStausCard] = useState(false);
 
   function showStatusCardConfirmation() {
     showStausCard ? setShowStausCard(false) : setShowStausCard(true);
@@ -22,41 +22,46 @@ function CardFacility({ facility, showFacility, showFacilityForm}) {
 
         <div className="card-header-facility-type">
           <p> {facility.facilityType} </p>
-          
+
           {facility.capacity ? <><IconPersonFill /> <p className="normal-font"> {facility.capacity} </p> </> : <p></p>}
         </div>
       </div>
 
       <div className="card-facility-body">
         {facility.note ? <p className="normal-font"> <strong>Observação:</strong>  {facility.note} </p> : <p></p>}
-        <div className="card-facility-button showReadFacility" onClick={showFacility.bind(event, facility)}> Mais </div>
+        <div className="card-facility-button-box">
+          <div className="card-facility-button showReadFacility" onClick={showFacility.bind(event, facility)}> Mais </div>
+          {/* {isReserve === true &&  */}
+          <div className="card-facility-button showReservationPurpose" style={{ background: "#7EA76A" }} onClick={showCardReserve.bind(event, facility)}> Reservar </div>
+          {/* } */}
+        </div>
       </div>
-        {
-          (localStorage.getItem("userType") === "Administrador"
-            || localStorage.getItem("userType") === "Secretário") &&
-          <div className="card-facility-icons">       
-            <IconPower 
-              onClick={(e) => showStatusCardConfirmation()} 
-              className="icon card-facility-icon" 
-              color={facility.isActive ? "green" : "red"} 
-            /> 
-            <IconBxsEdit 
-              className="icon card-facility-icon show-form" 
-              onClick={showFacilityForm.bind(event, facility)} 
-            />
-          </div>
-        }
-
-        {showStausCard &&
-          <CardConfirmation     
-              message={ facility.isActive ? 
-                "Tem certeza que deseja DESATIVAR este espaço? Todas as reservas registradas nele que ainda não ocorram serão canceladas." : 
-                "Tem certeza que deseja ATIVAR este espaço?" 
-              }
-              showConfirmationCard={showStatusCardConfirmation}
-              action={() => updateFacilityStatus(facility.facilityId, !facility.isActive)} 
+      {
+        (localStorage.getItem("userType") === "Administrador"
+          || localStorage.getItem("userType") === "Secretário") &&
+        <div className="card-facility-icons">
+          <IconPower
+            onClick={(e) => showStatusCardConfirmation()}
+            className="icon card-facility-icon"
+            color={facility.isActive ? "green" : "red"}
           />
-        }
+          <IconBxsEdit
+            className="icon card-facility-icon show-form"
+            onClick={showFacilityForm.bind(event, facility)}
+          />
+        </div>
+      }
+
+      {showStausCard &&
+        <CardConfirmation
+          message={facility.isActive ?
+            "Tem certeza que deseja DESATIVAR este espaço? Todas as reservas registradas nele que ainda não ocorram serão canceladas." :
+            "Tem certeza que deseja ATIVAR este espaço?"
+          }
+          showConfirmationCard={showStatusCardConfirmation}
+          action={() => updateFacilityStatus(facility.facilityId, !facility.isActive)}
+        />
+      }
 
     </div>
   );

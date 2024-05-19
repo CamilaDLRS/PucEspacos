@@ -1,0 +1,17 @@
+
+.confirme-reserve {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.5rem 3rem;
+    border-radius: 5px;
+    width: 35%;
+    background-color: white;
+    gap: 15px
+}
+
+.info{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

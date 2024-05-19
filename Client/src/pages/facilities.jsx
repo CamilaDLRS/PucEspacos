@@ -10,6 +10,8 @@ import CardReadFacility from "../components/cardReadFacility/cardReadFacility";
 import FormFacility from "../components/formFacility/formFacility";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import FormResrvationPurpose from "../components/formReservationPurpose/formReservationPurpose";
+import CardReservationReview from "../components/cardReservationReview/cardReservationReview"
 
 function Facilities() {
   useEffect(() => {
@@ -25,6 +27,13 @@ function Facilities() {
       }, 100)
   }, [localStorage.getItem("responseMessage")])
 
+
+  //Para implementacao em resrva INICIO
+
+  const [showReserve, setShowReserve] = useState(false);
+  const [showConfirmReserve, setShowConfirmReserve] = useState(false);
+  //Para implementacao em resrva FIM
+
   const [facilities, setFacilities] = useState([]);
   const [buildings, setBuildings] = useState([]);
   const [facilityTypes, setFacilityTypes] = useState([]);
@@ -38,7 +47,7 @@ function Facilities() {
   const [facilityById, setFacilityById] = useState();
 
   const [triggerFacilityForm, setTriggerFacilityForm] = useState(false);
- 
+
   useEffect(() => {
     getAllFacilities().then((response) => setFacilities(response));
     getAllBuildings().then((response) => setBuildings(response));
@@ -75,11 +84,26 @@ function Facilities() {
     return buildingMatches && typeMatches;
   });
 
+  //Para implementacao em resrva INICIO
+  function showCardReserve(facility, event) {
+    if (event.target.classList.contains("showReservationPurpose")) {
+      showReserve ? setShowReserve(false) : setShowReserve(true);console.log("Reserva")
+    }
+    if (event.target.classList.contains("showConfirmReserve")) {
+      showConfirmReserve ? setShowConfirmReserve(false) : setShowConfirmReserve(true);
+      showReserve && setShowReserve(false);
+      console.log("Reserva 2")
+    }
+    
+  }
+  //Para implementacao em resrva FIM
+
   function showFacility(facility, event) {
     if (event.target.classList.contains("showReadFacility")) {
       showReadFacility ? setShowReadFacility(false) : setShowReadFacility(true);
       setFacilityById(facility);
     }
+    console.log("Espaco")
   }
 
   function showFacilityForm(facility, event) {
@@ -112,7 +136,6 @@ function Facilities() {
           triggerFunction={showFacilityForm}
           addSomething="Adicionar Espaço"
         />
-
 
         {(localStorage.getItem("userType") === "Docente" ||
           localStorage.getItem("userType") === "Discente") 
@@ -148,6 +171,21 @@ function Facilities() {
           />
         }
       </div>
+
+      {/* //Para implementacao em resrva INICIO */}
+      {showReserve &&
+        <FormResrvationPurpose
+          showCardReserve={showCardReserve}
+        />
+      }
+
+      {showConfirmReserve &&
+        <CardReservationReview
+          showCardReserve = {showCardReserve}
+        />
+      }
+
+      {/* //Para implementacao em resrva FIM */}
 
       <ToastContainer />
     </>
