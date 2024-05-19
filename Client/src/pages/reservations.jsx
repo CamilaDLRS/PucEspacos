@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CardFacilityReserve from "../components/cardFacilityReserve/cardFacilityReserve"
 import { ToastContainer, toast } from 'react-toastify';
+import { getAllReservations } from "../services/reservation";
 
 function Reservations() {
   if (!localStorage.getItem("userType")) {
@@ -21,12 +22,19 @@ function Reservations() {
   }, [localStorage.getItem("responseMessage")])
 
   const [inputTemplate, setInputTemplate] = useState({
-    userId: null,
-    checkinDate: "",
-    checkoutDate: "",
-    buildingId: "null",
-    facilitiesIdList: ["", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+    requestingUserId: "b2cb9978-4a50-4393-9985-eb8fad46f5f1",
+    // onlyByRequestingUserId: true,
+    checkinDate: null,
+    checkoutDate: null,
+    buildingId: null,
+    // facilitiesIdList: []
   });
+
+  const [reservations, setReservations] = useState([]);
+
+  useEffect(() => {
+    getAllReservations(inputTemplate).then((response) => setReservations(response));
+  }, [inputTemplate]);
 
   const [triggerFacilityList, setTriggerFacilityList] = useState(false);
 
@@ -36,7 +44,16 @@ function Reservations() {
     }
   }
 
-  console.log(inputTemplate)
+  function convertToDateTime(timestamp) {
+    const dtToday = new Date(timestamp);
+    const year = dtToday.getFullYear().toString();
+    var month = dtToday.getMonth() + 1;
+    month = month < 10 ? "0" + month.toString() : month.toString();
+    var day = dtToday.getDate() + 1;
+    day = day < 10 ? "0" + day.toString() : day.toString();
+
+    return `${year}-${month}-${day}`
+  }
 
   return (
     <div>
@@ -66,18 +83,18 @@ function Reservations() {
                 type: "date",
                 label: "Inicio",
                 id: "checkinDate",
-                value: inputTemplate.checkinDate,
+                value: convertToDateTime(inputTemplate.checkinDate),
                 onChange: (value) => {
-                  setInputTemplate({...inputTemplate, checkinDate: value, checkoutDate: ""})
+                  setInputTemplate({...inputTemplate, checkinDate: value, checkoutDate: null})
                 } 
               }, 
               {
                 type: "date",
                 label: "Fim",
                 id: "checkoutDate",
-                value: inputTemplate.checkoutDate,
+                value: convertToDateTime(inputTemplate.checkoutDate),
                 onChange: (value) => setInputTemplate({...inputTemplate, checkoutDate: value}),
-                min: inputTemplate.checkinDate 
+                min: convertToDateTime(inputTemplate.checkinDate)
               },
               {
                 type: "select",
@@ -93,7 +110,13 @@ function Reservations() {
           />
         </div>
 
-        <CardReservation />
+        {reservations &&
+          reservations.map((reserve) => ( 
+            <CardReservation 
+              reserve={reserve} 
+            />
+          ))
+        }
       </div>
 
       {
