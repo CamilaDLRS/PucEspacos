@@ -61,6 +61,17 @@
     width: 100%;
 }
 
+.form-facility .choosed-assets:has(*) {
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+    border: 2px solid rgba(0, 0, 0, .6);
+    border-radius: 5px;
+    padding: 1rem 2rem;
+    height: 100px;
+    overflow: auto;
+}
+
 .form-facility .facilty-assets {
     display: flex;
     align-items: center;

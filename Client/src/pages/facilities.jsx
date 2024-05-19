@@ -22,7 +22,7 @@ function Facilities() {
       toast(localStorage.getItem("responseMessage"))
       setTimeout(() => {
         localStorage.removeItem("responseMessage")
-      }, 2000)
+      }, 100)
   }, [localStorage.getItem("responseMessage")])
 
   const [facilities, setFacilities] = useState([]);
@@ -92,61 +92,62 @@ function Facilities() {
   return (
     <>
       <Header local="facilities" />
-
-      <Filters
-        filters={[
-          {
-            title: "Bloco",
-            label: false,
-            onChange: (value) => setBuildingFilter(value),
-            options: buildingFilterOptions,
-          },
-          {
-            title: "Tipo",
-            onChange: (value) => setTypeFilter(value),
-            options: typeFilterOptions,
-          },
-        ]}
-        
-        showAddButton={true}
-        triggerFunction={showFacilityForm}
-        addSomething="Adicionar Espaço"
-      />
-
-
-      {(localStorage.getItem("userType") === "Docente" ||
-        localStorage.getItem("userType") === "Discente") ? 
-        filteredFacilities.map((facility) => { 
-          return facility.isActive ? (<CardFacility
-            facility={facility}
-            showFacility={showFacility}
-            showFacilityForm={showFacilityForm}
-          />) : <></>
-        })
-        : filteredFacilities.map((facility) => { 
-          return (<CardFacility
-            facility={facility}
-            showFacility={showFacility}
-            showFacilityForm={showFacilityForm}
-          />)
-        }) 
-      }
-
-      {triggerFacilityForm &&
-        <FormFacility 
-          facilityFunction={showFacilityForm}
-          facility = {facilityById}
-          buildings= {buildings}
-          facilityTypes = {facilityTypes}
-        />   
-      }
-
-      {showReadFacility &&
-        <CardReadFacility
-          showFacility={showFacility}
-          facility={facilityById}
+      <div className="page-container">
+        <Filters
+          filters={[
+            {
+              title: "Bloco",
+              label: false,
+              onChange: (value) => setBuildingFilter(value),
+              options: buildingFilterOptions,
+            },
+            {
+              title: "Tipo",
+              onChange: (value) => setTypeFilter(value),
+              options: typeFilterOptions,
+            },
+          ]}
+          
+          showAddButton={true}
+          triggerFunction={showFacilityForm}
+          addSomething="Adicionar Espaço"
         />
-      }
+
+
+        {(localStorage.getItem("userType") === "Docente" ||
+          localStorage.getItem("userType") === "Discente") 
+          ? filteredFacilities.map((facility) => { 
+            return facility.isActive ? (<CardFacility
+              facility={facility}
+              showFacility={showFacility}
+              showFacilityForm={showFacilityForm}
+            />) : <></>
+          })
+          : filteredFacilities.map((facility) => { 
+            return (<CardFacility
+              facility={facility}
+              showFacility={showFacility}
+              showFacilityForm={showFacilityForm}
+            />)
+          }) 
+        }
+
+        {triggerFacilityForm &&
+          <FormFacility 
+            facilityFunction={showFacilityForm}
+            facility = {facilityById}
+            buildings= {buildings}
+            facilityTypes = {facilityTypes}
+          />   
+        }
+
+        {showReadFacility &&
+          <CardReadFacility
+            showFacility={showFacility}
+            facility={facilityById}
+          />
+        }
+      </div>
 
       <ToastContainer />
     </>

@@ -2,10 +2,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
   border-bottom: 1px solid black;
-  width: 70%;
   padding: 10px 10px;
-  margin: 20px auto;
+  margin: 10px auto;
   gap: 30px;
   font-weight: bold;
 }
@@ -27,6 +27,7 @@
   margin-left: -10px;
   width: 200px;
   padding: 5px 10px;
+  border-radius: 5px;
 }
 
 .filter-option {

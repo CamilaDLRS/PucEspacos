@@ -1,17 +1,13 @@
 .page-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding-top: 2rem;
-    gap: 5rem;
+    width: 70%;
+    margin: 0 auto;
 }
 
 .create-reservation-link {
     display: flex;
-    align-items: center;
-    width: 70%;
-    margin: 10px auto;
+    margin: 10px 0;
     color: black;
     text-decoration: none;
 }
@@ -21,8 +17,7 @@
     align-items: center;
     gap: 20px;
     padding: 1px 20px;
-    width: fit-content;
-    border: 2px solid rgba(0, 0, 0, .6);
-    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, .6);
+    border-radius: 5px;
     background-color: white;
 }

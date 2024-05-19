@@ -1,0 +1,56 @@
+.facility-list-area {
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+    width: 35%;
+    padding: 2rem 2rem;
+    background-color: white;
+    border: 3px solid rgba(0, 0, 0, .6);
+    border-radius: .6rem;
+}
+
+.facility-list-area .header-facility-reserve {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.facility-list-area .facilities-area {
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+    overflow: auto;
+    gap: 1rem;
+}
+
+.facility-list-area .input-checkbox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    gap: 2rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(0, 0, 0, .4);
+}
+
+.facility-list-area  .input-checkbox input[type=checkbox]
+{
+    margin-left: 5px;
+    -ms-transform: scale(1.7); 
+    -moz-transform: scale(1.7); 
+    -webkit-transform: scale(1.7); 
+    -o-transform: scale(1.7); 
+    transform: scale(1.7);
+}
+
+
+.facility-list-area .btn-area  {
+    gap: 30px;
+}
+
+.facility-list-area .btn-area div{
+    width: 100%;
+    margin: 0;
+    text-align: center;
+}
