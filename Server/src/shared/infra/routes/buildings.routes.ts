@@ -9,7 +9,7 @@ buildingsRouter.get(
 );
 
 buildingsRouter.get(
-  "/:id/:facilities?",
+  "/:id",
   BuildingsController.getById
 );
 

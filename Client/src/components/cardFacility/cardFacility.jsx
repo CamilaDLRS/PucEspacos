@@ -31,9 +31,9 @@ function CardFacility({ facility, showFacility, showFacilityForm, isReserve, sho
         {facility.note ? <p className="normal-font"> <strong>Observação:</strong>  {facility.note} </p> : <p></p>}
         <div className="card-facility-button-box">
           <div className="card-facility-button showReadFacility" onClick={showFacility.bind(event, facility)}> Mais </div>
-          {/* {isReserve === true &&  */}
-          <div className="card-facility-button showReservationPurpose" style={{ background: "#7EA76A" }} onClick={showCardReserve.bind(event, facility)}> Reservar </div>
-          {/* } */}
+          {isReserve === true &&
+            <div className="card-facility-button showReservationPurpose" style={{ background: "#7EA76A" }}> Reservar </div>
+          }
         </div>
       </div>
       {
