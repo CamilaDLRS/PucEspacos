@@ -7,7 +7,7 @@ import { updateFacilityStatus } from "../../services/facility";
 import { useState } from "react";
 
 
-function CardFacility({ facility, showFacility, showFacilityForm, isReserve }) {
+function CardFacility({ facility, showFacility, showFacilityForm, isReserve, showCardReserve }) {
 
   const [showStausCard, setShowStausCard] = useState(false);
 
@@ -32,7 +32,7 @@ function CardFacility({ facility, showFacility, showFacilityForm, isReserve }) {
         <div className="card-facility-button-box">
           <div className="card-facility-button showReadFacility" onClick={showFacility.bind(event, facility)}> Mais </div>
           {/* {isReserve === true &&  */}
-          <div className="card-facility-button showReserve" style={{ background: "#7EA76A" }} onClick={showFacility.bind(event, facility)}> Reservar </div>
+          <div className="card-facility-button showReservationPurpose" style={{ background: "#7EA76A" }} onClick={showCardReserve.bind(event, facility)}> Reservar </div>
           {/* } */}
         </div>
       </div>
