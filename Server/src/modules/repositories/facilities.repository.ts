@@ -8,7 +8,7 @@ import { FacilityTypeDto } from "../dtos/facility/facilityType.dto";
 export class FacilitiesRepository {
   private static readonly CONNECTION: IdbServices = new MysqlDbServices();
 
-  public static readonly selectQuery = `SELECT f.*, t.facilityTypeDescription, b.buildingName  
+  private static readonly selectQuery = `SELECT f.*, t.facilityTypeDescription, b.buildingName  
   FROM tbFacilities f
   INNER JOIN tbBuildings b ON b.buildingId = f.buildingId
   INNER JOIN tbFacilityTypes t ON t.facilityTypeId = f.facilityTypeId`;

@@ -9,14 +9,6 @@ export const createUserSchema = yup.object({
     userName: yup
       .string()
       .required("Campo nome é obrigatório."),
-    // password: yup
-    // .string()
-    // .required("Campo senha é obrigatório.")
-    // .min(8, "Precisa ter pelo menos 8 caracteres")
-    // .minLowercase(1, "Precisa ter pelo menos letra Minúscula")
-    // .minUppercase(1, "Precisa ter pelo menos letra Maiúscula")
-    // .minNumbers(1, "Precisa ter pelo menos 1 número")
-    // .minSymbols(1, "Precisa ter pelo menos 1 caracter especial"),
     passwordConfirmation: yup
       .string()
       .oneOf([yup.ref('password')], 'As senhas devem ser iguais.')
@@ -32,6 +24,7 @@ export const createUserSchema = yup.object({
       .email("Email inválido.")
   })
 });
+
 
 export const updateUserSchema = yup.object({
   body: yup.object({  

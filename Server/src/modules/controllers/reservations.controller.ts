@@ -57,7 +57,7 @@ export class ReservationsController {
   public static async delete(req: Request, res: Response) {
     try {
       let reservationId = String(req.params.id);
-      let userId = String(req.params.userId)
+      let userId = String(req.query.userId);
       await ReservationsServices.delete(reservationId, userId);
 
       await ExpressHandlers.handleResponse(req, res, "Reserva excluida com sucesso!");
