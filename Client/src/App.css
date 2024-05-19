@@ -10,7 +10,7 @@ body {
 }
 
 .container-absolute {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -45,4 +45,39 @@ input[type=number] {
 .icon:hover {
   transform: scale(1.1);
   transition: .3s;
+}
+
+.btn-area {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+.btn-area div {
+  margin-left: 1rem;
+  cursor: pointer;
+  border: 2px solid red;
+  border-radius: 5px;
+  padding: 5px 1rem;
+  font-weight: bolder;
+  color: white;
+  background-color: rgba(255, 0, 0, .7);
+  transition: .5s;
+}
+
+.btn-area div:hover {
+  color: red;
+  background-color: white;
+  transition: .5s;
+}
+
+.btn-area div + div {
+  border: 2px solid green;
+  background-color: lime;
+  transition: .5s;
+}
+
+.btn-area div + div:hover {
+  color: green;
+  transition: .5s;
 }

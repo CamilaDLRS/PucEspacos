@@ -108,7 +108,6 @@ function FormEditUser({user, showFormUser, userTypes}) {
             { 
                 showCard &&
                 <CardConfirmation  
-                       
                     message={ 
                         (user.isActive === 1 && dataEditUser.isActive === "0") ?
                         <div>

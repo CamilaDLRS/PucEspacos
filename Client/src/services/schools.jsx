@@ -1,4 +1,6 @@
 import axios from "axios";
+import { toast } from 'react-toastify';
+
 
 const httpOptions = {
   headers: {
@@ -17,6 +19,6 @@ export async function getAllSchools() {
         return response.data.data;
     })
     .catch((e) => {
-        alert(e.response.data.error.message);
+        toast(e.response.data.error.message);
     });
 }

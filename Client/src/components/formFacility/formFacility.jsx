@@ -81,7 +81,7 @@ function FormEditFacility({ facility, facilityFunction, buildings, facilityTypes
     const onChangeSelectAssets = (selectedAssetId) => {
         if (currentAssets.length > 0 && selectedAssetId !== "") {
             const selectedAsset = currentAssets.find(asset => asset.assetId === selectedAssetId);
-            setFacilityTemplate({ ...facilityTemplate, assets: [...facilityTemplate.assets, selectedAsset]});
+            setFacilityTemplate({ ...facilityTemplate, assets: [selectedAsset, ...facilityTemplate.assets]});
         }
     };
 
@@ -249,34 +249,38 @@ function FormEditFacility({ facility, facilityFunction, buildings, facilityTypes
                     }
                 </select>
 
-                {
-                    facilityTemplate.assets.map((asset, index) => (
-                        <>
-                        <div className="facilty-assets" key={index}>
-                            <div className="facility-assets-info">
-                                <input 
-                                    type="number" 
-                                    value={asset.quantity ? asset.quantity : ''} 
-                                    placeholder="0"
-                                    onChange={(e) => { 
-                                        if (e.target.value.length > 4) {
-                                            e.target.value = e.target.value.slice(0, 4)
-                                        }
-                                        asset.quantity = e.target.value;   
-                                        setFacilityTemplate({...facilityTemplate, assets: [...facilityTemplate.assets]});
-                                        setErrors({ ...errors, assets: errors.assets.map((err, i) => i === index ? '' : err) });
-                                    }}
-                                    />
-                                <p>{asset.assetDescription}</p>
+
+                <div className="choosed-assets">
+                    {
+                        facilityTemplate.assets.map((asset, index) => (
+                            <>
+                            <div className="facilty-assets" key={index}>
+                                <div className="facility-assets-info">
+                                    <input 
+                                        type="number" 
+                                        value={asset.quantity ? asset.quantity : ''} 
+                                        placeholder="0"
+                                        onChange={(e) => { 
+                                            if (e.target.value.length > 4) {
+                                                e.target.value = e.target.value.slice(0, 4)
+                                            }
+                                            asset.quantity = e.target.value;   
+                                            setFacilityTemplate({...facilityTemplate, assets: [...facilityTemplate.assets]});
+                                            setErrors({ ...errors, assets: errors.assets.map((err, i) => i === index ? '' : err) });
+                                        }}
+                                        />
+                                    <p>{asset.assetDescription}</p>
+                                </div>
+                                <IconTrash className="icon icon-trash" onClick={(e) => {
+                                    deleteAsset(asset)
+                                }}/>
                             </div>
-                            <IconTrash className="icon icon-trash" onClick={(e) => {
-                                deleteAsset(asset)
-                            }}/>
-                        </div>
-                        {errors.assets[index] && <span className="error">{errors.assets[index]}</span>}
-                        </>
-                    ))
-                }
+                            {errors.assets[index] && <span className="error">{errors.assets[index]}</span>}
+                            </>
+                        ))
+                    }
+                </div>
+                
 
                 <div className="btn-area">
                     <div className="show-form" onClick={facilityFunction.bind(event, null)}> Cancelar </div>

@@ -6,6 +6,7 @@ import Users from "./pages/users";
 import Return from "./pages/return";
 import Facilities from "./pages/facilities";
 import Reservations from "./pages/reservations";
+import ReservationsCreate from "./pages/reservationsCreate";
 
 function App() {
   const listRoutes = [
@@ -24,6 +25,10 @@ function App() {
     {
       path: "/reservations",
       element: <Reservations />
+    },
+    {
+      path: "/reservationsCreate",
+      element: <ReservationsCreate />
     },
     {
       path: "/users",

@@ -13,7 +13,7 @@ function Login() {
       toast(localStorage.getItem("responseMessage"))
       setTimeout(() => {
         localStorage.removeItem("responseMessage")
-      }, 2000)
+      }, 100)
   }, [localStorage.getItem("responseMessage")])
 
   return (

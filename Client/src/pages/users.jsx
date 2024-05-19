@@ -20,7 +20,7 @@ function Users() {
       toast(localStorage.getItem("responseMessage"))
       setTimeout(() => {
         localStorage.removeItem("responseMessage")
-      }, 2000)
+      }, 100)
   }, [localStorage.getItem("responseMessage")])
 
   const [users, setUsers] = useState([]);
@@ -82,52 +82,55 @@ function Users() {
     }
   }
   return (
-    <div>
+    <>
       <Header local="users" />
+      <div className="page-container">
+        <Filters
+          filters={[
+            {
+              title: "Tipo",
+              label: false,
+              onChange: (value) => setTypeFilter(value),
+              options: typeFilterOptions,
+            },
+            {
+              title: "Status",
+              label: false,
+              onChange: (value) => setStatusFilter(value),
+              options: statusFilterOptions,
+            },
+          ]}
+        />  
+        
+        {loggedUser &&
+          <div className="user-profile">
+            <h3>Seu Perfil</h3>
+            <CardUser 
+                user = {loggedUser}
+                showFormUser = {showFormUser}
+            />
+          </div>
+        }
 
-      <Filters
-        filters={[
-          {
-            title: "Tipo",
-            label: false,
-            onChange: (value) => setTypeFilter(value),
-            options: typeFilterOptions,
-          },
-          {
-            title: "Status",
-            label: false,
-            onChange: (value) => setStatusFilter(value),
-            options: statusFilterOptions,
-          },
-        ]}
-      />  
-      
-      {loggedUser &&
-        <CardUser 
-            user = {loggedUser}
-            showFormUser = {showFormUser}
-        />
-      }
+        {filteredUsers.map((user) => {
+          return user.userId != localStorage.getItem("userId") ? (
+            <CardUser 
+              user = {user}
+              showFormUser = {showFormUser}
+            />
+          ) : <div></div>;
+        })}
 
-      {filteredUsers.map((user) => {
-        return user.userId != localStorage.getItem("userId") ? (
-          <CardUser 
-            user = {user}
-            showFormUser = {showFormUser}
+        { showFormEditUser && 
+          <FormEditUser 
+            showFormUser={showFormUser} 
+            user={userById}
+            userTypes={userTypes}
           />
-        ) : <div></div>;
-      })}
-
-      { showFormEditUser && 
-        <FormEditUser 
-          showFormUser={showFormUser} 
-          user={userById}
-          userTypes={userTypes}
-        />
-      }    
-
+        }    
+      </div>
       <ToastContainer />
-    </div>
+    </>
   );
 }
 
