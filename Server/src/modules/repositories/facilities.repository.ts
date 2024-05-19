@@ -64,7 +64,7 @@ export class FacilitiesRepository {
   }
 
   public static async getAllByBuilding(buildingId: string): Promise<FacilityDto[]> {
-    const sql = `${this.selectQuery} WHERE buildingId = ?;`;
+    const sql = ` ${this.selectQuery} WHERE f.buildingId = ?;`;
     const bindParams = [buildingId];
 
     await this.CONNECTION.connect();
