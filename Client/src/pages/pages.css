@@ -5,6 +5,15 @@
     margin: 0 auto;
 }
 
+.page-container-login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 2rem;
+    gap: 5rem;
+}
+
 .create-reservation-link {
     display: flex;
     margin: 10px 0;

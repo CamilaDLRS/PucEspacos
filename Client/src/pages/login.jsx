@@ -17,7 +17,7 @@ function Login() {
   }, [localStorage.getItem("responseMessage")])
 
   return (
-    <div className="page-container">
+    <div className="page-container-login">
       <Title />
       <FormLogin />
       <ToastContainer />
