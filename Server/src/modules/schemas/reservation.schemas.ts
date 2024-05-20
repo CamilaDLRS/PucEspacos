@@ -1,3 +1,4 @@
+
 import * as yup from 'yup';
 
 export const getReservationSchema = yup.object({
@@ -67,13 +68,10 @@ export const updateReservationSchema = yup.object({
   })
 });
 
-export const deletReservationSchema = yup.object({
-  body: yup.object().shape({
-    responsibleUserId: yup
+export const deleteReservationSchema = yup.object({
+  query: yup.object().shape({
+    userId: yup
       .string()
-      .nullable(),
-    reservationStatus: yup
-      .string()
-      .nullable(),
+      .required("Obrigatorio a identificação de usuario."),
   })
 });

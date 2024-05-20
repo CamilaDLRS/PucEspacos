@@ -33,20 +33,20 @@ export class ReservationsServices {
 
   public static async create(reservation: ReservationDto): Promise<string> {
 
-    const facility = await FacilitiesServices.getById(reservation.facilityId, { getAssets: false } );
+    const facility = await FacilitiesServices.getById(reservation.facilityId, { getAssets: false });
     if (!facility.isActive) {
       throw new ApiError(404, InternalCode.INVALID_PERMISION);
     }
 
-    const responsibleUser = await UsersServices.getById(reservation.responsibleUserId);    
+    const responsibleUser = await UsersServices.getById(reservation.responsibleUserId);
     if (!responsibleUser.isActive) {
       throw new ApiError(404, InternalCode.INVALID_PERMISION);
     }
     reservation.reservationStatus = ReservationStatus.APPROVED;
-    
+
     if (reservation.requestingUserId) {
       reservation.reservationStatus = ReservationStatus.REQUESTED;
-     
+
       const requestingUser = await UsersServices.getById(reservation.responsibleUserId);
       if (!requestingUser.isActive) {
         throw new ApiError(404, InternalCode.INVALID_PERMISION);
@@ -60,15 +60,15 @@ export class ReservationsServices {
   }
 
   public static async update(reservationUpdated: ReservationDto): Promise<void> {
-    
+
     const reservation = await this.getById(reservationUpdated.reservationId!);
-    
+
     reservation.update(reservationUpdated);
     await ReservationsServices.isValid(reservation);
-    
+
     await ReservationsRepository.update(reservation);
   }
-  
+
   public static async delete(id: string, userId: string): Promise<void> {
 
     const reservation = await this.getById(id);
@@ -81,8 +81,10 @@ export class ReservationsServices {
       throw new ApiError(404, InternalCode.USER_DISABLED);
     }
 
-
-    if (reservation.checkinDate >= dateNow && (admUser.userType == UserType.ADMINISTRATOR || admUser.userType == UserType.SECRETARY || admUser.userId == reservation.responsibleUserId)) {
+    if (reservation.checkinDate <= dateNow) {
+      throw new ApiError(404, InternalCode.INVALID_PERMISION, null, "Reserva iniciada ou concluida")
+    }
+    if (admUser.userType == UserType.ADMINISTRATOR || admUser.userType == UserType.SECRETARY || admUser.userId == reservation.responsibleUserId) {
 
       await ReservationsRepository.delete(id);
 
@@ -98,7 +100,7 @@ export class ReservationsServices {
   }
 
   public static async isAvailable(options: ReservationAvailabilityQueryOptionsDto): Promise<boolean> {
-    
+
     const optionsX: ReservationQueryOptionsDto = {
       ...options,
       checkinDate: new Date(options.checkinDate).setHours(0, 0, 0, 0),
@@ -106,10 +108,10 @@ export class ReservationsServices {
       facilityIds: (options.facilityId) ? [options.facilityId] : []
     }
     let reservations: ReservationDto[] = await ReservationsServices.getAll(optionsX)
-    .then((reservations) =>{ return reservations })
-    .catch((err) =>{ return [] });
+      .then((reservations) => { return reservations })
+      .catch((err) => { return [] });
 
-    
+
     for await (const reservation of reservations) {
       if (
         options.checkinDate < reservation.checkoutDate &&
@@ -123,7 +125,7 @@ export class ReservationsServices {
   }
 
   private static async isValid(reservation: ReservationDto): Promise<boolean> {
-    
+
     if (reservation.checkinDate < new Date().getTime()) {
       throw new ApiError(404, InternalCode.INVALID_REQUEST, "Reservas no passado não são permitidas.");
     }
@@ -132,8 +134,8 @@ export class ReservationsServices {
     }
 
     if (((new Date(reservation.checkinDate)).getDate() !== (new Date(reservation.checkoutDate)).getDate()) ||
-       ((new Date(reservation.checkinDate)).getMonth() !== (new Date(reservation.checkoutDate)).getMonth()) ||
-        ((new Date(reservation.checkinDate)).getFullYear() !== (new Date(reservation.checkoutDate)).getFullYear())) {
+      ((new Date(reservation.checkinDate)).getMonth() !== (new Date(reservation.checkoutDate)).getMonth()) ||
+      ((new Date(reservation.checkinDate)).getFullYear() !== (new Date(reservation.checkoutDate)).getFullYear())) {
       throw new ApiError(404, InternalCode.INVALID_REQUEST, "Não é permitido entrada e saída em dias distintos.");
     }
 
@@ -142,9 +144,9 @@ export class ReservationsServices {
       responsibleUserId: (reservation.requestingUserId) ? undefined : reservation.responsibleUserId,
       checkinDate: reservation.checkinDate,
       checkoutDate: reservation.checkoutDate,
-      reservationId: reservation.reservationId|| undefined
+      reservationId: reservation.reservationId || undefined
     }
-     
+
     if (!await ReservationsServices.isAvailable(options)) {
       throw new ApiError(404, InternalCode.INVALID_REQUEST, "Usuário já contém reserva que conflita com este dia e horário.");
     };
@@ -155,7 +157,7 @@ export class ReservationsServices {
       checkinDate: reservation.checkinDate,
       checkoutDate: reservation.checkoutDate,
       facilityId: reservation.facilityId,
-      reservationId: reservation.reservationId|| undefined
+      reservationId: reservation.reservationId || undefined
     }
     if (!await ReservationsServices.isAvailable(options)) {
       throw new ApiError(404, InternalCode.INVALID_REQUEST, "Espaço indisponível.");

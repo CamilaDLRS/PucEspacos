@@ -6,19 +6,20 @@ export class UsersRepository {
 
   private static readonly CONNECTION: IdbServices = new MysqlDbServices();
 
+  private static readonly selectQuery = `SELECT u.userId, u.schoolId, u.email, u.userName, u.userType, u.isActive, u.createdDate, u.updatedDate FROM tbUsers u`;
+
   public static async getAll(): Promise<UserDto[]> {
 
-    const sql = `SELECT u.*
-                  FROM tbUsers u`;
+
     await this.CONNECTION.connect();
-    const rows = await this.CONNECTION.execute(sql);
+    const rows = await this.CONNECTION.execute(this.selectQuery);
     await this.CONNECTION.disconnect();
 
     if (rows && rows.length > 0) {
       const users: UserDto[] = rows.map((row: any) => {
         return new UserDto(row, row.userId)
       });
-      return users;   
+      return users;
     }
     else {
       return [];
@@ -43,9 +44,8 @@ export class UsersRepository {
   }
 
   public static async getById(id: string): Promise<UserDto | null> {
-    const sql = `SELECT * 
-                  FROM tbUsers 
-                  WHERE userId = ?`;
+    const sql = ` ${this.selectQuery}
+                  WHERE u.userId = ?`;
     const bindParams = [id];
 
     await this.CONNECTION.connect();
@@ -61,8 +61,8 @@ export class UsersRepository {
   }
 
   public static async signIn(email: string, password: string): Promise<UserDto | null> {
-    const sql = `SELECT * FROM tbUsers 
-                  WHERE email = ? AND password = ?`;
+    const sql = `${this.selectQuery}
+                  WHERE u.email = ? AND u.password = ?`;
     const bindParams = [email, password];
 
     await this.CONNECTION.connect();
@@ -77,15 +77,15 @@ export class UsersRepository {
     }
   }
   public static async getByEmail(email: string): Promise<UserDto | null> {
-    const sql = `SELECT * FROM tbUsers 
-                  WHERE email = ?`;
+    const sql = `${this.selectQuery} 
+                  WHERE u.email = ?`;
     const bindParams = [email];
 
     await this.CONNECTION.connect();
     const rows = await this.CONNECTION.executeWithParams(sql, bindParams);
     await this.CONNECTION.disconnect();
 
-    if (rows[0]) { 
+    if (rows[0]) {
       return new UserDto(rows[0]);
     }
     else {
@@ -131,10 +131,10 @@ export class UsersRepository {
                  WHERE userId = ?`;
 
     const bindParams = [
-      user.schoolId, 
-      user.isActive, 
-      user.userType, 
-      new Date().getTime(), 
+      user.schoolId,
+      user.isActive,
+      user.userType,
+      new Date().getTime(),
       user.userId
     ];
 

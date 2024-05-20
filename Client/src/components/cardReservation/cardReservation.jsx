@@ -21,7 +21,7 @@ function CardReservation() {
                     <tr>
                         <td> 07:45 - 10:30 </td>
                         <td> Araça 303 </td>
-                        <td> Dimitri Delinski </td>
+                        <td> -- </td>
                         {"se tem responsável" === "true" &&
                             <td> Steve Jobs </td>
                         }

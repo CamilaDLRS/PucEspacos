@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import CardFacilityReserve from "../components/cardFacilityReserve/cardFacilityReserve"
 import { ToastContainer, toast } from 'react-toastify';
 import { getAllReservations } from "../services/reservation";
+import { getAllBuildings } from "../services/building";
 
 function Reservations() {
   if (!localStorage.getItem("userType")) {
@@ -27,14 +28,26 @@ function Reservations() {
     checkinDate: null,
     checkoutDate: null,
     buildingId: null,
-    // facilitiesIdList: []
+    facilitiesIdList: []
   });
 
   const [reservations, setReservations] = useState([]);
+  const [buildings, setBuildings] = useState([]);
+  const [buildingFilterOptions, setBuildingFilterOptions] = useState([]);
 
   useEffect(() => {
-    getAllReservations(inputTemplate).then((response) => setReservations(response));
-  }, [inputTemplate]);
+    getAllReservations().then((response) => setReservations(response));
+    getAllBuildings().then((response) => setBuildings(response));
+  }, []);
+
+  useEffect(() => {
+    buildingFilterOptions.push(
+      ...buildings.map((building) => {
+        return { key: building.buildingId, value: building.buildingId, label: building.buildingName };
+      })
+    );
+    setBuildingFilterOptions(buildingFilterOptions);
+  }, [buildings]);
 
   const [triggerFacilityList, setTriggerFacilityList] = useState(false);
 
@@ -99,7 +112,7 @@ function Reservations() {
               {
                 type: "select",
                 title: "Blocos",
-                options: [{key: 1, label: "Bloco 1", value:"2"}] // lista blocos
+                options: buildingFilterOptions // lista blocos
               },
               {
                 type: "button",
@@ -123,7 +136,7 @@ function Reservations() {
         triggerFacilityList && 
         <CardFacilityReserve 
           triggerFunction={showFacilityList}
-          facilitiesIdList={inputTemplate.facilitiesIdList}
+          buildingId={inputTemplate.buildingId}
         />
       }
       
