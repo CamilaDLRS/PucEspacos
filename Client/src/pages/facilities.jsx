@@ -21,10 +21,10 @@ function Facilities() {
   })
 
   useEffect(() => {
-      toast(localStorage.getItem("responseMessage"))
-      setTimeout(() => {
-        localStorage.removeItem("responseMessage")
-      }, 100)
+    toast(localStorage.getItem("responseMessage"))
+    setTimeout(() => {
+      localStorage.removeItem("responseMessage")
+    }, 100)
   }, [localStorage.getItem("responseMessage")])
 
 
@@ -87,14 +87,13 @@ function Facilities() {
   //Para implementacao em resrva INICIO
   function showCardReserve(facility, event) {
     if (event.target.classList.contains("showReservationPurpose")) {
-      showReserve ? setShowReserve(false) : setShowReserve(true);console.log("Reserva")
+      showReserve ? setShowReserve(false) : setShowReserve(true); console.log("Reserva")
     }
     if (event.target.classList.contains("showConfirmReserve")) {
       showConfirmReserve ? setShowConfirmReserve(false) : setShowConfirmReserve(true);
       showReserve && setShowReserve(false);
       console.log("Reserva 2")
     }
-    
   }
   //Para implementacao em resrva FIM
 
@@ -131,37 +130,37 @@ function Facilities() {
               options: typeFilterOptions,
             },
           ]}
-          
+
           showAddButton={true}
           triggerFunction={showFacilityForm}
           addSomething="Adicionar Espaço"
         />
 
         {(localStorage.getItem("userType") === "Docente" ||
-          localStorage.getItem("userType") === "Discente") 
-          ? filteredFacilities.map((facility) => { 
+          localStorage.getItem("userType") === "Discente")
+          ? filteredFacilities.map((facility) => {
             return facility.isActive ? (<CardFacility
               facility={facility}
               showFacility={showFacility}
               showFacilityForm={showFacilityForm}
             />) : <></>
           })
-          : filteredFacilities.map((facility) => { 
+          : filteredFacilities.map((facility) => {
             return (<CardFacility
               facility={facility}
               showFacility={showFacility}
               showFacilityForm={showFacilityForm}
             />)
-          }) 
+          })
         }
 
         {triggerFacilityForm &&
-          <FormFacility 
+          <FormFacility
             facilityFunction={showFacilityForm}
-            facility = {facilityById}
-            buildings= {buildings}
-            facilityTypes = {facilityTypes}
-          />   
+            facility={facilityById}
+            buildings={buildings}
+            facilityTypes={facilityTypes}
+          />
         }
 
         {showReadFacility &&
@@ -181,7 +180,7 @@ function Facilities() {
 
       {showConfirmReserve &&
         <CardReservationReview
-          showCardReserve = {showCardReserve}
+          showCardReserve={showCardReserve}
         />
       }
 
