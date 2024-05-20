@@ -41,6 +41,8 @@ function Reservations() {
   }, []);
 
   useEffect(() => {
+    const buildingFilterOptions = [];
+
     buildingFilterOptions.push(
       ...buildings.map((building) => {
         return { key: building.buildingId, value: building.buildingId, label: building.buildingName };

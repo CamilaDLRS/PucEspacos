@@ -9,8 +9,6 @@ function CardFacilityReserve({buildingId, triggerFunction}) {
         getAllBuildById(buildingId, true).then((response) => setBuild(response));
     }, [])
 
-    console.log(build);
-
     return ( 
         <div className="container-absolute show-facility-list" onClick={triggerFunction}>
             <div className="facility-list-area">

@@ -2,7 +2,6 @@ import "./input.css"
 import IconCalendarDays from "../../imgs/iconCalendarDays";
 import IconThreeDots from "../../imgs/IconThreeDots";
 import IconBxSearchAlt from "../../imgs/iconBxSearchAlt";
-import { useState } from "react";
 
 function Inputs({inputTemplate, setInputTemplate, inputs, triggerFunction}) {
 
