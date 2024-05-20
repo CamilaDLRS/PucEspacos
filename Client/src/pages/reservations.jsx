@@ -86,75 +86,80 @@ function Reservations() {
       <Header local="reservations" />
       
       <div className="page-container">
-        <Link to="/reservationsCreate" className="create-reservation-link"> 
-          <div className="icon">
-            Nova Reserva
-            <IconPlusCircle className="icon" /> 
+        <div className="fixed-elements">
+          <div>
+
+            <Link to="/reservationsCreate" className="create-reservation-link"> 
+              <div className="icon">
+                Nova Reserva
+                <IconPlusCircle className="icon" /> 
+              </div>
+            </Link>
+
+
+            <div className="reservation-filter">
+              <Inputs 
+                inputTemplate={inputTemplate}
+                setInputTemplate={setInputTemplate}
+                triggerFunction={showFacilityList}
+                inputs={[ 
+                  {
+                    type: "checkbox",
+                    label: "Minhas",
+                    id: "myReservations"
+                  },
+                  {
+                    type: "date",
+                    label: "Inicio",
+                    id: "checkinDate",
+                    value: convertToDateTime(inputTemplate.checkinDate),
+                    onChange: (value) => {
+                      setInputTemplate({...inputTemplate, checkinDate: value, checkoutDate: null})
+                    } 
+                  }, 
+                  {
+                    type: "date",
+                    label: "Fim",
+                    id: "checkoutDate",
+                    value: convertToDateTime(inputTemplate.checkoutDate),
+                    onChange: (value) => setInputTemplate({...inputTemplate, checkoutDate: value}),
+                    min: convertToDateTime(inputTemplate.checkinDate)
+                  },
+                  {
+                    type: "select",
+                    title: "Blocos",
+                    options: buildingFilterOptions // lista blocos
+                  },
+                  {
+                    type: "button",
+                    label: "Espaços",
+                    id: "butoon"
+                  }
+                ]}          
+              />
+            </div>
+            
+            <div className="pages-filter-area"> 
+              <div className="pages-filter">
+                {Array.from(Array(pages), (item, index) => {
+                  return (
+                    <button 
+                      value={index} 
+                      onClick={(e) => setCurrentPage(Number(e.target.value))}
+                      style={index === currentPage ? {background: "rgb(177, 173, 173)"} : null}
+                    > {index + 1} </button >
+                  )
+                })} 
+              </div>
+
+              <select value={itensPerPage} onChange={(e) => setItensPerPage(Number(e.target.value))}>
+                <option value={5}>5</option>
+                <option value={8}>8</option>
+                <option value={12}>12</option>
+              </select>
           </div>
-        </Link>
-
-
-        <div className="reservation-filter">
-          <Inputs 
-            inputTemplate={inputTemplate}
-            setInputTemplate={setInputTemplate}
-            triggerFunction={showFacilityList}
-            inputs={[ 
-              {
-                type: "checkbox",
-                label: "Minhas",
-                id: "myReservations"
-              },
-              {
-                type: "date",
-                label: "Inicio",
-                id: "checkinDate",
-                value: convertToDateTime(inputTemplate.checkinDate),
-                onChange: (value) => {
-                  setInputTemplate({...inputTemplate, checkinDate: value, checkoutDate: null})
-                } 
-              }, 
-              {
-                type: "date",
-                label: "Fim",
-                id: "checkoutDate",
-                value: convertToDateTime(inputTemplate.checkoutDate),
-                onChange: (value) => setInputTemplate({...inputTemplate, checkoutDate: value}),
-                min: convertToDateTime(inputTemplate.checkinDate)
-              },
-              {
-                type: "select",
-                title: "Blocos",
-                options: buildingFilterOptions // lista blocos
-              },
-              {
-                type: "button",
-                label: "Espaços",
-                id: "butoon"
-              }
-            ]}          
-          />
         </div>
-        
-        <div className="pages-filter-area"> 
-          <div className="pages-filter">
-            {Array.from(Array(pages), (item, index) => {
-              return (
-                <button 
-                  value={index} 
-                  onClick={(e) => setCurrentPage(Number(e.target.value))}
-                  style={index === currentPage ? {background: "rgb(177, 173, 173)"} : null}
-                > {index + 1} </button >
-              )
-            })} 
-          </div>
-
-          <select value={itensPerPage} onChange={(e) => setItensPerPage(Number(e.target.value))}>
-            <option value={5}>5</option>
-            <option value={8}>8</option>
-            <option value={12}>12</option>
-          </select>
-        </div>
+      </div>
 
         {currentReservations.map((reserve) => ( 
             <CardReservation 
