@@ -30,3 +30,33 @@
     border-radius: 5px;
     background-color: white;
 }
+
+.pages-filter-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pages-filter-area .pages-filter {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.pages-filter-area .pages-filter button {
+    padding: 2px 20px;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    border: 1px solid black;
+}
+
+.pages-filter-area .pages-filter button:hover {
+    background-color: lightgray;
+}
+
+.pages-filter-area select {
+    display: flex;
+    width: 10%;
+}

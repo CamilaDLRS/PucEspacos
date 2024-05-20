@@ -70,6 +70,17 @@ function Reservations() {
     return `${year}-${month}-${day}`
   }
 
+  const [itensPerPage, setItensPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(0);
+  const pages = Math.ceil(reservations.length / itensPerPage);
+  const startIndex = currentPage * itensPerPage;
+  const endIndex = startIndex + itensPerPage;
+  const currentReservations = reservations.slice(startIndex, endIndex);
+
+  useEffect(() => {
+    setCurrentPage(0)
+  }, [itensPerPage])
+
   return (
     <div>
       <Header local="reservations" />
@@ -124,9 +135,28 @@ function Reservations() {
             ]}          
           />
         </div>
+        
+        <div className="pages-filter-area"> 
+          <div className="pages-filter">
+            {Array.from(Array(pages), (item, index) => {
+              return (
+                <button 
+                  value={index} 
+                  onClick={(e) => setCurrentPage(Number(e.target.value))}
+                  style={index === currentPage ? {background: "rgb(177, 173, 173)"} : null}
+                > {index + 1} </button >
+              )
+            })} 
+          </div>
 
-        {reservations &&
-          reservations.map((reserve) => ( 
+          <select value={itensPerPage} onChange={(e) => setItensPerPage(Number(e.target.value))}>
+            <option value={5}>5</option>
+            <option value={8}>8</option>
+            <option value={12}>12</option>
+          </select>
+        </div>
+
+        {currentReservations.map((reserve) => ( 
             <CardReservation 
               reserve={reserve} 
             />

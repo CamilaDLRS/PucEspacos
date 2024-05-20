@@ -10,11 +10,11 @@ function CardReservation({reserve}) {
         year: "",
         checkin: "",
         checkout: "",
-        facilityName: reserve.facilityName,
-        requestingUserName: reserve.requestingUserName,
-        responsibleUserName: reserve.responsibleUserName,
-        reservationPurpose: reserve.reservationPurpose,
-        reservationStatus: reserve.reservationStatus
+        facilityName: "",
+        requestingUserName: "",
+        responsibleUserName: "",
+        reservationPurpose: "",
+        reservationStatus: ""
     })
 
     useEffect(() => {
@@ -35,8 +35,21 @@ function CardReservation({reserve}) {
         const checkoutMinutes = checkoutDate.getMinutes() < 10 ? "0" + checkoutDate.getMinutes().toString() : checkoutDate.getMinutes();
         const checkout = `${checkoutHour}:${checkoutMinutes}`;
 
-        setReserveInfos({...reserveInfos, day: day, weekDay: weekDay, month: month, year: year, checkin: checkin, checkout: checkout});
-    }, [])
+        setReserveInfos({
+            ...reserveInfos, 
+            day: day, 
+            weekDay: weekDay, 
+            month: month, 
+            year: year, 
+            checkin: checkin, 
+            checkout: checkout,
+            facilityName: reserve.facilityName,
+            requestingUserName: reserve.requestingUserName,
+            responsibleUserName: reserve.responsibleUserName,
+            reservationPurpose: reserve.reservationPurpose,
+            reservationStatus: reserve.reservationStatus
+        });
+    }, [reserve])
 
     return ( 
         <div className="card-reservation">
