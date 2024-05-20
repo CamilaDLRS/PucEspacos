@@ -12,6 +12,11 @@ reservationsRouter.post(
 );
 
 reservationsRouter.get(
+  "/purposes",
+  ReservationsController.getAllPurposes
+);
+
+reservationsRouter.get(
   "/:id",
   ReservationsController.getById
 );
