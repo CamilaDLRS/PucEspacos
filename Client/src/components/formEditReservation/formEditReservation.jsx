@@ -4,11 +4,10 @@ import { useEffect, useState } from "react";
 import IconCalendarDays from "../../imgs/iconCalendarDays";
 import IconIconClock from "../../imgs/iconIconClock/";
 import Filters from "../filters/filters";
+import {checkin, checkout, convertToTimeString, convertToDateString} from "../../utils.js";
 
 function FormEditReservation({ reservation, showFormReservation }) {
 
-  const checkin = ["06:15","07:00", "07:50", "08:35", "09:40", "10:25", "11:10", "11:55", "12:40", "13:25", "14:10", "15:15", "16:00", "16:45", "17:30", "18:15", "19:00", "19:45", "20:45", "21:30", "22:15", "23:00" ];
-  const checkout = [ "07:00", "07:50", "08:35", "09:20", "10:25", "11:10", "11:55", "12:40", "13:25", "14:10", "14:55", "16:00", "16:45", "17:30", "18:15", "19:00", "19:45", "20:30", "21:30", "22:15", "23:00", "23:30"];
   const [minDate, setMinDate] = useState("");
   const [reservationPurposes, setReservationPurposes] = useState([]);
   
@@ -16,8 +15,9 @@ function FormEditReservation({ reservation, showFormReservation }) {
 
   const [dataEditReservation, setDataEditReservation] = useState({
     reservationPurpose: reservation.reservationPurpose,
-    checkin: "--:--" /* reservation.checkinDate */,
-    checkout: "--:--"/*  reservation.checkoutDate */,
+    date: convertToDateString(reservation.checkinDate),
+    checkin: convertToTimeString(reservation.checkinDate),
+    checkout: convertToTimeString(reservation.checkoutDate)
   })
   useEffect(() => {
     getAllReservationPurposes().then((response) => setReservationPurposes(response));
@@ -28,26 +28,8 @@ function FormEditReservation({ reservation, showFormReservation }) {
   }
 
   function unShowlist(elementClass) {
-      document.querySelector(`.${elementClass}`).style.display = "none";
+    document.querySelector(`.${elementClass}`).style.display = "none";
   }
-
-  function convertToDateTime(timestamp) {
-    const dtToday = new Date(timestamp);
-    const year = dtToday.getFullYear().toString();
-    var month = dtToday.getMonth() + 1;
-    month = month < 10 ? "0" + month.toString() : month.toString();
-    var day = dtToday.getDate() + 1;
-    day = day < 10 ? "0" + day.toString() : day.toString();
-
-    return `${year}-${month}-${day}`
-  }
-
-  function convertToTimestamp(dateString) {
-    const [year, month, day] = dateString.split('-');
-    const date = new Date(year, month - 1, day); // Mês é 0-indexado no Date
-    return date.getTime();
-  }
-  
 
   useEffect(() => {
     const purposeFilterOptions = [];
@@ -61,14 +43,13 @@ function FormEditReservation({ reservation, showFormReservation }) {
   }, [reservationPurposes]);
 
   useEffect(() => {
-    const dtToday = new Date(reservation.checkinDate);
+    const dtToday = new Date();
     const year = dtToday.getFullYear().toString();
     var month = dtToday.getMonth() + 1;
     month = month < 10 ? "0" + month.toString() : month.toString();
-    var day = dtToday.getDate().toString();
+    var day = dtToday.getDate() < 10 ? "0" + dtToday.getDate().toString() : dtToday.getDate().toString();
 
     setMinDate(`${year}-${month}-${day}`)
-    setDataEditReservation({...dataEditReservation, reservationDate: `${year}-${month}-${day}`})
   }, []);
 
   const filters = [
@@ -91,8 +72,8 @@ function FormEditReservation({ reservation, showFormReservation }) {
             name=""
             id="date"
             min={minDate}
-            value={convertToDateTime(dataEditReservation.checkinDate)}
-            onChange={(event) => setDataEditReservation({ ...dataEditReservation, checkinDate: convertToTimestamp(event.target.value) })}
+            value={dataEditReservation.date}
+            onChange={(event) => setDataEditReservation({ ...dataEditReservation, date: event.target.value })}
           />
         </label>
 

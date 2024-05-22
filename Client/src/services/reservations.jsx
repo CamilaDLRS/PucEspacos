@@ -1,6 +1,7 @@
 import axios from "axios";
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
+import { convertToTimestamp } from "../utils.js";
 
 const httpOptions = {
   headers: {
@@ -42,11 +43,22 @@ export async function createReservation(data) {
 export async function editReservation(id, data) {
 
   console.log(data);
+
+  const dataFomated = {
+    reservationPurpose: data.reservationPurpose,
+    checkinDate: convertToTimestamp(data.date, data.checkin),
+    checkoutDate: convertToTimestamp(data.date, data.checkout)
+  }
+
+  console.log(id);
+  console.log(dataFomated);
+
+
   /* CONVERT HOURS TO TIMESTAMP */
 
   return await axios.put(
     `http://localhost:5001/reservations/${id}`,
-    JSON.stringify(data),
+    JSON.stringify(dataFomated),
     httpOptions
   )
   .then((response) => {

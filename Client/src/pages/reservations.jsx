@@ -47,7 +47,7 @@ function Reservations() {
     reservationStatus: "Aprovada",
     reservationPurpose: "Aula",
     checkinDate: 1711968600000,
-    checkoutDate: 1711974000000,
+    checkoutDate: 1711975200000,
     reservationId: "0b668249-0526-40da-832d-c5ac9d54e6fc",
     createdDate: 1716166583000,
     updatedDate: 1716166583000,
