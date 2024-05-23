@@ -20,7 +20,11 @@ export async function getAllAvailables(data) {
       return response.data.data;
     })
     .catch((e) => {
-      toast(e.response.data.error.message)
+      const mensagens = e.response.data.error.message.split(",");
+      
+      mensagens.forEach(element => {
+        toast(element)
+      });
     })
 };
 
