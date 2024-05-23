@@ -33,8 +33,6 @@ function CardReservation({reservation, showFormReservation}) {
             </div>
             <div className="card-reservation-footer">
                 <span> Solicitada </span>
-                <span> Icones </span>
-
                 <div>
                     {
                         <div className="edit-icon showFormReservation" onClick={showFormReservation.bind(event, reservation)}>

@@ -31,6 +31,7 @@ function FormEditReservation({ reservation, showFormReservation }) {
     document.querySelector(`.${elementClass}`).style.display = "none";
   }
 
+
   useEffect(() => {
     const purposeFilterOptions = [];
 

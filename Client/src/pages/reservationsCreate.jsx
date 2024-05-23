@@ -47,10 +47,6 @@ function ReservationsCreate() {
         minimumCapacity: null
     })
 
-    useEffect(() => {
-        getAllFacilities().then((response) => setFacilities(response));
-    }, [])
-
     function getFacilitiesAvailables(reservationTemplate) {
         console.log(reservationTemplate);
         setReservationData({
@@ -94,9 +90,6 @@ function ReservationsCreate() {
             showReserve && setShowReserve(false);
         }
     }
-
-    // console.log(reservationTemplate);
-
 
     return (
         <>
