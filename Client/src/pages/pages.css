@@ -30,3 +30,13 @@
     border-radius: 5px;
     background-color: white;
 }
+
+.reservation-create-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.reservation-list{
+    width: 50%;
+}
+

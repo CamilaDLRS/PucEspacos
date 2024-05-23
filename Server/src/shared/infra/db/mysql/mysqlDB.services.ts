@@ -15,7 +15,7 @@ class MysqlDbServices implements IdbServices {
         port:  3306,
         user: "root",
         database:  "pucEspacos",
-        password: "LEsi1698@"
+        password: ""
       });
       console.log("Connected to MySQL database");
     } catch (error: any) {

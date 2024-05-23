@@ -1,6 +1,8 @@
 import "./cardReservation.css";
+import IconBxsEdit from "../../imgs/iconBxsEdit";
 
-function CardReservation() {
+function CardReservation({reservation, showFormReservation}) {
+
     return ( 
         <div className="card-reservation">
             <div className="card-reservation-header">
@@ -31,7 +33,14 @@ function CardReservation() {
             </div>
             <div className="card-reservation-footer">
                 <span> Solicitada </span>
-                <span> Icones </span>
+                <div>
+                    {
+                        <div className="edit-icon showFormReservation" onClick={showFormReservation.bind(event, reservation)}>
+                            <IconBxsEdit className="showFormReservation" />
+                        </div>
+                    }
+                </div>
+
             </div>
         </div> 
     );
