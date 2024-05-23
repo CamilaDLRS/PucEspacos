@@ -8,11 +8,26 @@ const httpOptions = {
     Accept: "application/json",
   },
 };
-  
+
+export async function getAllAvailables(data) {
+  return await axios
+    .post(
+      `http://localhost:5001/facilities/availables`,
+      JSON.stringify(data),
+      httpOptions
+    )
+    .then((response) => {
+      return response.data.data;
+    })
+    .catch((e) => {
+      toast(e.response.data.error.message)
+    })
+};
+
 export async function getAllFacilities() {
   return await axios
     .get(
-      "http://localhost:5001/facilities", 
+      "http://localhost:5001/facilities",
       httpOptions
     )
     .then((response) => {
@@ -25,16 +40,16 @@ export async function getAllFacilities() {
 
 export async function getAllFacilityTypes() {
   return await axios
-  .get(
-    "http://localhost:5001/facilities/types", 
-    httpOptions
-  )
-  .then((response) => {
-    return response.data.data;
-  })
-  .catch((e) => {
-    toast(e.response.data.error.message);
-  });
+    .get(
+      "http://localhost:5001/facilities/types",
+      httpOptions
+    )
+    .then((response) => {
+      return response.data.data;
+    })
+    .catch((e) => {
+      toast(e.response.data.error.message);
+    });
 }
 
 export async function createFacility(data) {
@@ -43,47 +58,47 @@ export async function createFacility(data) {
     JSON.stringify(data),
     httpOptions
   )
-  .then((response) => {
+    .then((response) => {
       window.location = "/facilities";
       localStorage.setItem("responseMessage", response.data.message)
-  })
-  .catch((e) => {
+    })
+    .catch((e) => {
       toast(e.response.data.error.message);
-  })
+    })
 }
 
 export async function updateFacility(id, data) {
 
   console.log(data);
-  
+
   return await axios.put(
     `http://localhost:5001/facilities/${id}`,
     JSON.stringify(data),
     httpOptions
   )
-  .then((response) => {
-    localStorage.setItem("responseMessage", response.data.message)
-    window.location = "/facilities"
-  })
-  .catch((e) => {
-    toast(e.response.data.error.message);
-  })
+    .then((response) => {
+      localStorage.setItem("responseMessage", response.data.message)
+      window.location = "/facilities"
+    })
+    .catch((e) => {
+      toast(e.response.data.error.message);
+    })
 }
 
 export async function updateFacilityStatus(id, isActive) {
 
   return await axios.patch(
     `http://localhost:5001/facilities/${id}`,
-    JSON.stringify({isActive: isActive}),
+    JSON.stringify({ isActive: isActive }),
     httpOptions
   )
-  .then((response) => {
+    .then((response) => {
       localStorage.setItem("responseMessage", response.data.message)
       window.location = "/facilities"
-  })
-  .catch((e) => {
-    toast(e.response.data.error.message);
-  })
+    })
+    .catch((e) => {
+      toast(e.response.data.error.message);
+    })
 }
 
 export async function getFacilityById(id) {
@@ -93,7 +108,7 @@ export async function getFacilityById(id) {
       httpOptions
     )
     .then((response) => {
-        return response.data.data;
+      return response.data.data;
     })
     .catch((e) => {
       toast(e.response.data.error.message);
