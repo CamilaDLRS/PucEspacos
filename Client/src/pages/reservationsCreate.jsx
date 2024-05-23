@@ -4,7 +4,7 @@ import FormCreateReservation from "../components/formCreateReservation/formCreat
 import CardFacility from "../components/cardFacility/cardFacility"
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
-import { getAllAvailables, getAllFacilities } from "../services/facility";
+import { getAllAvailables } from "../services/facility";
 import CardReadFacility from "../components/cardReadFacility/cardReadFacility";
 import FormResrvationPurpose from "../components/formReservationPurpose/formReservationPurpose";
 import CardReservationReview from "../components/cardReservationReview/cardReservationReview";
