@@ -20,9 +20,8 @@ export async function getAllAvailables(data) {
       return response.data.data;
     })
     .catch((e) => {
-      const mensagens = e.response.data.error.message.split(",");
-      
-      mensagens.forEach(element => {
+      const mensages = e.response.data.error.message.split(",");
+      mensages.forEach(element => {
         toast(element)
       });
     })
@@ -72,8 +71,6 @@ export async function createFacility(data) {
 }
 
 export async function updateFacility(id, data) {
-
-  console.log(data);
 
   return await axios.put(
     `http://localhost:5001/facilities/${id}`,

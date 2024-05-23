@@ -8,7 +8,7 @@ import { getAllAvailables } from "../services/facility";
 import CardReadFacility from "../components/cardReadFacility/cardReadFacility";
 import FormResrvationPurpose from "../components/formReservationPurpose/formReservationPurpose";
 import CardReservationReview from "../components/cardReservationReview/cardReservationReview";
-import { createReservation } from "../services/reservations";
+
 
 function ReservationsCreate() {
     if (!localStorage.getItem("userType")) {
@@ -61,28 +61,16 @@ function ReservationsCreate() {
         checkoutDate: null
     })
 
-    function getFacilitiesAvailables(reservationTemplate) {
-        console.log(reservationTemplate);
-        setReservationData({
-            ...reservationData,
-            buildingId: reservationTemplate.buildingId,
-            checkinDate: new Date(reservationTemplate.reservationDate + " " + reservationTemplate.checkin).getTime(),
-            checkoutDate: new Date(reservationTemplate.reservationDate + " " + reservationTemplate.checkout).getTime(),
-            facilityTypeId: reservationTemplate.facilityTypeId,
-            minimumCapacity: parseInt(reservationTemplate.capacity)
-        });
-        setReservationCreateData({
-            ...reservationCreateData,
-            checkinDate: new Date(reservationTemplate.reservationDate + " " + reservationTemplate.checkin).getTime(),
-            checkoutDate: new Date(reservationTemplate.reservationDate + " " + reservationTemplate.checkout).getTime(),
-        });
-        setBuildingName(reservationTemplate.buildingName)
-    }
+
 
     useEffect(() => {
         const [year, month, day] = reservationTemplate.reservationDate.split('-');
-        setReservationDate(day+'-'+month+'-'+year);
+        setReservationDate(day + '-' + month + '-' + year);
     })
+
+    // useEffect(() => {
+
+    // })
 
     useEffect(() => {
         if (reservationData.checkinDate != null) {
@@ -91,6 +79,27 @@ function ReservationsCreate() {
             })
         }
     }, [reservationData])
+
+    function getDateTime(reservationTemplate) {
+        setReservationCreateData({
+            ...reservationCreateData,
+            checkinDate: new Date(reservationTemplate.reservationDate + " " + reservationTemplate.checkin).getTime(),
+            checkoutDate: new Date(reservationTemplate.reservationDate + " " + reservationTemplate.checkout).getTime(),
+        });
+    }
+
+    function getFacilitiesAvailables(reservationTemplate) {
+        setReservationData({
+            ...reservationData,
+            buildingId: reservationTemplate.buildingId,
+            checkinDate: new Date(reservationTemplate.reservationDate + " " + reservationTemplate.checkin).getTime(),
+            checkoutDate: new Date(reservationTemplate.reservationDate + " " + reservationTemplate.checkout).getTime(),
+            facilityTypeId: reservationTemplate.facilityTypeId,
+            minimumCapacity: parseInt(reservationTemplate.capacity)
+        });
+        getDateTime(reservationTemplate);
+        setBuildingName(reservationTemplate.buildingName);
+    }
 
 
     function showFacility(facility, event) {
@@ -108,6 +117,7 @@ function ReservationsCreate() {
     }
 
     function showCardReserve(facility, event) {
+        getDateTime(reservationTemplate);
         if (event.target.classList.contains("showReservationPurpose")) {
             showReserve ? setShowReserve(false) : setShowReserve(true);
             setReservationCreateData({
@@ -125,9 +135,6 @@ function ReservationsCreate() {
     function setReservationPurposes(purpose) {
         setReservationCreateData({ ...reservationCreateData, reservationPurpose: purpose })
     }
-
-
-    console.log(reservationCreateData)
 
     return (
         <>
@@ -173,6 +180,7 @@ function ReservationsCreate() {
                     buildingName={buildingName}
                     reservationDate={reservationDate}
                     reservationTime={reservationTemplate.checkin}
+                    reservationCreateData={reservationCreateData}
                 />
             }
             <ToastContainer />

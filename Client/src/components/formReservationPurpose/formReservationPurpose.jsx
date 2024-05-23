@@ -25,9 +25,6 @@ function FormResrvationPurpose({ showCardReserve, setReservationPurposesData }) 
     setPurposeFilterOptions(purposeFilterOptions);
   }, [reservationPurposes]);
 
-  useEffect(() => {
-    setReservationPurposesData(purpose)
-  }, [purpose])
 
   function showPurposeMesage(event) {
     if (event.target.classList.contains('showConfirmReserve')) {
@@ -38,12 +35,11 @@ function FormResrvationPurpose({ showCardReserve, setReservationPurposesData }) 
 
   const filters = [
     {
-      onChange: (value) => setPurpose(value),
+      onChange: (value) => setReservationPurposesData(value),
       options: purposeFilterOptions,
     }
   ];
 
-  console.log(purposeMesage)
   return (
     <div className="container-absolute showReservationPurpose" onClick={showCardReserve.bind(event, "")}>
       <div className="reserve-purpose">
@@ -53,7 +49,7 @@ function FormResrvationPurpose({ showCardReserve, setReservationPurposesData }) 
         <div>
           <Filters filters={filters} />
           {purposeMesage &&
-            <div style={{ color: 'red' }}>Obrigatorio Selecionar Uma Finalidade</div>
+            <div style={{ color: 'red' }}>Selecione Uma Finalidade</div>
           }
 
         </div>
