@@ -8,6 +8,7 @@ import { getAllAvailables } from "../services/facility";
 import CardReadFacility from "../components/cardReadFacility/cardReadFacility";
 import FormResrvationPurpose from "../components/formReservationPurpose/formReservationPurpose";
 import CardReservationReview from "../components/cardReservationReview/cardReservationReview";
+import { createReservation } from "../services/reservations";
 
 function ReservationsCreate() {
     if (!localStorage.getItem("userType")) {
@@ -28,9 +29,14 @@ function ReservationsCreate() {
 
     const [showReadFacility, setShowReadFacility] = useState(false);
 
+    const [buildingName, setBuildingName] = useState();
+    const [facilityName, setfacilityName] = useState();
+    const [reservationDate, setReservationDate] = useState();
+
 
     const [facilities, setFacilities] = useState([]);
     const [reservationTemplate, setReservationTemplate] = useState({
+        buildingName: "",
         buildingId: "",
         checkin: "--:--",
         checkout: "--:--",
@@ -47,6 +53,14 @@ function ReservationsCreate() {
         minimumCapacity: null
     })
 
+    const [reservationCreateData, setReservationCreateData] = useState({
+        responsibleUserId: localStorage.getItem("userId"),
+        facilityId: '',
+        reservationPurpose: "",
+        checkinDate: null,
+        checkoutDate: null
+    })
+
     function getFacilitiesAvailables(reservationTemplate) {
         console.log(reservationTemplate);
         setReservationData({
@@ -57,7 +71,18 @@ function ReservationsCreate() {
             facilityTypeId: reservationTemplate.facilityTypeId,
             minimumCapacity: parseInt(reservationTemplate.capacity)
         });
+        setReservationCreateData({
+            ...reservationCreateData,
+            checkinDate: new Date(reservationTemplate.reservationDate + " " + reservationTemplate.checkin).getTime(),
+            checkoutDate: new Date(reservationTemplate.reservationDate + " " + reservationTemplate.checkout).getTime(),
+        });
+        setBuildingName(reservationTemplate.buildingName)
     }
+
+    useEffect(() => {
+        const [year, month, day] = reservationTemplate.reservationDate.split('-');
+        setReservationDate(day+'-'+month+'-'+year);
+    })
 
     useEffect(() => {
         if (reservationData.checkinDate != null) {
@@ -66,6 +91,7 @@ function ReservationsCreate() {
             })
         }
     }, [reservationData])
+
 
     function showFacility(facility, event) {
         if (event.target.classList.contains("showReadFacility")) {
@@ -84,12 +110,24 @@ function ReservationsCreate() {
     function showCardReserve(facility, event) {
         if (event.target.classList.contains("showReservationPurpose")) {
             showReserve ? setShowReserve(false) : setShowReserve(true);
+            setReservationCreateData({
+                ...reservationCreateData,
+                facilityId: facility.facilityId
+            })
+            setfacilityName(facility.facilityName)
         }
-        if (event.target.classList.contains("showConfirmReserve")) {
+        if (event.target.classList.contains("showConfirmReserve") && reservationCreateData.reservationPurpose != '') {
             showConfirmReserve ? setShowConfirmReserve(false) : setShowConfirmReserve(true);
             showReserve && setShowReserve(false);
         }
     }
+
+    function setReservationPurposes(purpose) {
+        setReservationCreateData({ ...reservationCreateData, reservationPurpose: purpose })
+    }
+
+
+    console.log(reservationCreateData)
 
     return (
         <>
@@ -124,12 +162,17 @@ function ReservationsCreate() {
             {showReserve &&
                 <FormResrvationPurpose
                     showCardReserve={showCardReserve}
+                    setReservationPurposesData={setReservationPurposes}
                 />
             }
 
             {showConfirmReserve &&
                 <CardReservationReview
                     showCardReserve={showCardReserve}
+                    facilityName={facilityName}
+                    buildingName={buildingName}
+                    reservationDate={reservationDate}
+                    reservationTime={reservationTemplate.checkin}
                 />
             }
             <ToastContainer />

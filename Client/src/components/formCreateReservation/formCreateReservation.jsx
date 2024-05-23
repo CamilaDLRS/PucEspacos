@@ -16,7 +16,7 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate, ge
     const [buildings, setBuildings] = useState([]);
     const [facilityTypes, setFacilityTypes] = useState([]);
 
-    const [buildName, setBuildName] = useState("--");   
+    const [buildName, setBuildName] = useState("--");
     const [faciliTypeName, setFaciliTypeName] = useState("--");
 
 
@@ -126,7 +126,10 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate, ge
                     {
                         buildings.map(build => (
                             <li onClick={(e) => {
-                                setReservationTemplate({ ...reservationTemplate, buildingId: build.buildingId })
+                                setReservationTemplate({ 
+                                    ...reservationTemplate, 
+                                    buildingId: build.buildingId, 
+                                    buildingName: build.buildingName })
                                 setBuildName(build.buildingName)
                             }}
                             >{build.buildingName}</li>
