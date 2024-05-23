@@ -11,8 +11,8 @@ const httpOptions = {
 
 export async function getAllAvailables(data) {
   return await axios
-    .get(
-      "http://localhost:5001/facilities",
+    .post(
+      `http://localhost:5001/facilities/availables`,
       JSON.stringify(data),
       httpOptions
     )

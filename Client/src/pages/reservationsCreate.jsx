@@ -4,7 +4,7 @@ import FormCreateReservation from "../components/formCreateReservation/formCreat
 import CardFacility from "../components/cardFacility/cardFacility"
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
-import { getAllAvailables } from "../services/facility";
+import { getAllAvailables, getAllFacilities } from "../services/facility";
 import CardReadFacility from "../components/cardReadFacility/cardReadFacility";
 import FormResrvationPurpose from "../components/formReservationPurpose/formReservationPurpose";
 import CardReservationReview from "../components/cardReservationReview/cardReservationReview";
@@ -31,17 +31,45 @@ function ReservationsCreate() {
 
     const [facilities, setFacilities] = useState([]);
     const [reservationTemplate, setReservationTemplate] = useState({
-        reservationDate: "",
+        buildingId: "",
         checkin: "--:--",
         checkout: "--:--",
-        buildingId: "",
+        reservationDate: "",
         facilityTypeId: "",
         capacity: ""
     })
 
+    const [reservationData, setReservationData] = useState({
+        buildingId: "",
+        checkinDate: null,
+        checkoutDate: null,
+        facilityTypeId: "",
+        minimumCapacity: null
+    })
+
     useEffect(() => {
-        getAllAvailables(reservationTemplate).then((response) => setFacilities(response));
+        getAllFacilities().then((response) => setFacilities(response));
     }, [])
+
+    function getFacilitiesAvailables(reservationTemplate) {
+        console.log(reservationTemplate);
+        setReservationData({
+            ...reservationData,
+            buildingId: reservationTemplate.buildingId,
+            checkinDate: new Date(reservationTemplate.reservationDate + " " + reservationTemplate.checkin).getTime(),
+            checkoutDate: new Date(reservationTemplate.reservationDate + " " + reservationTemplate.checkout).getTime(),
+            facilityTypeId: reservationTemplate.facilityTypeId,
+            minimumCapacity: parseInt(reservationTemplate.capacity)
+        });
+    }
+
+    useEffect(() => {
+        if (reservationData.checkinDate != null) {
+            getAllAvailables(reservationData).then((response) => {
+                setFacilities(response)
+            })
+        }
+    }, [reservationData])
 
     function showFacility(facility, event) {
         if (event.target.classList.contains("showReadFacility")) {
@@ -59,16 +87,16 @@ function ReservationsCreate() {
 
     function showCardReserve(facility, event) {
         if (event.target.classList.contains("showReservationPurpose")) {
-            showReserve ? setShowReserve(false) : setShowReserve(true); console.log("Reserva")
+            showReserve ? setShowReserve(false) : setShowReserve(true);
         }
         if (event.target.classList.contains("showConfirmReserve")) {
             showConfirmReserve ? setShowConfirmReserve(false) : setShowConfirmReserve(true);
             showReserve && setShowReserve(false);
-            console.log("Reserva 2")
         }
     }
 
-    console.log(facilities);
+    // console.log(reservationTemplate);
+
 
     return (
         <>
@@ -77,28 +105,18 @@ function ReservationsCreate() {
                 <FormCreateReservation
                     reservationTemplate={reservationTemplate}
                     setReservationTemplate={setReservationTemplate}
+                    getFacilitiesAvailables={getFacilitiesAvailables}
                 />
                 <div className="reservation-list">
-                    {(localStorage.getItem("userType") === "Docente" ||
-                        localStorage.getItem("userType") === "Discente")
-                        ? facilities.map((facility) => {
-                            return facility.isActive ? (<CardFacility
-                                facility={facility}
-                                showFacility={showFacility}
-                                showFacilityForm={showFacilityForm}
-                                showCardReserve={showCardReserve}
-                                isReserve={true}
-                            />) : <></>
-                        })
-                        : facilities.map((facility) => {
-                            return (<CardFacility
-                                facility={facility}
-                                showFacility={showFacility}
-                                showFacilityForm={showFacilityForm}
-                                showCardReserve={showCardReserve}
-                                isReserve={true}
-                            />)
-                        })
+                    {facilities?.map((facility) => {
+                        return facility.isActive ? (<CardFacility
+                            facility={facility}
+                            showFacility={showFacility}
+                            showFacilityForm={showFacilityForm}
+                            showCardReserve={showCardReserve}
+                            isReserve={true}
+                        />) : <></>
+                    })
                     }
                 </div>
             </div>
@@ -109,8 +127,6 @@ function ReservationsCreate() {
                     facility={facilityById}
                 />
             }
-
-
 
             {showReserve &&
                 <FormResrvationPurpose
@@ -123,9 +139,6 @@ function ReservationsCreate() {
                     showCardReserve={showCardReserve}
                 />
             }
-
-
-
             <ToastContainer />
         </>
     );

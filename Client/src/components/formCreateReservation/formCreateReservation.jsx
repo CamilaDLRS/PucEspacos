@@ -8,26 +8,18 @@ import IconIconClock from "../../imgs/iconIconClock/";
 import IconDown from "../../imgs/IconDown";
 import { Link } from "react-router-dom";
 
-function FormCreateReservation({ reservationTemplate, setReservationTemplate }) {
+function FormCreateReservation({ reservationTemplate, setReservationTemplate, getFacilitiesAvailables }) {
 
     const checkin = ["06:15", "07:00", "07:50", "08:35", "09:40", "10:25", "11:10", "11:55", "12:40", "13:25", "14:10", "15:15", "16:00", "16:45", "17:30", "18:15", "19:00", "19:45", "20:45", "21:30", "22:15", "23:00"];
     const checkout = ["07:00", "07:50", "08:35", "09:20", "10:25", "11:10", "11:55", "12:40", "13:25", "14:10", "14:55", "16:00", "16:45", "17:30", "18:15", "19:00", "19:45", "20:30", "21:30", "22:15", "23:00", "23:30"]
     const [minDate, setMinDate] = useState("");
-
-    // const [reservationTemplate, setReservationTemplate] = useState({
-    //     reservationDate: "",
-    //     checkin: "--:--",
-    //     checkout: "--:--",
-    //     buildingId: "",
-    //     facilityTypeId: "",
-    //     capacity: ""
-    // })
 
     const [buildings, setBuildings] = useState([]);
     const [facilityTypes, setFacilityTypes] = useState([]);
 
     const [buildName, setBuildName] = useState();
     const [faciliTypeName, setFaciliTypeName] = useState();
+
 
     useEffect(() => {
         const dtToday = new Date();
@@ -51,6 +43,8 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate }) 
         });
     }, []);
 
+
+
     function showList(elementClass) {
         document.querySelector(`.${elementClass}`).style.display = "flex";
     }
@@ -59,7 +53,7 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate }) 
         document.querySelector(`.${elementClass}`).style.display = "none";
     }
 
-    // console.log(reservationTemplate);
+
     return (
         <div className="form-create-reserve">
             <label className="form-field" htmlFor="date">
@@ -74,6 +68,7 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate }) 
                     value={reservationTemplate.reservationDate}
                     onChange={(event) => setReservationTemplate({ ...reservationTemplate, reservationDate: event.target.value })}
                 />
+
             </label>
 
             <div className="date-select-area">
@@ -185,7 +180,7 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate }) 
             </label>
 
             <div className="btn-area">
-                <div className="search-btn">
+                <div className="search-btn" onClick={() => getFacilitiesAvailables(reservationTemplate)}>
                     Buscar
                 </div>
                 <Link to={"/reservations"}>
