@@ -23,12 +23,15 @@ function Reservations() {
   }, [localStorage.getItem("responseMessage")])
 
   const [inputTemplate, setInputTemplate] = useState({
-    requestingUserId: "b2cb9978-4a50-4393-9985-eb8fad46f5f1",
-    // onlyByRequestingUserId: true,
-    checkinDate: null,
-    checkoutDate: null,
+    requestingUserId: null,
+    responsibleUserId: null,
+    onlyByResponsibleUserId: false,
+    onlyByRequestingUserId: false,
+    reservationStatus: null,
     buildingId: null,
-    facilitiesIdList: []
+    checkinDate: null,
+    checkoutDate: 1716859308000,
+    facilityIds: []
   });
 
   const [reservations, setReservations] = useState([]);
@@ -36,9 +39,9 @@ function Reservations() {
   const [buildingFilterOptions, setBuildingFilterOptions] = useState([]);
 
   useEffect(() => {
-    getAllReservations().then((response) => setReservations(response));
+    getAllReservations(inputTemplate).then((response) => setReservations(response));
     getAllBuildings().then((response) => setBuildings(response));
-  }, []);
+  }, [inputTemplate]);
 
   useEffect(() => {
     const buildingFilterOptions = [];
@@ -69,24 +72,29 @@ function Reservations() {
 
     return `${year}-${month}-${day}`
   }
-
   const [itensPerPage, setItensPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(0);
-  const pages = Math.ceil(reservations.length / itensPerPage);
-  const startIndex = currentPage * itensPerPage;
-  const endIndex = startIndex + itensPerPage;
-  const currentReservations = reservations.slice(startIndex, endIndex);
+  let pages = 0;
+  let currentReservations = [];
+  if (reservations) {
+    pages = Math.ceil(reservations.length / itensPerPage);
+    const startIndex = currentPage * itensPerPage;
+    const endIndex = startIndex + itensPerPage;
+    currentReservations = reservations.slice(startIndex, endIndex);
+  }
+
 
   useEffect(() => {
     setCurrentPage(0)
   }, [itensPerPage])
+
+  console.log(inputTemplate)
 
   return (
     <div>
       <Header local="reservations" />
       
       <div className="page-container">
-        <div className="fixed-elements">
           <div>
 
             <Link to="/reservationsCreate" className="create-reservation-link"> 
@@ -106,7 +114,8 @@ function Reservations() {
                   {
                     type: "checkbox",
                     label: "Minhas",
-                    id: "myReservations"
+                    id: "myReservations",
+                    onChange: (value) => {}
                   },
                   {
                     type: "date",
@@ -158,7 +167,6 @@ function Reservations() {
                 <option value={12}>12</option>
               </select>
           </div>
-        </div>
       </div>
 
         {currentReservations.map((reserve) => ( 

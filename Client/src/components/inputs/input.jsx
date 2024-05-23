@@ -1,7 +1,6 @@
 import "./input.css"
 import IconCalendarDays from "../../imgs/iconCalendarDays";
 import IconThreeDots from "../../imgs/IconThreeDots";
-import IconBxSearchAlt from "../../imgs/iconBxSearchAlt";
 
 function Inputs({inputTemplate, setInputTemplate, inputs, triggerFunction}) {
 
@@ -13,7 +12,11 @@ function Inputs({inputTemplate, setInputTemplate, inputs, triggerFunction}) {
                         <label htmlFor={input.id}> {input.label} </label>
                     }
                     {input.type === "checkbox" &&
-                      <input type={input.type} id={input.id} />
+                      <input 
+                        type={input.type} 
+                        id={input.id} 
+                        onChange={(e) => input.onChange(e.target.checked)}
+                      />
                     }
                     {input.type  === "button" &&
                      inputTemplate.buildingId !== null &&
@@ -54,9 +57,6 @@ function Inputs({inputTemplate, setInputTemplate, inputs, triggerFunction}) {
                     }
                 </div>
             ))}
-            <div className="icon-search">
-              <IconBxSearchAlt height="1.7rem" width="1.7rem" className="icon"/>
-            </div>
         </div>
      );
 }

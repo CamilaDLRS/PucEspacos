@@ -26,6 +26,7 @@ function CardReservation({reserve}) {
         const weekDay = weekDays[checkinDate.getDay()];
         const month = months[checkinDate.getMonth()] 
         const year = checkinDate.getFullYear();
+        console.log(new Date(reserve.checkinDate))
 
         const checkinHour = checkinDate.getHours() < 10 ? "0" + checkinDate.getHours().toString() : checkinDate.getHours();
         const checkinMinutes = checkinDate.getMinutes() < 10 ? "0" + checkinDate.getMinutes().toString() : checkinDate.getMinutes();

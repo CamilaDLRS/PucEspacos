@@ -9,6 +9,7 @@ const httpOptions = {
 };
 
 export async function getAllReservations(data) {
+  console.log(data)
     return await axios
     .post(
       "http://localhost:5001/reservations/query",
@@ -20,5 +21,6 @@ export async function getAllReservations(data) {
     })
     .catch((e) => {
       toast(e.response.data.error.message);
+      return null
     });
 }
