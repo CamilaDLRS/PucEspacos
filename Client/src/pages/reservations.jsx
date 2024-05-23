@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import CardFacilityReserve from "../components/cardFacilityReserve/cardFacilityReserve"
 import { ToastContainer, toast } from 'react-toastify';
 
+import FormEditReservation from "../components/formEditReservation/formEditReservation";
+
 function Reservations() {
   if (!localStorage.getItem("userType")) {
     window.location = "/users";
@@ -36,7 +38,35 @@ function Reservations() {
     }
   }
 
-  console.log(inputTemplate)
+  //#region UPDATING
+
+  const reservation = {
+    responsibleUserId: "212270a5-cc6f-4040-a149-b44efc24e1a8",
+    requestingUserId: null,
+    facilityId: "e5e39abd-1554-477f-8786-6aa1741127c3",
+    reservationStatus: "Aprovada",
+    reservationPurpose: "Aula",
+    checkinDate: 1711968600000,
+    checkoutDate: 1711975200000,
+    reservationId: "0b668249-0526-40da-832d-c5ac9d54e6fc",
+    createdDate: 1716166583000,
+    updatedDate: 1716166583000,
+    requestingUserName: null,
+    responsibleUserName: "Lucia",
+    facilityName: "Sala de Estudos 2",
+    buildingName: "2 - Azul"
+  };
+
+  const [reservationById, setReservationById] = useState();
+  const [showFormEditReservation, setShowFormEditReservation] = useState(false);
+
+  function showFormReservation(reservation, event) {
+    if (event.target.classList.contains("showFormReservation")) {
+      showFormEditReservation ? setShowFormEditReservation(false) : setShowFormEditReservation(true)
+      setReservationById(reservation)
+    }
+  }
+  //#endregion
 
   return (
     <div>
@@ -93,7 +123,10 @@ function Reservations() {
           />
         </div>
 
-        <CardReservation />
+        <CardReservation 
+          reservation = { reservation }
+          showFormReservation = {showFormReservation}
+        />
       </div>
 
       {
@@ -103,6 +136,13 @@ function Reservations() {
           facilitiesIdList={inputTemplate.facilitiesIdList}
         />
       }
+
+        { showFormEditReservation && 
+          <FormEditReservation 
+            showFormReservation={showFormReservation} 
+            reservation={reservationById}
+          />
+        }    
       
       <ToastContainer />
     </div>

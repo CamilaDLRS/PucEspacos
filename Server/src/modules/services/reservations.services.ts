@@ -127,16 +127,16 @@ export class ReservationsServices {
   private static async isValid(reservation: ReservationDto): Promise<boolean> {
 
     if (reservation.checkinDate < new Date().getTime()) {
-      throw new ApiError(404, InternalCode.INVALID_REQUEST, "Reservas no passado não são permitidas.");
+      throw new ApiError(404, InternalCode.INVALID_REQUEST, null, "Reservas no passado não são permitidas.");
     }
     if (reservation.checkoutDate < reservation.checkinDate) {
-      throw new ApiError(404, InternalCode.INVALID_REQUEST, "Saída deve ser após a entrada.");
+      throw new ApiError(404, InternalCode.INVALID_REQUEST, null, "Saída deve ser após a entrada.");
     }
 
     if (((new Date(reservation.checkinDate)).getDate() !== (new Date(reservation.checkoutDate)).getDate()) ||
       ((new Date(reservation.checkinDate)).getMonth() !== (new Date(reservation.checkoutDate)).getMonth()) ||
       ((new Date(reservation.checkinDate)).getFullYear() !== (new Date(reservation.checkoutDate)).getFullYear())) {
-      throw new ApiError(404, InternalCode.INVALID_REQUEST, "Não é permitido entrada e saída em dias distintos.");
+      throw new ApiError(404, InternalCode.INVALID_REQUEST, null, "Não é permitido entrada e saída em dias distintos.");
     }
 
     let options: ReservationAvailabilityQueryOptionsDto = {
@@ -148,7 +148,7 @@ export class ReservationsServices {
     }
 
     if (!await ReservationsServices.isAvailable(options)) {
-      throw new ApiError(404, InternalCode.INVALID_REQUEST, "Usuário já contém reserva que conflita com este dia e horário.");
+      throw new ApiError(404, InternalCode.INVALID_REQUEST, null, "Usuário já contém reserva que conflita com este dia e horário.");
     };
 
     options = {
@@ -160,7 +160,7 @@ export class ReservationsServices {
       reservationId: reservation.reservationId || undefined
     }
     if (!await ReservationsServices.isAvailable(options)) {
-      throw new ApiError(404, InternalCode.INVALID_REQUEST, "Espaço indisponível.");
+      throw new ApiError(404, InternalCode.INVALID_REQUEST, null, "Espaço indisponível.");
     };
     return true;
   }
