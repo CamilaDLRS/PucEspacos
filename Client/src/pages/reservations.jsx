@@ -30,9 +30,19 @@ function Reservations() {
     reservationStatus: null,
     buildingId: null,
     checkinDate: null,
-    checkoutDate: 1716859308000,
+    checkoutDate: null,
     facilityIds: []
   });
+
+  useEffect(() => {
+    if (localStorage.getItem("userType") === "Discente") {
+      setInputTemplate({...inputTemplate, requestingUserId: localStorage.getItem("userId")})
+    }
+
+    if (localStorage.getItem("userType") === "Docente") {
+      setInputTemplate({...inputTemplate, responsibleUserId: "212270a5-cc6f-4040-a149-b44efc24e1a8"})
+    }
+  }, [])
 
   const [reservations, setReservations] = useState([]);
   const [buildings, setBuildings] = useState([]);
@@ -110,12 +120,17 @@ function Reservations() {
                 inputTemplate={inputTemplate}
                 setInputTemplate={setInputTemplate}
                 triggerFunction={showFacilityList}
-                inputs={[ 
+                inputs={ [ ["Administrador", "Secretário", "Docente"].includes(localStorage.getItem("userType")) &&
                   {
                     type: "checkbox",
                     label: "Minhas",
                     id: "myReservations",
-                    onChange: (value) => {}
+                    onChange: (value) => {
+                      value 
+                      ? setInputTemplate({...inputTemplate, responsibleUserId: localStorage.getItem("userId"), onlyByResponsibleUserId: true})
+                      : setInputTemplate({...inputTemplate, responsibleUserId: null,  onlyByResponsibleUserId: false})
+                      
+                    }
                   },
                   {
                     type: "date",
@@ -160,20 +175,24 @@ function Reservations() {
                   )
                 })} 
               </div>
-
-              <select value={itensPerPage} onChange={(e) => setItensPerPage(Number(e.target.value))}>
-                <option value={5}>5</option>
-                <option value={8}>8</option>
-                <option value={12}>12</option>
-              </select>
+              
+              {reservations && reservations.length > 5 
+               ? <select value={itensPerPage} onChange={(e) => setItensPerPage(Number(e.target.value))}>
+                  <option value={5}>5</option>
+                  <option value={8}>8</option>
+                  <option value={12}>12</option>
+                </select>
+               : <></>
+              }
           </div>
       </div>
-
-        {currentReservations.map((reserve) => ( 
+        {currentReservations.length > 0 
+         ? currentReservations.map((reserve) => ( 
             <CardReservation 
               reserve={reserve} 
             />
           ))
+         : <h2>Sem reservas </h2>
         }
       </div>
 

@@ -8,14 +8,17 @@ function Inputs({inputTemplate, setInputTemplate, inputs, triggerFunction}) {
         <div className="options-area">
             {inputs.map(input => ( 
                 <div className="filter">
-                    {input.label !== "Espaços" && 
+                    { input.label &&
+                      input.label !== "Espaços" && 
                         <label htmlFor={input.id}> {input.label} </label>
                     }
                     {input.type === "checkbox" &&
                       <input 
                         type={input.type} 
                         id={input.id} 
-                        onChange={(e) => input.onChange(e.target.checked)}
+                        onChange={(e) => {
+                          input.onChange(e.target.checked)
+                        }}
                       />
                     }
                     {input.type  === "button" &&

@@ -3,7 +3,6 @@
     flex-direction: row;
     justify-content: space-between;
     margin: 10px auto;
-    gap: 2rem;
     border-bottom: 1px solid black;
 }
 
@@ -41,7 +40,6 @@
     align-items: center;
     width: 100%;
 }
-
 
 .options-area .filter select:focus {
     outline: none;
