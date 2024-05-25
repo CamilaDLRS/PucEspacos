@@ -1,8 +1,6 @@
 import "./input.css"
 import IconCalendarDays from "../../imgs/iconCalendarDays";
 import IconThreeDots from "../../imgs/IconThreeDots";
-import IconBxSearchAlt from "../../imgs/iconBxSearchAlt";
-import { useState } from "react";
 
 function Inputs({inputTemplate, setInputTemplate, inputs, triggerFunction}) {
 
@@ -10,14 +8,21 @@ function Inputs({inputTemplate, setInputTemplate, inputs, triggerFunction}) {
         <div className="options-area">
             {inputs.map(input => ( 
                 <div className="filter">
-                    {input.label != "Espaços" && 
+                    { input.label &&
+                      input.label !== "Espaços" && 
                         <label htmlFor={input.id}> {input.label} </label>
                     }
                     {input.type === "checkbox" &&
-                      <input type={input.type} id={input.id} />
+                      <input 
+                        type={input.type} 
+                        id={input.id} 
+                        onChange={(e) => {
+                          input.onChange(e.target.checked)
+                        }}
+                      />
                     }
                     {input.type  === "button" &&
-                     inputTemplate.buildingId !== "null" &&
+                     inputTemplate.buildingId !== null &&
                       <div className="show-facility-list" onClick={triggerFunction}>
                         <label className="show-facility-list" htmlFor={input.id}> {input.label} </label>
                         <IconThreeDots id={input.id} className="show-facility-list icon"/>
@@ -31,13 +36,19 @@ function Inputs({inputTemplate, setInputTemplate, inputs, triggerFunction}) {
                           type={input.type} min={input.min} 
                           id={input.id} 
                           value={input.value}
-                          onChange={(e) => input.onChange(e.target.value)}
+                          onChange={(e) => input.onChange(new Date(e.target.value).getTime())}
                         />   
                      </span>   
                     }
                     {input.type === "select" &&
-                      <select className="" id={input.id} onChange={(e) => setInputTemplate({...inputTemplate, buildingId: e.target.value})}>
-                        <option hidden="true" className="" value="null">
+                      <select className="" id={input.id} onChange={(e) => {
+                        if (e.target.value == "null") {
+                          setInputTemplate({...inputTemplate, buildingId: null, facilityIds: []})
+                        } else {
+                          setInputTemplate({...inputTemplate, buildingId: e.target.value, facilityIds: []})
+                        }
+                      }}>
+                        <option hidden="true" className="" value={"null"}>
                           {input.title}
                         </option>
                         {input.options.map((option) => (
@@ -49,9 +60,6 @@ function Inputs({inputTemplate, setInputTemplate, inputs, triggerFunction}) {
                     }
                 </div>
             ))}
-            <div className="icon-search">
-              <IconBxSearchAlt height="1.7rem" width="1.7rem" className="icon"/>
-            </div>
         </div>
      );
 }
