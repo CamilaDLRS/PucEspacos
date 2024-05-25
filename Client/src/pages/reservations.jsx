@@ -40,7 +40,7 @@ function Reservations() {
     }
 
     if (localStorage.getItem("userType") === "Docente") {
-      setInputTemplate({...inputTemplate, responsibleUserId: "212270a5-cc6f-4040-a149-b44efc24e1a8"})
+      setInputTemplate({...inputTemplate, responsibleUserId: localStorage.getItem("userId")})
     }
   }, [])
 
@@ -126,7 +126,10 @@ function Reservations() {
                     onChange: (value) => {
                       value 
                       ? setInputTemplate({...inputTemplate, responsibleUserId: localStorage.getItem("userId"), onlyByResponsibleUserId: true})
-                      : setInputTemplate({...inputTemplate, responsibleUserId: null,  onlyByResponsibleUserId: false})
+                      : localStorage.getItem("userType") === "Docente" 
+                        ? setInputTemplate({...inputTemplate, responsibleUserId: localStorage.getItem("userId"),  onlyByResponsibleUserId: false})
+                        : setInputTemplate({...inputTemplate, responsibleUserId: null,  onlyByResponsibleUserId: false})
+                      
                       
                     }
                   },
