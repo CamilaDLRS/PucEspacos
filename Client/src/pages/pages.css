@@ -61,3 +61,12 @@
     display: flex;
     width: 10%;
 }
+.reservation-create-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.reservation-list{
+    width: 50%;
+}
+

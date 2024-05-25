@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import "./cardReservation.css";
+import IconBxsEdit from "../../imgs/iconBxsEdit";
+
+function CardReservation({reservation, showFormReservation}) {
 
 function CardReservation({reserve}) {
 
@@ -81,7 +84,14 @@ function CardReservation({reserve}) {
             </div>
             <div className="card-reservation-footer">
                 <span> {reserveInfos.reservationStatus} </span>
-                <span> Icones </span>
+                <div>
+                    {
+                        <div className="edit-icon showFormReservation" onClick={showFormReservation.bind(event, reservation)}>
+                            <IconBxsEdit className="showFormReservation" />
+                        </div>
+                    }
+                </div>
+
             </div>
         </div> 
     );

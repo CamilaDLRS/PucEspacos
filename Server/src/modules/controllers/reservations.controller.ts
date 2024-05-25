@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { ReservationsServices } from "../services/reservations.services";
 import { ReservationDto } from "../dtos/reservation/reservation.dto";
 import { ReservationQueryOptionsDto } from "../dtos/reservation/reservationOptions.dto";
+import { ReservationPurpose } from "../enums/reservationPurpose.enum";
 
 export class ReservationsController {
 
@@ -62,6 +63,16 @@ export class ReservationsController {
 
       await ExpressHandlers.handleResponse(req, res, "Reserva excluida com sucesso!");
     } catch (error) {
+      await ExpressHandlers.handleError(req, res, error);
+    }
+  }
+
+  public static async getAllPurposes(req: Request, res: Response) {
+    try {
+      const reservationPurposes: string[] = Object.values(ReservationPurpose);
+
+      await ExpressHandlers.handleResponse(req, res, reservationPurposes);
+    } catch (error: any) {
       await ExpressHandlers.handleError(req, res, error);
     }
   }
