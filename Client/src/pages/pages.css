@@ -64,6 +64,8 @@
 .reservation-create-container{
     display: flex;
     flex-direction: row;
+    margin: 10% 0;
+    width: 100%;
 }
 
 .reservation-list{

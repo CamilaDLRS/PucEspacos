@@ -3,9 +3,6 @@ import "./cardReservation.css";
 import IconBxsEdit from "../../imgs/iconBxsEdit";
 
 function CardReservation({reservation, showFormReservation}) {
-
-function CardReservation({reserve}) {
-
     const [reserveInfos, setReserveInfos ] = useState({
         day: "",
         weekDay: "",
@@ -21,8 +18,8 @@ function CardReservation({reserve}) {
     })
 
     useEffect(() => {
-        const checkinDate =  new Date(reserve.checkinDate);
-        const checkoutDate =  new Date(reserve.checkoutDate);
+        const checkinDate =  new Date(reservation.checkinDate);
+        const checkoutDate =  new Date(reservation.checkoutDate);
         const weekDays = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sabado"];
         const months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
         const day = checkinDate.getDate() < 10 ? "0" + checkinDate.getDate().toString() : checkinDate.getDate();
@@ -46,13 +43,13 @@ function CardReservation({reserve}) {
             year: year, 
             checkin: checkin, 
             checkout: checkout,
-            facilityName: reserve.facilityName,
-            requestingUserName: reserve.requestingUserName,
-            responsibleUserName: reserve.responsibleUserName,
-            reservationPurpose: reserve.reservationPurpose,
-            reservationStatus: reserve.reservationStatus
+            facilityName: reservation.facilityName,
+            requestingUserName: reservation.requestingUserName,
+            responsibleUserName: reservation.responsibleUserName,
+            reservationPurpose: reservation.reservationPurpose,
+            reservationStatus: reservation.reservationStatus
         });
-    }, [reserve])
+    }, [reservation])
 
     return ( 
         <div className="card-reservation">

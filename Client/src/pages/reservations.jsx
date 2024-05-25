@@ -222,7 +222,8 @@ function Reservations() {
         {currentReservations.length > 0 
          ? currentReservations.map((reserve) => ( 
             <CardReservation 
-              reserve={reserve} 
+              reservation={reserve} 
+              showFormReservation={showFormReservation}
             />
           ))
          : <h2>Sem reservas </h2>

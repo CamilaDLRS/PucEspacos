@@ -94,7 +94,7 @@ function ReservationsCreate() {
     return (
         <>
             <Header local="reservations" />
-            <div className="reservation-create-container">
+            <div className="reservation-create-container page-container">
                 <FormCreateReservation
                     reservationTemplate={reservationTemplate}
                     setReservationTemplate={setReservationTemplate}
