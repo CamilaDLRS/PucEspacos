@@ -98,7 +98,6 @@ function Reservations() {
     setCurrentPage(0)
   }, [itensPerPage])
 
-  console.log(inputTemplate)
 
   return (
     <div>
@@ -201,6 +200,8 @@ function Reservations() {
         <CardFacilityReserve 
           triggerFunction={showFacilityList}
           buildingId={inputTemplate.buildingId}
+          setInputTemplate={setInputTemplate}
+          inputTemplate={inputTemplate}
         />
       }
       
