@@ -4,7 +4,7 @@ import IconPower from "../../imgs/iconPower";
 import IconPersonFill from "../../imgs/iconPersonFill";
 import CardConfirmation from "../cardConfirmation/cardConfirmation";
 import { updateFacilityStatus } from "../../services/facility";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 function CardFacility({ facility, showFacility, showFacilityForm, isReserve, showCardReserve }) {

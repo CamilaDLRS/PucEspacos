@@ -82,6 +82,7 @@ function Reservations() {
 
     return `${year}-${month}-${day}`
   }
+
   const [itensPerPage, setItensPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(0);
   let pages = 0;
@@ -93,11 +94,9 @@ function Reservations() {
     currentReservations = reservations.slice(startIndex, endIndex);
   }
 
-
   useEffect(() => {
     setCurrentPage(0)
   }, [itensPerPage])
-
 
   return (
     <div>
@@ -205,7 +204,6 @@ function Reservations() {
         />
       }
       
-      <ToastContainer />
     </div>
   );
 }
