@@ -150,7 +150,7 @@ function Reservations() {
                   },
                   {
                     type: "select",
-                    title: "Blocos",
+                    title: "Todos Blocos",
                     options: buildingFilterOptions // lista blocos
                   },
                   {

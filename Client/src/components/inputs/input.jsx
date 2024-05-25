@@ -43,9 +43,9 @@ function Inputs({inputTemplate, setInputTemplate, inputs, triggerFunction}) {
                     {input.type === "select" &&
                       <select className="" id={input.id} onChange={(e) => {
                         if (e.target.value == "null") {
-                          setInputTemplate({...inputTemplate, buildingId: null})
+                          setInputTemplate({...inputTemplate, buildingId: null, facilityIds: []})
                         } else {
-                          setInputTemplate({...inputTemplate, buildingId: e.target.value})
+                          setInputTemplate({...inputTemplate, buildingId: e.target.value, facilityIds: []})
                         }
                       }}>
                         <option hidden="true" className="" value={"null"}>

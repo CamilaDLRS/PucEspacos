@@ -10,17 +10,6 @@ function CardFacilityReserve({buildingId, triggerFunction, setInputTemplate, inp
         getAllBuildById(buildingId, true).then((response) => setBuild(response));
     }, [])
 
-    useEffect(() => {
-
-        if (build) {
-            build.facilities.map((facility) => {
-                document.querySelector(`#${facility.facilityId}`).checked = true ;
-            })
-        }
-
-    }, [build])
-
-
     return ( 
         <div className="container-absolute show-facility-list" onClick={triggerFunction}>
             <div className="facility-list-area">
@@ -34,6 +23,7 @@ function CardFacilityReserve({buildingId, triggerFunction, setInputTemplate, inp
                     {build && build.facilities.map(facility => (
                         <label htmlFor={facility.facilityId} className="input-checkbox">
                             <input 
+                                checked={checkedFacilities.includes(facility.facilityId) ? "checked" : ""}
                                 type="checkbox" 
                                 name="" 
                                 id={facility.facilityId}
@@ -54,7 +44,6 @@ function CardFacilityReserve({buildingId, triggerFunction, setInputTemplate, inp
                 <div className="btn-area">
                     <div className="show-facility-list" onClick={triggerFunction}>Cancelar</div>
                     <div className="show-facility-list" onClick={() => {
-                        // triggerFunction();
                         setInputTemplate({...inputTemplate, facilityIds: checkedFacilities});
                     }}>Confirmar</div>
                 </div>
