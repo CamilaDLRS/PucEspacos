@@ -36,7 +36,9 @@ function Inputs({inputTemplate, setInputTemplate, inputs, triggerFunction}) {
                           type={input.type} min={input.min} 
                           id={input.id} 
                           value={input.value}
-                          onChange={(e) => input.onChange(new Date(e.target.value).getTime())}
+                          onChange={(e) => {
+                            return input.onChange((e.target.valueAsNumber + (3 * 60 * 60 * 1000)))}
+                          }
                         />   
                      </span>   
                     }

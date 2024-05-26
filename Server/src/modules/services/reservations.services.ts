@@ -16,7 +16,7 @@ export class ReservationsServices {
     const reservations: ReservationDto[] = await ReservationsRepository.getAll(options);
 
     if (reservations.length == 0) {
-      throw new ApiError(404, InternalCode.REGISTER_NOT_FOUND);
+      throw new ApiError(404, InternalCode.REGISTER_NOT_FOUND, null, "Nenhuma reserva encontrada.");
     }
     return reservations;
   }

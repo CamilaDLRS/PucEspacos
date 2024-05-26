@@ -4,6 +4,10 @@ export const checkout = [ "07:00", "07:50", "08:35", "09:20", "10:25", "11:10", 
 
 export function convertToDateString(timestamp) {
 
+  if (timestamp == null) {
+    return `yyyy-MM-dd`
+  }
+
   const dtToday = new Date(timestamp);
   const year = dtToday.getFullYear().toString();
   var month = dtToday.getMonth() + 1;
