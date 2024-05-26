@@ -62,7 +62,7 @@ function CardReservation({reservation, showFormReservation}) {
                     <tr>
                         <th> Horário Reserva </th>
                         <th> Localização </th>
-                        <th> Reservante </th>
+                        {/* <th> Reservante </th> */}
                         {reserveInfos.responsibleUserName &&
                             <th> Responsavel </th>
                         }
@@ -71,7 +71,7 @@ function CardReservation({reservation, showFormReservation}) {
                     <tr>
                         <td> {reserveInfos.checkin} - {reserveInfos.checkout} </td>
                         <td> {reserveInfos.facilityName} </td>
-                        <td> {reserveInfos.requestingUserName} </td>
+                        {/* <td> {reserveInfos.requestingUserName} </td> */}
                         { reserveInfos.responsibleUserName &&
                             <td> {reserveInfos.responsibleUserName} </td>
                         }
