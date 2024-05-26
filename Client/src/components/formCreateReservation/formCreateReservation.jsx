@@ -7,7 +7,7 @@ import IconPersonFill from "../../imgs/iconPersonFill";
 import IconIconClock from "../../imgs/iconIconClock/";
 import IconDown from "../../imgs/IconDown";
 import { Link } from "react-router-dom";
-import { checkin, checkout } from "../../utils.js";
+import { checkin, checkout, convertToTimeString } from "../../utils.js";
 
 function FormCreateReservation({ reservationTemplate, setReservationTemplate, getFacilitiesAvailables }) {
 
@@ -82,10 +82,13 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate, ge
                     <IconIconClock className="reservation-icon reservation-icon-clock" />
                     <ul className="reservation-list checkin-hours-list">
                         {
-                            checkin.map(hour => (<li onClick={(e) => {
-                                setReservationTemplate({ ...reservationTemplate, checkin: hour, checkout: "--:--" })
-                            }}>{hour}</li>))
-                        }
+                            checkin.map((hour) => {
+                            if (!(reservationTemplate.reservationDate == minDate && hour <= convertToTimeString(new Date().getTime())))  {
+                                return (
+                                    <li onClick={(e) => setReservationTemplate({ ...reservationTemplate, checkin: hour, checkout: "--:--" })}>{hour}</li>
+                                );
+                            }
+                        })}
                     </ul>
                 </label>
 
@@ -102,7 +105,7 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate, ge
                     <ul className="reservation-list checkout-hours-list">
                         {
                             checkout.map(hour => {
-                                if (hour > reservationTemplate.checkin) {
+                                if (reservationTemplate.checkin != "--:--" && hour > reservationTemplate.checkin) {
                                     return (<li onClick={(e) => setReservationTemplate({ ...reservationTemplate, checkout: hour })
                                     }>{hour}</li>)
                                 }

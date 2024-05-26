@@ -38,6 +38,8 @@ function Reservations() {
   });
 
   useEffect(() => {
+    getAllBuildings().then((response) => setBuildings(response));
+
     if (localStorage.getItem("userType") === "Discente") {
       setInputTemplate({...inputTemplate, requestingUserId: localStorage.getItem("userId")})
     }
@@ -53,7 +55,6 @@ function Reservations() {
 
   useEffect(() => {
     getReservations(inputTemplate).then((response) => setReservations(response));
-    getAllBuildings().then((response) => setBuildings(response));
   }, [inputTemplate]);
 
   useEffect(() => {

@@ -149,9 +149,7 @@ function Facilities() {
             }
         </div>
 
-        {currentFacilities.length === 0 &&
-          <h2>Espaço não encontrado</h2>
-        }
+
 
         {(localStorage.getItem("userType") === "Docente" ||
           localStorage.getItem("userType") === "Discente") 
