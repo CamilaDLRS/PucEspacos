@@ -9,6 +9,8 @@ const httpOptions = {
     Accept: "application/json",
   },
 };
+
+
   
 export async function getReservations(data) {
   return await axios
@@ -22,6 +24,7 @@ export async function getReservations(data) {
     })
     .catch((e) => {
       toast(e.response.data.error.message);
+      return null;
     });
 }
 
@@ -56,6 +59,8 @@ export async function editReservation(id, data) {
   .then((response) => {
     localStorage.setItem("responseMessage", response.data.message)
     window.location = "/reservations"
+    toast(response.data.message);
+
   })
   .catch((e) => {
     toast(e.response.data.error.message);

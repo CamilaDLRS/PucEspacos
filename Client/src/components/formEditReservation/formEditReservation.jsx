@@ -5,6 +5,8 @@ import IconCalendarDays from "../../imgs/iconCalendarDays";
 import IconIconClock from "../../imgs/iconIconClock/";
 import Filters from "../filters/filters";
 import {checkin, checkout, convertToTimeString, convertToDateString} from "../../utils.js";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function FormEditReservation({ reservation, showFormReservation }) {
 
@@ -22,6 +24,13 @@ function FormEditReservation({ reservation, showFormReservation }) {
   useEffect(() => {
     getAllReservationPurposes().then((response) => setReservationPurposes(response));
   }, []);
+
+  useEffect(() => {
+    toast(localStorage.getItem("responseMessage"))
+    setTimeout(() => {
+        localStorage.removeItem("responseMessage")
+    }, 100)
+}, [localStorage.getItem("responseMessage")]);
 
   function showList(elementClass) {
     document.querySelector(`.${elementClass}`).style.display = "flex";
@@ -63,76 +72,79 @@ function FormEditReservation({ reservation, showFormReservation }) {
   ];
 
   return (
-    <div className="container-absolute showFormReservation" onClick={showFormReservation.bind(event, "")}>
-      <div className="form-edit-reserve">
-        <label className="form-field" htmlFor="date">
-          Dia
-          <IconCalendarDays className="reservation-icon" />
-          <input
-            type="date"
-            name=""
-            id="date"
-            min={minDate}
-            value={dataEditReservation.date}
-            onChange={(event) => setDataEditReservation({ ...dataEditReservation, date: event.target.value })}
-          />
-        </label>
-
-        <div className="date-select-area">
-          <label
-            className="form-field"
-            htmlFor="checkin"
-            onClick={() => showList("checkin-hours-list")}
-            onMouseLeave={() => unShowlist("checkin-hours-list")}
-          >
-            <span>Inicio</span>
-            <span>{dataEditReservation.checkin}</span>
-            <IconIconClock className="reservation-icon reservation-icon-clock" />
-            <ul className="reservation-list checkin-hours-list">
-              {checkin.map((hour) => (
-                <li
-                  onClick={(e) => {
-                    setDataEditReservation({ ...dataEditReservation, checkin: hour, checkout: "--:--" });
-                  }}
-                >
-                  {hour}
-                </li>
-              ))}
-            </ul>
+    <>
+      <div className="container-absolute showFormReservation" onClick={showFormReservation.bind(event, "")}>
+        <div className="form-edit-reserve">
+          <label className="form-field" htmlFor="date">
+            Dia
+            <IconCalendarDays className="reservation-icon" />
+            <input
+              type="date"
+              name=""
+              id="date"
+              min={minDate}
+              value={dataEditReservation.date}
+              onChange={(event) => setDataEditReservation({ ...dataEditReservation, date: event.target.value, checkin: "--:--", checkout: "--:--" })}
+            />
           </label>
 
-          <label
-            className="form-field"
-            htmlFor="checkout"
-            onClick={() => showList("checkout-hours-list")}
-            onMouseLeave={() => unShowlist("checkout-hours-list")}
-          >
-            <label htmlFor="">Fim</label>
-            <span>{dataEditReservation.checkout}</span>
-            <IconIconClock className="reservation-icon reservation-icon-clock" />
+          <div className="date-select-area">
+            <label
+              className="form-field"
+              htmlFor="checkin"
+              onClick={() => showList("checkin-hours-list")}
+              onMouseLeave={() => unShowlist("checkin-hours-list")}
+            >
+              <span>Inicio</span>
+              <span>{dataEditReservation.checkin}</span>
+              <IconIconClock className="reservation-icon reservation-icon-clock" />
+              <ul className="reservation-list checkin-hours-list">
+                {checkin.map((hour) => {
 
-            <ul className="reservation-list checkout-hours-list">
-              {checkout.map((hour) => {
-                if (hour > dataEditReservation.checkin) {
-                  return (
-                    <li onClick={(e) => setDataEditReservation({ ...dataEditReservation, checkout: hour })}>{hour}</li>
-                  );
-                }
-              })}
-            </ul>
-          </label>
-        </div>
+                  if (!(dataEditReservation.date == minDate && hour <= convertToTimeString(new Date().getTime())))  {
+                    return (
+                      <li onClick={(e) => setDataEditReservation({ ...dataEditReservation, checkin: hour, checkout: "--:--" })}>{hour}</li>
+                    );
+                  }
+                 
+                })}
+              </ul>
+            </label>
 
-        <div>
-            <Filters filters={filters}/>
-        </div>
+            <label
+              className="form-field"
+              htmlFor="checkout"
+              onClick={() => showList("checkout-hours-list")}
+              onMouseLeave={() => unShowlist("checkout-hours-list")}
+            >
+              <label htmlFor="">Fim</label>
+              <span>{dataEditReservation.checkout}</span>
+              <IconIconClock className="reservation-icon reservation-icon-clock" />
 
-        <div className="btn-area">
-            <div onClick={(e) => editReservation(reservation.reservationId, dataEditReservation)}>Salvar</div>
-            <a className="showFormReservation" onClick={showFormReservation.bind(event, "")}>Cancelar</a>
+              <ul className="reservation-list checkout-hours-list">
+                {checkout.map((hour) => {
+                  if (hour > dataEditReservation.checkin) {
+                    return (
+                      <li onClick={(e) => setDataEditReservation({ ...dataEditReservation, checkout: hour })}>{hour}</li>
+                    );
+                  }
+                })}
+              </ul>
+            </label>
+          </div>
+
+          <div>
+              <Filters filters={filters}/>
+          </div>
+
+          <div className="btn-area">
+              <div onClick={(e) => editReservation(reservation.reservationId, dataEditReservation)}>Salvar</div>
+              <a className="showFormReservation" onClick={showFormReservation.bind(event, "")}>Cancelar</a>
+          </div>
         </div>
       </div>
-    </div>
+      <ToastContainer />
+    </>
   );
 }
 

@@ -6,8 +6,8 @@ import IconPlusCircle from "../imgs/iconPlusCircle"
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CardFacilityReserve from "../components/cardFacilityReserve/cardFacilityReserve"
-import { ToastContainer, toast } from 'react-toastify';
-import { getAllReservations } from "../services/reservation";
+import { toast } from 'react-toastify';
+import { getReservations } from "../services/reservations";
 import { getAllBuildings } from "../services/building";
 
 import FormEditReservation from "../components/formEditReservation/formEditReservation";
@@ -51,7 +51,7 @@ function Reservations() {
   const [buildingFilterOptions, setBuildingFilterOptions] = useState([]);
 
   useEffect(() => {
-    getAllReservations(inputTemplate).then((response) => setReservations(response));
+    getReservations(inputTemplate).then((response) => setReservations(response));
     getAllBuildings().then((response) => setBuildings(response));
   }, [inputTemplate]);
 

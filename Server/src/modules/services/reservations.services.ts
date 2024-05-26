@@ -63,6 +63,13 @@ export class ReservationsServices {
 
     const reservation = await this.getById(reservationUpdated.reservationId!);
 
+    if (reservation.checkinDate < new Date().getTime()) {
+      if (reservation.checkoutDate < new Date().getTime()) {
+        throw new ApiError(404, InternalCode.INVALID_REQUEST, null, "Está reserva já aconteceu e não pode ser editada.");
+      }
+      throw new ApiError(404, InternalCode.INVALID_REQUEST, null, "Está reserva já foi iniciada e não pode ser editada.");
+    }
+
     reservation.update(reservationUpdated);
     await ReservationsServices.isValid(reservation);
 

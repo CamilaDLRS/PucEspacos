@@ -280,7 +280,7 @@ VALUES
     ('81b924c5-881d-49f3-a3ed-4d51892ae086', NULL, @dimitri_id, @espaco3, 'Aprovada', 'Estudo', 1720112400000, 1720119600000, 1712249400000, UNIX_TIMESTAMP(NOW()) * 1000),
     
     ('58f5f999-aecc-464e-a997-78df9df6c8a3', NULL, @dimitri_id, @espaco2, 'Aprovada', 'Estudo', 1727776800000, 1727787600000, 1712249400000, UNIX_TIMESTAMP(NOW()) * 1000),
-    ('6f41ad0a-cceb-4fcf-b6db-c272d4aef1fc', NULL, @joana_id, @espaco7, 'Aprovada', 'Estudo', 1727780400000, 1712249400000, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000),
+    ('6f41ad0a-cceb-4fcf-b6db-c272d4aef1fc', NULL, @joana_id, @espaco7, 'Aprovada', 'Estudo', 1727780400000, 1727791200000, UNIX_TIMESTAMP(NOW()) * 1000, UNIX_TIMESTAMP(NOW()) * 1000),
     ('be82177b-90ce-48eb-b87c-8f3ede5d839e', NULL, @joao_id, @espaco8, 'Aprovada', 'Estudo', 1727780400000, 1727782200000, 1712249400000, UNIX_TIMESTAMP(NOW()) * 1000),
     ('a6d0870e-552e-4f68-b4b9-eec9bf742516', NULL, @vera_id, @espaco9, 'Aprovada', 'Estudo', 1727784000000, 1728565200000, 1712249400000, UNIX_TIMESTAMP(NOW()) * 1000),
     ('46da7e99-8815-4385-8f3a-6152d8cd17f3', NULL, @joana_id, @espaco10, 'Aprovada', 'Estudo', 1727769600000, 1728550800000, 1712249400000, UNIX_TIMESTAMP(NOW()) * 1000);

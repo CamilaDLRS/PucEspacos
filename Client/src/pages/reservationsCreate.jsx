@@ -3,11 +3,12 @@ import Header from "../components/header/header";
 import FormCreateReservation from "../components/formCreateReservation/formCreateReservation";
 import CardFacility from "../components/cardFacility/cardFacility"
 import { useEffect, useState } from "react";
-import { ToastContainer, toast } from 'react-toastify';
 import { getAllAvailables } from "../services/facility";
 import CardReadFacility from "../components/cardReadFacility/cardReadFacility";
 import FormResrvationPurpose from "../components/formReservationPurpose/formReservationPurpose";
 import CardReservationReview from "../components/cardReservationReview/cardReservationReview";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function ReservationsCreate() {
     if (!localStorage.getItem("userType")) {

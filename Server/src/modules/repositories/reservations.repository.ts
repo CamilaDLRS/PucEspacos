@@ -63,7 +63,7 @@ export class ReservationsRepository {
     }
 
     const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
-    const sql = `${this.selectQuery} ${whereClause};`;
+    const sql = `${this.selectQuery} ${whereClause} ORDER BY r.checkinDate;`;
 
     await this.CONNECTION.connect();
     const rows = await this.CONNECTION.executeWithParams(sql, bindParams);
