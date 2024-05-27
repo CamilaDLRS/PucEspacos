@@ -120,13 +120,19 @@ export class ReservationsServices {
 
 
     for await (const reservation of reservations) {
-      if (
-        options.checkinDate < reservation.checkoutDate &&
-        options.checkoutDate >= reservation.checkoutDate &&
-        options.reservationId != reservation.reservationId
-      ) {
-        return false;
+      if (options.reservationId == reservation.reservationId) {
+        continue;
       }
+
+      if ((options.checkinDate < reservation.checkinDate) && (options.checkoutDate <= reservation.checkinDate)) {
+        continue;
+      } 
+          
+      if ((options.checkinDate >= reservation.checkoutDate)) {
+        continue;
+      }
+      
+      return false;
     }
     return true;
   }

@@ -70,10 +70,10 @@ export class ReservationsRepository {
     await this.CONNECTION.disconnect();
 
     if (rows && rows.length > 0) {
-      const facilities: ReservationDto[] = rows.map((row: any) => {
+      const reservations: ReservationDto[] = rows.map((row: any) => {
         return new ReservationDto(row);
       });
-      return facilities;
+      return reservations;
     } else {
       return [];
     }
