@@ -28,9 +28,9 @@ function Reservations() {
   }, [localStorage.getItem("responseMessage")])
 
   const [inputTemplate, setInputTemplate] = useState({
-    requestingUserId: null,
-    responsibleUserId: null,
-    onlyByResponsibleUserId: false,
+    requestingUserId: localStorage.getItem("userType") === "Discente" ? localStorage.getItem("userId") : null,
+    responsibleUserId: localStorage.getItem("userType") !== "Discente" ? localStorage.getItem("userId") : null,
+    onlyByResponsibleUserId: localStorage.getItem("userType") !== "Discente" ? true : false,
     onlyByRequestingUserId: false,
     reservationStatus: null,
     buildingId: null,
@@ -41,22 +41,14 @@ function Reservations() {
 
   useEffect(() => {
     getAllBuildings().then((response) => setBuildings(response));
-
-    if (localStorage.getItem("userType") === "Discente") {
-      setInputTemplate({...inputTemplate, requestingUserId: localStorage.getItem("userId")})
-    } else {
-      setInputTemplate({...inputTemplate, responsibleUserId: localStorage.getItem("userId"), onlyByResponsibleUserId: true})
-    }
   }, [])
 
   const [search, setSearch] = useState();
-
   const [reservations, setReservations] = useState([]);
   const [buildings, setBuildings] = useState([]);
   const [buildingFilterOptions, setBuildingFilterOptions] = useState([]);
 
   useEffect(() => {
-    console.log(inputTemplate)
     getReservations(inputTemplate).then((response) => setReservations(response));
   }, [search]);
 
@@ -201,7 +193,16 @@ function Reservations() {
                 : <></>
                 }
             </div>
-        </div>
+          </div>
+
+          { currentReservations.length < 1 &&
+            <>
+              <h3>Sem Reservas com base nos filtros selecionados!</h3>
+              <h3>Tente outros...</h3>
+            </>
+
+          }
+
           {currentReservations.map((reserve) => ( 
               <CardReservation 
                 reservation={reserve} 

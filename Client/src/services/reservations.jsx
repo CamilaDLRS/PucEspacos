@@ -10,9 +10,6 @@ const httpOptions = {
   },
 };
 
-
-
-  
 export async function getReservations(data) {
   return await axios
     .post(
@@ -24,7 +21,7 @@ export async function getReservations(data) {
       return response.data.data;
     })
     .catch((e) => {
-      toast(e.response.data.error.message);
+      e.response.data.error.internalCode === "REGISTER_NOT_FOUND" ? console.log(e.response.data.error.message) : toast(e.response.data.error.internalCode);
       return null;
     });
 }
