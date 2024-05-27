@@ -49,9 +49,6 @@ function Reservations() {
     } else {
       setInputTemplate({...inputTemplate, responsibleUserId: localStorage.getItem("userId"), onlyByResponsibleUserId: true})
     }
-
-    if (localStorage.getItem("userType") === "Docente") {
-    }
   }, [])
 
   const [reservations, setReservations] = useState([]);
@@ -143,8 +140,6 @@ function Reservations() {
                         : localStorage.getItem("userType") === "Docente" 
                           ? setInputTemplate({...inputTemplate, responsibleUserId: localStorage.getItem("userId"),  onlyByResponsibleUserId: false})
                           : setInputTemplate({...inputTemplate, responsibleUserId: null,  onlyByResponsibleUserId: false})
-                        
-                        
                       }
                     },
                     {
