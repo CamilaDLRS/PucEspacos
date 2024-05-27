@@ -10,7 +10,6 @@ import { Link } from "react-router-dom";
 import { showList, unShowlist, checkin, checkout, convertToTimeString } from "../../utils.js";
 
 function FormCreateReservation({ reservationTemplate, setReservationTemplate, getFacilitiesAvailables }) {
-
     const [minDate, setMinDate] = useState("");
 
     const [buildings, setBuildings] = useState([]);
@@ -26,6 +25,7 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate, ge
         var month = dtToday.getMonth() + 1;
         month = month < 10 ? "0" + month.toString() : month.toString();
         var day = dtToday.getDate().toString();
+        day = day < 10 ? "0" + day.toString() : day.toString();
 
         setMinDate(`${year}-${month}-${day}`)
         setReservationTemplate({ ...reservationTemplate, reservationDate: `${year}-${month}-${day}` })
@@ -178,6 +178,7 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate, ge
                     <ul className="reservation-list checkout-hours-list">
                         {
                             checkout.map(hour => {
+                                console.log(hour)
                                 if (reservationTemplate.checkin != "--:--" && hour > reservationTemplate.checkin) {
                                     return (<li onClick={(e) => {
                                         setReservationTemplate({ ...reservationTemplate, checkout: hour })

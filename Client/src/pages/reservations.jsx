@@ -16,6 +16,8 @@ import 'react-toastify/dist/ReactToastify.css';
 function Reservations() {
   if (!localStorage.getItem("userType")) {
     window.location = "/users";
+  } else if (localStorage.getItem("userType") === "Discente") {
+    window.location = "/facilities";
   }
 
   useEffect(() => {
@@ -37,15 +39,15 @@ function Reservations() {
     facilityIds: []
   });
 
+  const [search, setSearch] = useState(false);
+
   useEffect(() => {
     getAllBuildings().then((response) => setBuildings(response));
 
     if (localStorage.getItem("userType") === "Discente") {
       setInputTemplate({...inputTemplate, requestingUserId: localStorage.getItem("userId")})
-    }
-
-    if (localStorage.getItem("userType") === "Docente") {
-      setInputTemplate({...inputTemplate, responsibleUserId: localStorage.getItem("userId")})
+    } else {
+      setInputTemplate({...inputTemplate, responsibleUserId: localStorage.getItem("userId"), onlyByResponsibleUserId: true})
     }
   }, [])
 
@@ -55,7 +57,7 @@ function Reservations() {
 
   useEffect(() => {
     getReservations(inputTemplate).then((response) => setReservations(response));
-  }, [inputTemplate]);
+  }, [search]);
 
   useEffect(() => {
     const buildingFilterOptions = [];
@@ -125,6 +127,8 @@ function Reservations() {
                   inputTemplate={inputTemplate}
                   setInputTemplate={setInputTemplate}
                   triggerFunction={showFacilityList}
+                  setSearch={setSearch}
+                  search={search}
                   inputs={ [ ["Administrador", "Secretário", "Docente"].includes(localStorage.getItem("userType")) &&
                     {
                       type: "checkbox",
@@ -136,8 +140,6 @@ function Reservations() {
                         : localStorage.getItem("userType") === "Docente" 
                           ? setInputTemplate({...inputTemplate, responsibleUserId: localStorage.getItem("userId"),  onlyByResponsibleUserId: false})
                           : setInputTemplate({...inputTemplate, responsibleUserId: null,  onlyByResponsibleUserId: false})
-                        
-                        
                       }
                     },
                     {

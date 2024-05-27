@@ -11,7 +11,7 @@ function Users() {
   useEffect(() => {
     if (!localStorage.getItem("userType")) {
       window.location = "/";
-    } else if (localStorage.getItem("userType") !== "Administrador" && localStorage.getItem("userType") !== "Docente") {
+    } else if (localStorage.getItem("userType") !== "Administrador") {
       window.location = "/reservations";
     }
   })

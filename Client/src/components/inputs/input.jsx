@@ -1,8 +1,9 @@
 import "./input.css"
 import IconCalendarDays from "../../imgs/iconCalendarDays";
 import IconThreeDots from "../../imgs/IconThreeDots";
+import IconBxSearchAlt from "../../imgs/iconBxSearchAlt";
 
-function Inputs({inputTemplate, setInputTemplate, inputs, triggerFunction}) {
+function Inputs({inputTemplate, setInputTemplate, inputs, triggerFunction, setSearch, search}) {
 
     return ( 
         <div className="options-area">
@@ -14,6 +15,7 @@ function Inputs({inputTemplate, setInputTemplate, inputs, triggerFunction}) {
                     }
                     {input.type === "checkbox" &&
                       <input 
+                        checked={inputTemplate.onlyByResponsibleUserId ? true : false}
                         type={input.type} 
                         id={input.id} 
                         onChange={(e) => {
@@ -62,6 +64,14 @@ function Inputs({inputTemplate, setInputTemplate, inputs, triggerFunction}) {
                     }
                 </div>
             ))}
+
+            <label 
+              htmlFor="icon-search" 
+              className="filter" 
+              onClick={() => {search ? setSearch(false) : setSearch(true)}}>
+                Buscar
+                <IconBxSearchAlt className="icon" id="icon-search" height="20px" width="20px"/>
+            </label>
         </div>
      );
 }
