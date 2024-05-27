@@ -16,6 +16,7 @@
 }
 
 .create-reservation-link {
+    width: fit-content;
     display: flex;
     margin: 10px 0;
     color: black;

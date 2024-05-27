@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./cardReservation.css";
 import IconBxsEdit from "../../imgs/iconBxsEdit";
+import IconTrash from "../../imgs/iconTrash";
 
 function CardReservation({reservation, showFormReservation}) {
     const [reserveInfos, setReserveInfos ] = useState({
@@ -81,14 +82,20 @@ function CardReservation({reservation, showFormReservation}) {
             </div>
             <div className="card-reservation-footer">
                 <span> {reserveInfos.reservationStatus} </span>
-                <div>
+                <div className="reservation-icons">
                     {
                         (localStorage.getItem("userId") === reservation.responsibleUserId ||
                          localStorage.getItem("userId") === reservation.requestingUserId ) &&
                         new Date() < new Date(reservation.checkinDate) &&
-                        <div className="edit-icon showFormReservation icon" onClick={showFormReservation.bind(event, reservation)}>
+                        <div className="showFormReservation icon" onClick={showFormReservation.bind(event, reservation)}>
                             <IconBxsEdit className="showFormReservation" />
                         </div>
+                    }
+
+                    {   (localStorage.getItem("userType").includes("Administrador", "Secretário" ) ||
+                         localStorage.getItem("userId") === reservation.responsibleUserId ||
+                         localStorage.getItem("userId") === reservation.requestingUserId) &&
+                        <IconTrash className="icon"/>
                     }
                 </div>
 

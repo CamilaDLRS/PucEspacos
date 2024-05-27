@@ -44,3 +44,8 @@
 .card-reservation .card-reservation-body table td + td {
     border-left: 1px solid rgba(0, 0, 0, 0.5);
 }
+
+.card-reservation  .reservation-icons {
+    display: flex;
+    gap: 5px;
+}

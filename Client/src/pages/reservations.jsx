@@ -39,8 +39,6 @@ function Reservations() {
     facilityIds: []
   });
 
-  const [search, setSearch] = useState(false);
-
   useEffect(() => {
     getAllBuildings().then((response) => setBuildings(response));
 
@@ -51,11 +49,14 @@ function Reservations() {
     }
   }, [])
 
+  const [search, setSearch] = useState();
+
   const [reservations, setReservations] = useState([]);
   const [buildings, setBuildings] = useState([]);
   const [buildingFilterOptions, setBuildingFilterOptions] = useState([]);
 
   useEffect(() => {
+    console.log(inputTemplate)
     getReservations(inputTemplate).then((response) => setReservations(response));
   }, [search]);
 
