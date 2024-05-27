@@ -73,10 +73,3 @@
     background-color: red;
     cursor: pointer;
 }
-
-.icon-search {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}

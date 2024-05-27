@@ -16,7 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 function Reservations() {
   if (!localStorage.getItem("userType")) {
     window.location = "/users";
-  } else if (localStorage.getItem("userType") !== "Administrador") {
+  } else if (localStorage.getItem("userType") === "Discente") {
     window.location = "/facilities";
   }
 
@@ -39,6 +39,8 @@ function Reservations() {
     facilityIds: []
   });
 
+  const [search, setSearch] = useState(false);
+
   useEffect(() => {
     getAllBuildings().then((response) => setBuildings(response));
 
@@ -58,7 +60,7 @@ function Reservations() {
 
   useEffect(() => {
     getReservations(inputTemplate).then((response) => setReservations(response));
-  }, [inputTemplate]);
+  }, [search]);
 
   useEffect(() => {
     const buildingFilterOptions = [];
@@ -128,6 +130,8 @@ function Reservations() {
                   inputTemplate={inputTemplate}
                   setInputTemplate={setInputTemplate}
                   triggerFunction={showFacilityList}
+                  setSearch={setSearch}
+                  search={search}
                   inputs={ [ ["Administrador", "Secretário", "Docente"].includes(localStorage.getItem("userType")) &&
                     {
                       type: "checkbox",
