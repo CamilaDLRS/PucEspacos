@@ -11,7 +11,7 @@ function Users() {
   useEffect(() => {
     if (!localStorage.getItem("userType")) {
       window.location = "/";
-    } else if (localStorage.getItem("userType") !== "Administrador" && localStorage.getItem("userType") !== "Docente") {
+    } else if (localStorage.getItem("userType") !== "Administrador") {
       window.location = "/reservations";
     }
   })
@@ -81,6 +81,18 @@ function Users() {
       setUserById(user)
     }
   }
+
+  const [itensPerPage, setItensPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(0);
+  let pages = 0;
+  let currentUsers = [];
+  if (filteredUsers) {
+    pages = Math.ceil(filteredUsers.length / itensPerPage);
+    const startIndex = currentPage * itensPerPage;
+    const endIndex = startIndex + itensPerPage;
+    currentUsers = filteredUsers.slice(startIndex, endIndex);
+  }
+
   return (
     <>
       <Header local="users" />
@@ -101,18 +113,41 @@ function Users() {
             },
           ]}
         />  
-        
+
+        <div className="pages-filter-area"> 
+            <div className="pages-filter">
+              {Array.from(Array(pages), (item, index) => {
+                return (
+                  <button 
+                    value={index} 
+                    onClick={(e) => setCurrentPage(Number(e.target.value))}
+                    style={index === currentPage ? {background: "rgb(177, 173, 173)"} : null}
+                  > {index + 1} </button >
+                )
+              })} 
+            </div>
+            
+            {filteredUsers && filteredUsers.length > 5 
+              ? <select value={itensPerPage} onChange={(e) => setItensPerPage(Number(e.target.value))}>
+                <option value={5}>5</option>
+                <option value={8}>8</option>
+                <option value={12}>12</option>
+              </select>
+              : <></>
+            }
+        </div>
+
         {loggedUser &&
           <div className="user-profile">
-            <h3>Seu Perfil</h3>
             <CardUser 
                 user = {loggedUser}
                 showFormUser = {showFormUser}
+                myProfile="my-profile"
             />
           </div>
         }
 
-        {filteredUsers.map((user) => {
+        {currentUsers.map((user) => {
           return user.userId != localStorage.getItem("userId") ? (
             <CardUser 
               user = {user}

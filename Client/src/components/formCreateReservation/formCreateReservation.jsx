@@ -7,10 +7,9 @@ import IconPersonFill from "../../imgs/iconPersonFill";
 import IconIconClock from "../../imgs/iconIconClock/";
 import IconDown from "../../imgs/IconDown";
 import { Link } from "react-router-dom";
-import { checkin, checkout } from "../../utils.js";
+import { showList, unShowlist, checkin, checkout, convertToTimeString } from "../../utils.js";
 
 function FormCreateReservation({ reservationTemplate, setReservationTemplate, getFacilitiesAvailables }) {
-
     const [minDate, setMinDate] = useState("");
 
     const [buildings, setBuildings] = useState([]);
@@ -26,6 +25,7 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate, ge
         var month = dtToday.getMonth() + 1;
         month = month < 10 ? "0" + month.toString() : month.toString();
         var day = dtToday.getDate().toString();
+        day = day < 10 ? "0" + day.toString() : day.toString();
 
         setMinDate(`${year}-${month}-${day}`)
         setReservationTemplate({ ...reservationTemplate, reservationDate: `${year}-${month}-${day}` })
@@ -40,14 +40,77 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate, ge
         });
     }, []);
 
+    const [errors, setErrors] = useState({
+        capacity: '',
+        building: '',
+        facilityType: '',
+        checkin: '',
+        checkout: '',
+        reservationDate: ''
+    });
 
+    const validate = () => {
+        let isValid = true;
+        const newErrors = {
+            building: '',
+            capacity: '',
+            facilityType: '',
+            checkin: '',
+            checkout: '',
+            reservationDate: ''
+        };
+    
+        // Validando capacity
+        if (reservationTemplate.capacity) {
+            if (!Number.isInteger(Number(reservationTemplate.capacity)) || Number(reservationTemplate.capacity) < 1) {
+                newErrors.capacity = 'A capacidade deve ser um número inteiro positivo.';
+                isValid = false;
+            }
+            else if (Number(reservationTemplate.capacity) > 2000) {
+                newErrors.capacity = 'Capacidade máxima 2000.';
+                isValid = false;
+            }
+        }
 
-    function showList(elementClass) {
-        document.querySelector(`.${elementClass}`).style.display = "flex";
-    }
+        // Validando bloco 
+        if (reservationTemplate.buildingId === "") {
+            newErrors.building = 'Selecione um bloco.';
+            isValid = false;
+        }
+    
+        // Validando tipoespaco
+        if (reservationTemplate.facilityTypeId === "") {
+            newErrors.facilityType = 'Selecione um tipo de espaço.';
+            isValid = false;
+        }
 
-    function unShowlist(elementClass) {
-        document.querySelector(`.${elementClass}`).style.display = "none";
+        // Validando checkin
+        if (reservationTemplate.checkin === "--:--") {
+            newErrors.checkin = 'Selecione o horário de ínicio.';
+            isValid = false;
+        }
+
+        // Validando checkout
+        if (reservationTemplate.checkout === "--:--") {
+            newErrors.checkout = 'Selecione o horário de fim.';
+            isValid = false;
+        }
+
+        // Validando data
+        if (!Boolean(reservationTemplate.reservationDate)) {
+            newErrors.reservationDate = 'Selecione a data.';
+            isValid = false;
+        }
+
+        setErrors(newErrors);
+
+        return isValid;
+    };
+
+    function validateFields() {
+        if (validate()) {
+            getFacilitiesAvailables(reservationTemplate);
+        }
     }
 
 
@@ -63,10 +126,16 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate, ge
                     id="date"
                     min={minDate}
                     value={reservationTemplate.reservationDate}
-                    onChange={(event) => setReservationTemplate({ ...reservationTemplate, reservationDate: event.target.value })}
+                    onChange={(event) => {
+                        setReservationTemplate({ ...reservationTemplate, reservationDate: event.target.value })
+                        setErrors({ ...errors, reservationDate: '' });
+                    }
+                }
                 />
-
             </label>
+            <div className="error-area">  
+                    {errors.reservationDate ? <span className="error">{errors.reservationDate}</span> : <span className="error"></span>}
+            </div>
 
             <div className="date-select-area">
                 <label
@@ -82,10 +151,17 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate, ge
                     <IconIconClock className="reservation-icon reservation-icon-clock" />
                     <ul className="reservation-list checkin-hours-list">
                         {
-                            checkin.map(hour => (<li onClick={(e) => {
-                                setReservationTemplate({ ...reservationTemplate, checkin: hour, checkout: "--:--" })
-                            }}>{hour}</li>))
-                        }
+                            checkin.map((hour) => {
+                            if (!(reservationTemplate.reservationDate == minDate && hour <= convertToTimeString(new Date().getTime())))  {
+                                return (
+                                    <li onClick={(e) => {
+                                        setReservationTemplate({ ...reservationTemplate, checkin: hour, checkout: "--:--" })
+                                        setErrors({ ...errors, checkin: '' });
+                                    }
+                                }>{hour}</li>
+                                );
+                            }
+                        })}
                     </ul>
                 </label>
 
@@ -102,14 +178,22 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate, ge
                     <ul className="reservation-list checkout-hours-list">
                         {
                             checkout.map(hour => {
-                                if (hour > reservationTemplate.checkin) {
-                                    return (<li onClick={(e) => setReservationTemplate({ ...reservationTemplate, checkout: hour })
+                                console.log(hour)
+                                if (reservationTemplate.checkin != "--:--" && hour > reservationTemplate.checkin) {
+                                    return (<li onClick={(e) => {
+                                        setReservationTemplate({ ...reservationTemplate, checkout: hour })
+                                        setErrors({ ...errors, checkout: '' });
+                                }
                                     }>{hour}</li>)
                                 }
                             })
                         }
                     </ul>
                 </label>
+            </div>
+            <div className="error-area">  
+                {errors.checkin ? <span className="error">{errors.checkin}</span> : <span className="error"></span>}
+                {errors.checkout ? <span className="error">{errors.checkout}</span> : <span className="error"></span>}
             </div>
 
             <label
@@ -131,12 +215,16 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate, ge
                                     buildingId: build.buildingId, 
                                     buildingName: build.buildingName })
                                 setBuildName(build.buildingName)
+                                setErrors({ ...errors, building: '' });
                             }}
                             >{build.buildingName}</li>
                         ))
                     }
                 </ul>
             </label>
+            <div className="error-area">  
+                    {errors.building ? <span className="error">{errors.building}</span> : <span className="error"></span>}
+            </div>
 
             <label
                 className="form-field"
@@ -154,12 +242,17 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate, ge
                             <li onClick={(e) => {
                                 setReservationTemplate({ ...reservationTemplate, facilityTypeId: facilityType.facilityTypeId })
                                 setFaciliTypeName(facilityType.facilityTypeDescription)
+                                setErrors({ ...errors, facilityType: '' });
+
                             }}
                             >{facilityType.facilityTypeDescription}</li>
                         ))
                     }
                 </ul>
             </label>
+            <div className="error-area">  
+                    {errors.facilityType ? <span className="error">{errors.facilityType}</span> : <span className="error"></span>}
+            </div>
 
             <label className="form-field" htmlFor="capacity">
                 Capacidade
@@ -175,17 +268,23 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate, ge
                             e.target.value = e.target.value.slice(0, 4)
                         }
                         setReservationTemplate({ ...reservationTemplate, capacity: e.target.value })
+                        setErrors({ ...errors, capacity: '' });
                     }}
                 />
             </label>
+            <div className="error-area">  
+                    {errors.capacity ? <span className="error">{errors.capacity}</span> : <span className="error"></span>}
+            </div>
 
             <div className="btn-area">
-                <div className="search-btn" onClick={() => getFacilitiesAvailables(reservationTemplate)}>
+                <div>
+                    <Link to="/reservations" className="btn-link">
+                            Cancelar
+                    </Link>
+                </div>
+                <div onClick={validateFields}>
                     Buscar
                 </div>
-                <Link to={"/reservations"}>
-                    Cancelar
-                </Link>
             </div>
         </div>
     );

@@ -16,7 +16,7 @@ export class ReservationsServices {
     const reservations: ReservationDto[] = await ReservationsRepository.getAll(options);
 
     if (reservations.length == 0) {
-      throw new ApiError(404, InternalCode.REGISTER_NOT_FOUND);
+      throw new ApiError(404, InternalCode.REGISTER_NOT_FOUND, null, "Nenhuma reserva encontrada.");
     }
     return reservations;
   }
@@ -62,6 +62,13 @@ export class ReservationsServices {
   public static async update(reservationUpdated: ReservationDto): Promise<void> {
 
     const reservation = await this.getById(reservationUpdated.reservationId!);
+
+    if (reservation.checkinDate < new Date().getTime()) {
+      if (reservation.checkoutDate < new Date().getTime()) {
+        throw new ApiError(404, InternalCode.INVALID_REQUEST, null, "Está reserva já aconteceu e não pode ser editada.");
+      }
+      throw new ApiError(404, InternalCode.INVALID_REQUEST, null, "Está reserva já foi iniciada e não pode ser editada.");
+    }
 
     reservation.update(reservationUpdated);
     await ReservationsServices.isValid(reservation);
@@ -113,13 +120,19 @@ export class ReservationsServices {
 
 
     for await (const reservation of reservations) {
-      if (
-        options.checkinDate < reservation.checkoutDate &&
-        options.checkoutDate >= reservation.checkoutDate &&
-        options.reservationId != reservation.reservationId
-      ) {
-        return false;
+      if (options.reservationId == reservation.reservationId) {
+        continue;
       }
+
+      if ((options.checkinDate < reservation.checkinDate) && (options.checkoutDate <= reservation.checkinDate)) {
+        continue;
+      } 
+          
+      if ((options.checkinDate >= reservation.checkoutDate)) {
+        continue;
+      }
+      
+      return false;
     }
     return true;
   }

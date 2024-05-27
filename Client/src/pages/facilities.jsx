@@ -91,6 +91,17 @@ function Facilities() {
     }
   }
 
+  const [itensPerPage, setItensPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(0);
+  let pages = 0;
+  let currentFacilities = [];
+  if (filteredFacilities) {
+    pages = Math.ceil(filteredFacilities.length / itensPerPage);
+    const startIndex = currentPage * itensPerPage;
+    const endIndex = startIndex + itensPerPage;
+    currentFacilities = filteredFacilities.slice(startIndex, endIndex);
+  }
+
   return (
     <>
       <Header local="facilities" />
@@ -115,16 +126,41 @@ function Facilities() {
           addSomething="Adicionar Espaço"
         />
 
+        <div className="pages-filter-area"> 
+            <div className="pages-filter">
+              {Array.from(Array(pages), (item, index) => {
+                return (
+                  <button 
+                    value={index} 
+                    onClick={(e) => setCurrentPage(Number(e.target.value))}
+                    style={index === currentPage ? {background: "rgb(177, 173, 173)"} : null}
+                  > {index + 1} </button >
+                )
+              })} 
+            </div>
+            
+            {filteredFacilities && filteredFacilities.length > 5 
+              ? <select value={itensPerPage} onChange={(e) => setItensPerPage(Number(e.target.value))}>
+                <option value={5}>5</option>
+                <option value={8}>8</option>
+                <option value={12}>12</option>
+              </select>
+              : <></>
+            }
+        </div>
+
+
+
         {(localStorage.getItem("userType") === "Docente" ||
-          localStorage.getItem("userType") === "Discente")
-          ? filteredFacilities.map((facility) => {
+          localStorage.getItem("userType") === "Discente") 
+          ? currentFacilities.map((facility) => { 
             return facility.isActive ? (<CardFacility
               facility={facility}
               showFacility={showFacility}
               showFacilityForm={showFacilityForm}
             />) : <></>
           })
-          : filteredFacilities.map((facility) => {
+          : currentFacilities.map((facility) => { 
             return (<CardFacility
               facility={facility}
               showFacility={showFacility}

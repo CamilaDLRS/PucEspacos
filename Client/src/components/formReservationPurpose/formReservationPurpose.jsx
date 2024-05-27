@@ -1,7 +1,9 @@
-import Filters from "../filters/filters";
+import IconDown from "../../imgs/IconDown.jsx/";
 import { useEffect, useState } from "react";
+import {showList, unShowlist} from "../../utils.js";
 import { getAllReservationPurposes } from "../../services/reservations";
 import "./formReservationPurpose.css"
+
 
 function FormResrvationPurpose({ showCardReserve, setReservationPurposesData }) {
 
@@ -56,6 +58,7 @@ function FormResrvationPurpose({ showCardReserve, setReservationPurposesData }) 
         <div className="btn-area">
           <div className="showReservationPurpose">Voltar</div>
           <div className="showConfirmReserve" onClick={showPurposeMesage.bind(event)}>Continuar</div>
+
         </div>
       </div>
 

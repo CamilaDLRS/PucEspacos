@@ -110,17 +110,17 @@ export const getAvalableFacilitiesSchema =  yup.object({
     minimumCapacity: yup
       .number()
       .integer()
-      .positive()
+      .positive("Capacidade deve ser um número positivo.")
       .nullable(),
     buildingId: yup
       .string()
-      .required("Identificação do Bloco é obrigatória."),
+      .required("Bloco é obrigatório."),
     checkinDate: yup
       .number()
-      .required("Checkin é obrigatório."),
+      .required("Início é obrigatório."),
     checkoutDate: yup
       .number()
-      .required("Checkout é obrigatório."),
+      .required("Saída é obrigatório."),
     facilityTypeId: yup
       .string()
       .required("Tipo do espaço é obrigatório.")

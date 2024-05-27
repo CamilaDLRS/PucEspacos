@@ -63,17 +63,17 @@ export class ReservationsRepository {
     }
 
     const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
-    const sql = `${this.selectQuery} ${whereClause};`;
+    const sql = `${this.selectQuery} ${whereClause} ORDER BY r.checkinDate;`;
 
     await this.CONNECTION.connect();
     const rows = await this.CONNECTION.executeWithParams(sql, bindParams);
     await this.CONNECTION.disconnect();
 
     if (rows && rows.length > 0) {
-      const facilities: ReservationDto[] = rows.map((row: any) => {
+      const reservations: ReservationDto[] = rows.map((row: any) => {
         return new ReservationDto(row);
       });
-      return facilities;
+      return reservations;
     } else {
       return [];
     }

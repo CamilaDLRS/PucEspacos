@@ -49,7 +49,7 @@ export class ReservationsController {
 
       reservation = await ReservationsServices.getById(req.params.id);
 
-      await ExpressHandlers.handleResponse(req, res, reservation, "Reserva atualizada com sucesso!");
+      await ExpressHandlers.handleResponse(req, res, reservation, "Reserva editada com sucesso!");
     } catch (error) {
       await ExpressHandlers.handleError(req, res, error);
     }
@@ -61,7 +61,7 @@ export class ReservationsController {
       let userId = String(req.query.userId);
       await ReservationsServices.delete(reservationId, userId);
 
-      await ExpressHandlers.handleResponse(req, res, "Reserva excluida com sucesso!");
+      await ExpressHandlers.handleResponse(req, res, null, "Reserva excluida com sucesso!");
     } catch (error) {
       await ExpressHandlers.handleError(req, res, error);
     }

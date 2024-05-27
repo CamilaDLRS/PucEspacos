@@ -1,10 +1,12 @@
 .options-area {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    margin: 10px auto;
-    gap: 2rem;
+    margin: 10px 0;
     border-bottom: 1px solid black;
+}
+
+.options-area:has(*) {
+    gap: 7px;
 }
 
 .options-area .filter:has(*) {
@@ -42,7 +44,6 @@
     width: 100%;
 }
 
-
 .options-area .filter select:focus {
     outline: none;
 }
@@ -70,12 +71,5 @@
     height: 100%;
     opacity: 0;
     background-color: red;
-    cursor: pointer;
-}
-
-.icon-search {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     cursor: pointer;
 }

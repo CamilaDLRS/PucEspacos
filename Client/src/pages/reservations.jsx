@@ -6,13 +6,18 @@ import IconPlusCircle from "../imgs/iconPlusCircle"
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CardFacilityReserve from "../components/cardFacilityReserve/cardFacilityReserve"
-import { ToastContainer, toast } from 'react-toastify';
-
+import { getReservations } from "../services/reservations";
+import { getAllBuildings } from "../services/building";
+import { convertToDateString } from "../utils.js";
 import FormEditReservation from "../components/formEditReservation/formEditReservation";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Reservations() {
   if (!localStorage.getItem("userType")) {
     window.location = "/users";
+  } else if (localStorage.getItem("userType") === "Discente") {
+    window.location = "/facilities";
   }
 
   useEffect(() => {
@@ -23,12 +28,48 @@ function Reservations() {
   }, [localStorage.getItem("responseMessage")])
 
   const [inputTemplate, setInputTemplate] = useState({
-    userId: null,
-    checkinDate: "",
-    checkoutDate: "",
-    buildingId: "null",
-    facilitiesIdList: ["", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+    requestingUserId: null,
+    responsibleUserId: null,
+    onlyByResponsibleUserId: false,
+    onlyByRequestingUserId: false,
+    reservationStatus: null,
+    buildingId: null,
+    checkinDate: new Date().getTime(),
+    checkoutDate:  new Date().getTime() + (7 * 24 * 60 * 60 * 1000),
+    facilityIds: []
   });
+
+  useEffect(() => {
+    getAllBuildings().then((response) => setBuildings(response));
+
+    if (localStorage.getItem("userType") === "Discente") {
+      setInputTemplate({...inputTemplate, requestingUserId: localStorage.getItem("userId")})
+    } else {
+      setInputTemplate({...inputTemplate, responsibleUserId: localStorage.getItem("userId"), onlyByResponsibleUserId: true})
+    }
+  }, [])
+
+  const [search, setSearch] = useState();
+
+  const [reservations, setReservations] = useState([]);
+  const [buildings, setBuildings] = useState([]);
+  const [buildingFilterOptions, setBuildingFilterOptions] = useState([]);
+
+  useEffect(() => {
+    console.log(inputTemplate)
+    getReservations(inputTemplate).then((response) => setReservations(response));
+  }, [search]);
+
+  useEffect(() => {
+    const buildingFilterOptions = [];
+
+    buildingFilterOptions.push(
+      ...buildings.map((building) => {
+        return { key: building.buildingId, value: building.buildingId, label: building.buildingName };
+      })
+    );
+    setBuildingFilterOptions(buildingFilterOptions);
+  }, [buildings]);
 
   const [triggerFacilityList, setTriggerFacilityList] = useState(false);
 
@@ -38,24 +79,22 @@ function Reservations() {
     }
   }
 
-  //#region UPDATING
+  const [itensPerPage, setItensPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(0);
+  let pages = 0;
+  let currentReservations = [];
+  if (reservations) {
+    pages = Math.ceil(reservations.length / itensPerPage);
+    const startIndex = currentPage * itensPerPage;
+    const endIndex = startIndex + itensPerPage;
+    currentReservations = reservations.slice(startIndex, endIndex);
+  }
 
-  const reservation = {
-    responsibleUserId: "212270a5-cc6f-4040-a149-b44efc24e1a8",
-    requestingUserId: null,
-    facilityId: "e5e39abd-1554-477f-8786-6aa1741127c3",
-    reservationStatus: "Aprovada",
-    reservationPurpose: "Aula",
-    checkinDate: 1711968600000,
-    checkoutDate: 1711975200000,
-    reservationId: "0b668249-0526-40da-832d-c5ac9d54e6fc",
-    createdDate: 1716166583000,
-    updatedDate: 1716166583000,
-    requestingUserName: null,
-    responsibleUserName: "Lucia",
-    facilityName: "Sala de Estudos 2",
-    buildingName: "2 - Azul"
-  };
+  useEffect(() => {
+    setCurrentPage(0)
+  }, [itensPerPage])
+  
+  //#region UPDATING
 
   const [reservationById, setReservationById] = useState();
   const [showFormEditReservation, setShowFormEditReservation] = useState(false);
@@ -69,83 +108,130 @@ function Reservations() {
   //#endregion
 
   return (
-    <div>
-      <Header local="reservations" />
-      
-      <div className="page-container">
-        <Link to="/reservationsCreate" className="create-reservation-link"> 
-          <div className="icon">
-            Nova Reserva
-            <IconPlusCircle className="icon" /> 
-          </div>
-        </Link>
+    <>
+      <div>
+        <Header local="reservations" />
+        
+        <div className="page-container">
+            <div>
+
+              <Link to="/reservationsCreate" className="create-reservation-link"> 
+                <div className="icon">
+                  Nova Reserva
+                  <IconPlusCircle className="icon" /> 
+                </div>
+              </Link>
 
 
-        <div className="reservation-filter">
-          <Inputs 
-            inputTemplate={inputTemplate}
-            setInputTemplate={setInputTemplate}
-            triggerFunction={showFacilityList}
-            inputs={[ 
-              {
-                type: "checkbox",
-                label: "Minhas",
-                id: "myReservations"
-              },
-              {
-                type: "date",
-                label: "Inicio",
-                id: "checkinDate",
-                value: inputTemplate.checkinDate,
-                onChange: (value) => {
-                  setInputTemplate({...inputTemplate, checkinDate: value, checkoutDate: ""})
-                } 
-              }, 
-              {
-                type: "date",
-                label: "Fim",
-                id: "checkoutDate",
-                value: inputTemplate.checkoutDate,
-                onChange: (value) => setInputTemplate({...inputTemplate, checkoutDate: value}),
-                min: inputTemplate.checkinDate 
-              },
-              {
-                type: "select",
-                title: "Blocos",
-                options: [{key: 1, label: "Bloco 1", value:"2"}] // lista blocos
-              },
-              {
-                type: "button",
-                label: "Espaços",
-                id: "butoon"
-              }
-            ]}          
-          />
+              <div className="reservation-filter">
+                <Inputs 
+                  inputTemplate={inputTemplate}
+                  setInputTemplate={setInputTemplate}
+                  triggerFunction={showFacilityList}
+                  setSearch={setSearch}
+                  search={search}
+                  inputs={ [ ["Administrador", "Secretário", "Docente"].includes(localStorage.getItem("userType")) &&
+                    {
+                      type: "checkbox",
+                      label: "Minhas",
+                      id: "myReservations",
+                      onChange: (value) => {
+                        value 
+                        ? setInputTemplate({...inputTemplate, responsibleUserId: localStorage.getItem("userId"), onlyByResponsibleUserId: true})
+                        : localStorage.getItem("userType") === "Docente" 
+                          ? setInputTemplate({...inputTemplate, responsibleUserId: localStorage.getItem("userId"),  onlyByResponsibleUserId: false})
+                          : setInputTemplate({...inputTemplate, responsibleUserId: null,  onlyByResponsibleUserId: false})
+                      }
+                    },
+                    {
+                      type: "date",
+                      label: "Inicio",
+                      id: "checkinDate",
+                      value: convertToDateString(inputTemplate.checkinDate),
+                      onChange: (value) => {
+                        if (value > inputTemplate.checkoutDate) {
+                          setInputTemplate({...inputTemplate, checkinDate: value, checkoutDate: null})
+                        }
+                        else {
+                          setInputTemplate({...inputTemplate, checkinDate: value})
+                        }
+                      } 
+                    }, 
+                    {
+                      type: "date",
+                      label: "Fim",
+                      id: "checkoutDate",
+                      value: convertToDateString(inputTemplate.checkoutDate),
+                      onChange: (value) => setInputTemplate({...inputTemplate, checkoutDate: value}),
+                      min: convertToDateString(inputTemplate.checkinDate)
+                    },
+                    {
+                      type: "select",
+                      title: "Todos Blocos",
+                      options: buildingFilterOptions // lista blocos
+                    },
+                    {
+                      type: "button",
+                      label: "Espaços",
+                      id: "butoon"
+                    }
+                  ]}          
+                />
+              </div>
+              
+              <div className="pages-filter-area"> 
+                <div className="pages-filter">
+                  {Array.from(Array(pages), (item, index) => {
+                    return (
+                      <button 
+                        value={index} 
+                        onClick={(e) => setCurrentPage(Number(e.target.value))}
+                        style={index === currentPage ? {background: "rgb(177, 173, 173)"} : null}
+                      > {index + 1} </button >
+                    )
+                  })} 
+                </div>
+                
+                {reservations && reservations.length > 5 
+                ? <select value={itensPerPage} onChange={(e) => setItensPerPage(Number(e.target.value))}>
+                    <option value={5}>5</option>
+                    <option value={8}>8</option>
+                    <option value={12}>12</option>
+                  </select>
+                : <></>
+                }
+            </div>
+        </div>
+          {currentReservations.map((reserve) => ( 
+              <CardReservation 
+                reservation={reserve} 
+                showFormReservation={showFormReservation}
+              />
+            ))
+          }
+
         </div>
 
-        <CardReservation 
-          reservation = { reservation }
-          showFormReservation = {showFormReservation}
-        />
-      </div>
-
-      {
-        triggerFacilityList && 
-        <CardFacilityReserve 
-          triggerFunction={showFacilityList}
-          facilitiesIdList={inputTemplate.facilitiesIdList}
-        />
-      }
-
-        { showFormEditReservation && 
-          <FormEditReservation 
-            showFormReservation={showFormReservation} 
-            reservation={reservationById}
+        {
+          triggerFacilityList && 
+          <CardFacilityReserve 
+            triggerFunction={showFacilityList}
+            buildingId={inputTemplate.buildingId}
+            setInputTemplate={setInputTemplate}
+            inputTemplate={inputTemplate}
           />
-        }    
-      
+        }
+
+          { showFormEditReservation && 
+            <FormEditReservation 
+              showFormReservation={showFormReservation} 
+              reservation={reservationById}
+            />
+          }    
+        
+      </div>
       <ToastContainer />
-    </div>
+    </>
   );
 }
 

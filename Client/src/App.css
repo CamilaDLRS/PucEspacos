@@ -73,11 +73,17 @@ input[type=number] {
 
 .btn-area div + div {
   border: 2px solid green;
-  background-color: lime;
+  background-color: lightgreen;
   transition: .5s;
 }
 
 .btn-area div + div:hover {
   color: green;
   transition: .5s;
+}
+
+.btn-area .btn-link {
+  color: white;
+  text-decoration: none; /* Remove sublinhado do Link */
+  display: inline-block; /* Para garantir que o padding funcione corretamente */
 }

@@ -1,12 +1,12 @@
 import IconBxsEdit from "../../imgs/iconBxsEdit";
 import "./carduser.css"
 
-function CardUser({user, showFormUser}) {
+function CardUser({user, showFormUser, myProfile}) {
   
   return (
-    <div className="card-user">
+    <div className={"card-user " + myProfile }>
       <div className="card-user-header">
-        <p> { user.userName } </p>
+        <p> { myProfile ?  <h3>Meu Perfil</h3> :user.userName } </p>
 
         <div className="card-header-user-type">
           <p> { user.userType } </p>

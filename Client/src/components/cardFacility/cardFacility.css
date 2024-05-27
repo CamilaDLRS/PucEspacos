@@ -40,8 +40,9 @@
   padding: 3px 10px;
   font-size: 0.8rem;
   cursor: pointer;
-  background-color: #31458E;
-  color: white;
+  background-color: lightgray;
+  border-radius: 5px;
+  color: black;
 }
 
 .card-facility-button-box{
