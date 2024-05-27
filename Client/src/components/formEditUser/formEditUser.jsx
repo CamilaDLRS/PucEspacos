@@ -101,7 +101,7 @@ function FormEditUser({user, showFormUser, userTypes}) {
                 
                 <div className="btn-area">
                     <div className="showFormUser" onClick={showFormUser.bind(event, "")}>Cancelar</div>
-                    <div onClick={(e) => showConfirmationCard()}>Salvar</div>
+                    <div onClick={(e) => showConfirmationCard()}>Editar</div>
                 </div>
             </div>
 

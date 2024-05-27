@@ -49,7 +49,7 @@ export class ReservationsController {
 
       reservation = await ReservationsServices.getById(req.params.id);
 
-      await ExpressHandlers.handleResponse(req, res, reservation, "Reserva atualizada com sucesso!");
+      await ExpressHandlers.handleResponse(req, res, reservation, "Reserva editada com sucesso!");
     } catch (error) {
       await ExpressHandlers.handleError(req, res, error);
     }

@@ -110,7 +110,7 @@ export const getAvalableFacilitiesSchema =  yup.object({
     minimumCapacity: yup
       .number()
       .integer()
-      .positive()
+      .positive("Capacidade deve ser um número positivo.")
       .nullable(),
     buildingId: yup
       .string()

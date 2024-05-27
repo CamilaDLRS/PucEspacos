@@ -68,7 +68,7 @@ export class FacilitiesController {
 
       facility = await FacilitiesServices.getById(req.params.id);
 
-      await ExpressHandlers.handleResponse(req, res, facility, "Espaço atualizado com sucesso!");
+      await ExpressHandlers.handleResponse(req, res, facility, "Espaço editado com sucesso!");
     } catch (error) {
       await ExpressHandlers.handleError(req, res, error);
     }
@@ -82,7 +82,7 @@ export class FacilitiesController {
 
       const facility = await FacilitiesServices.getById(req.params.id);
 
-      await ExpressHandlers.handleResponse(req, res, facility, "Status do espaço atualizado com sucesso!");
+      await ExpressHandlers.handleResponse(req, res, facility, "Status do espaço editado com sucesso!");
     } catch (error) {
       await ExpressHandlers.handleError(req, res, error);
     }

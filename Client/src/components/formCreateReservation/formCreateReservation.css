@@ -37,47 +37,6 @@
     width: 100%;
 }
 
-.form-create-reserve .btn-area {
-    display: flex;
-    flex-direction: column;
-    justify-items: center;
-    align-items: center;
-    text-align: center;
-    gap: 15px;
-}
-
-.form-create-reserve .btn-area div {
-    margin: 0;
-    padding: 5px 0;
-    width: 100%;
-    background-color: lime;
-    border-color: green;
-}
-
-.form-create-reserve .btn-area div:hover {
-    color: green;
-    background-color: white;
-    transition: .5s;
-}
-
-.form-create-reserve .btn-area a {
-    text-decoration: none;
-    cursor: pointer;
-    border: 2px solid red;
-    border-radius: 5px;
-    padding: 5px 0rem;
-    font-weight: bolder;
-    color: white;
-    background-color: rgba(255, 0, 0, .7);
-    transition: .5s;
-    width: 80%;
-}
-
-.form-create-reserve .btn-area a:hover {
-    background-color: white;
-    color: red;
-    transition: .5s;
-}
 
 .form-create-reserve .reservation-list {
     position: absolute;
@@ -136,4 +95,10 @@
 
 .form-create-reserve .reservation-icon-clock{
     right: 10%;
+}
+
+.form-create-reserve .error-area {
+    display: flex;
+    justify-content: space-between;
+    margin-top: -4%;
 }
