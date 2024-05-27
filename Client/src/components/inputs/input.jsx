@@ -14,6 +14,7 @@ function Inputs({inputTemplate, setInputTemplate, inputs, triggerFunction}) {
                     }
                     {input.type === "checkbox" &&
                       <input 
+                        checked={inputTemplate.onlyByResponsibleUserId ? true : false}
                         type={input.type} 
                         id={input.id} 
                         onChange={(e) => {

@@ -26,7 +26,10 @@ function Header(prop) {
             </div>
 
             <nav>
-                <Link className="nav-link" to="/reservations" id="reservations"> Reservas </Link>
+                {
+                    ((localStorage.getItem("userType") !== "Discente")) && 
+                    <Link className="nav-link" to="/reservations" id="reservations"> Reservas </Link>
+                }
                 <Link className="nav-link" to="/facilities" id="facilities"> Espaços </Link>
                 {                 
                     ((localStorage.getItem("userType") === "Administrador")) && 

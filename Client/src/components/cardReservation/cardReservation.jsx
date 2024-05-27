@@ -83,7 +83,10 @@ function CardReservation({reservation, showFormReservation}) {
                 <span> {reserveInfos.reservationStatus} </span>
                 <div>
                     {
-                        <div className="edit-icon showFormReservation" onClick={showFormReservation.bind(event, reservation)}>
+                        (localStorage.getItem("userId") === reservation.responsibleUserId ||
+                         localStorage.getItem("userId") === reservation.requestingUserId ) &&
+                        new Date() < new Date(reservation.checkinDate) &&
+                        <div className="edit-icon showFormReservation icon" onClick={showFormReservation.bind(event, reservation)}>
                             <IconBxsEdit className="showFormReservation" />
                         </div>
                     }

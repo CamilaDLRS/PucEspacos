@@ -16,6 +16,8 @@ import 'react-toastify/dist/ReactToastify.css';
 function Reservations() {
   if (!localStorage.getItem("userType")) {
     window.location = "/users";
+  } else if (localStorage.getItem("userType") !== "Administrador") {
+    window.location = "/facilities";
   }
 
   useEffect(() => {
@@ -42,10 +44,11 @@ function Reservations() {
 
     if (localStorage.getItem("userType") === "Discente") {
       setInputTemplate({...inputTemplate, requestingUserId: localStorage.getItem("userId")})
+    } else {
+      setInputTemplate({...inputTemplate, responsibleUserId: localStorage.getItem("userId"), onlyByResponsibleUserId: true})
     }
 
     if (localStorage.getItem("userType") === "Docente") {
-      setInputTemplate({...inputTemplate, responsibleUserId: localStorage.getItem("userId")})
     }
   }, [])
 
