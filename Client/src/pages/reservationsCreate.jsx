@@ -68,9 +68,6 @@ function ReservationsCreate() {
         setReservationDate(day + '-' + month + '-' + year);
     })
 
-    // useEffect(() => {
-
-    // })
 
     useEffect(() => {
         if (reservationData.checkinDate != null) {
