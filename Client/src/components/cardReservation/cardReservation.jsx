@@ -102,7 +102,7 @@ function CardReservation({reservation, showFormReservation}) {
                             </div>
                         }
 
-                        {   (localStorage.getItem("userType").includes("Administrador", "Secretário" ) ||
+                        {   (["Administrador", "Secretário"].includes(localStorage.getItem("userType")) ||
                             localStorage.getItem("userId") === reservation.responsibleUserId ||
                             localStorage.getItem("userId") === reservation.requestingUserId) &&
                             new Date().getTime() < reservation.checkinDate &&
