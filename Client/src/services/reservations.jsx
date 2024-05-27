@@ -11,11 +11,12 @@ const httpOptions = {
 };
 
 
+
   
 export async function getReservations(data) {
   return await axios
     .post(
-      "http://localhost:5001/reservations/query", 
+      "http://localhost:5001/reservations/query",
       JSON.stringify(data),
       httpOptions
     )
@@ -29,18 +30,21 @@ export async function getReservations(data) {
 }
 
 export async function createReservation(data) {
-  return await axios.post(
-    `http://localhost:5001/reservations/`,
-    JSON.stringify(data),
-    httpOptions
-  )
-  .then((response) => {
-      window.location = "/reservations";
-      localStorage.setItem("responseMessage", response.data.message);
-  })
-  .catch((e) => {
-      toast(e.response.data.error.message);
-  })
+  return await axios
+    .post(
+      `http://localhost:5001/reservations/`,
+      JSON.stringify(data),
+      httpOptions
+    )
+    .then((response) => {
+      toast(response.data.message)
+    })
+    .catch((e) => {
+      const mensages = e.response.data.error.message.split(",");
+      mensages.forEach(element => {
+        toast(element)
+      });
+    })
 }
 
 export async function editReservation(id, data) {
@@ -65,6 +69,7 @@ export async function editReservation(id, data) {
   .catch((e) => {
     toast(e.response.data.error.message);
   })
+
 }
 
 export async function getReservationById(id) {
@@ -74,7 +79,7 @@ export async function getReservationById(id) {
       httpOptions
     )
     .then((response) => {
-        return response.data.data;
+      return response.data.data;
     })
     .catch((e) => {
       toast(e.response.data.error.message);

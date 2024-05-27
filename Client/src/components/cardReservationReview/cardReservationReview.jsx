@@ -1,6 +1,15 @@
 import "./cardReservationReview.css";
+import { createReservation } from "../../services/reservations";
 
-function CardReservationReview({ showCardReserve }) {
+
+function CardReservationReview({ showCardReserve, facilityName, buildingName, reservationDate, reservationTime, createReserve, reservationCreateData }) {
+
+    function createReserve(reservationCreateData, event) {
+        if (event.target.classList.contains('createResereve')) {
+            createReservation(reservationCreateData);
+        }
+    }
+
     return (
         <div className="container-absolute showConfirmReserve" onClick={showCardReserve.bind(event, "")}>
             <div className="confirme-reserve">
@@ -8,16 +17,16 @@ function CardReservationReview({ showCardReserve }) {
                     <h1>Confirma Essa Reserva?</h1>
                 </div>
                 <div className="info espaco">
-                    <h3>Nome Espaco</h3>
-                    <h3>Nome Bloco</h3>
+                    <h3>{facilityName}</h3>
+                    <h3>{buildingName}</h3>
                 </div>
                 <div className="info data-hora">
-                    <h3>data</h3>
-                    <h3>Hora</h3>
+                    <h3>{reservationDate}</h3>
+                    <h3>{reservationTime}</h3>
                 </div>
                 <div className="btn-area">
-                    <div className="showConfirmReserve">Não</div>
-                    <div className="showConfirmReserve">Sim</div>
+                    <div className="showConfirmReserve" >Não</div>
+                    <div className="showConfirmReserve createResereve" onClick={() => createReserve(reservationCreateData, event)}>Sim</div>
                 </div>
             </div>
         </div>
