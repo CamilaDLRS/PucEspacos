@@ -61,7 +61,7 @@ export class ReservationsController {
       let userId = String(req.query.userId);
       await ReservationsServices.delete(reservationId, userId);
 
-      await ExpressHandlers.handleResponse(req, res, "Reserva excluida com sucesso!");
+      await ExpressHandlers.handleResponse(req, res, null, "Reserva excluida com sucesso!");
     } catch (error) {
       await ExpressHandlers.handleError(req, res, error);
     }

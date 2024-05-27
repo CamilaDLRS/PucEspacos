@@ -57,8 +57,8 @@ export async function editReservation(id, data) {
     httpOptions
   )
   .then((response) => {
-    localStorage.setItem("responseMessage", response.data.message)
-    window.location = "/reservations"
+    localStorage.setItem("responseMessage", response.data.message);
+    window.location = "/reservations";
     toast(response.data.message);
 
   })
@@ -83,12 +83,14 @@ export async function getReservationById(id) {
 
 export async function deleteReservation(id) {
   return await axios
-    .get(
+    .delete(
       `http://localhost:5001/reservations/${id}?userId=${localStorage.getItem("userId")}`,
       httpOptions
     )
     .then((response) => {
-        return response.data.data;
+      localStorage.setItem("responseMessage", response.data.message);
+      window.location = "/reservations";
+      toast(response.data.message);
     })
     .catch((e) => {
       toast(e.response.data.error.message);

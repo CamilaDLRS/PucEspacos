@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import "./cardReservation.css";
 import IconBxsEdit from "../../imgs/iconBxsEdit";
 import IconTrash from "../../imgs/iconTrash";
+import CardConfirmation from "../cardConfirmation/cardConfirmation";
+import { deleteReservation } from "../../services/reservations";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function CardReservation({reservation, showFormReservation}) {
     const [reserveInfos, setReserveInfos ] = useState({
@@ -17,6 +21,11 @@ function CardReservation({reservation, showFormReservation}) {
         reservationPurpose: "",
         reservationStatus: ""
     })
+
+    const [showCard, setShowCard] = useState(false);
+    function showConfirmationCard() {
+        showCard ? setShowCard(false) : setShowCard(true);
+    }
 
     useEffect(() => {
         const checkinDate =  new Date(reservation.checkinDate);
@@ -53,54 +62,69 @@ function CardReservation({reservation, showFormReservation}) {
     }, [reservation])
 
     return ( 
-        <div className="card-reservation">
-            <div className="card-reservation-header">
-                <span>{reserveInfos.day} - {reserveInfos.weekDay}</span>
-                <span>{reserveInfos.month} {reserveInfos.year}</span>
-            </div>
-            <div  className="card-reservation-body">
-                <table>
-                    <tr>
-                        <th> Horário Reserva </th>
-                        <th> Localização </th>
-                        {/* <th> Reservante </th> */}
-                        {reserveInfos.responsibleUserName &&
-                            <th> Responsavel </th>
+        <>
+            <div className="card-reservation">
+                <div className="card-reservation-header">
+                    <span>{reserveInfos.day} - {reserveInfos.weekDay}</span>
+                    <span>{reserveInfos.month} {reserveInfos.year}</span>
+                </div>
+                <div  className="card-reservation-body">
+                    <table>
+                        <tr>
+                            <th> Horário Reserva </th>
+                            <th> Localização </th>
+                            {/* <th> Reservante </th> */}
+                            {reserveInfos.responsibleUserName &&
+                                <th> Responsavel </th>
+                            }
+                            <th> Finalidade </th>
+                        </tr>
+                        <tr>
+                            <td> {reserveInfos.checkin} - {reserveInfos.checkout} </td>
+                            <td> {reserveInfos.facilityName} </td>
+                            {/* <td> {reserveInfos.requestingUserName} </td> */}
+                            { reserveInfos.responsibleUserName &&
+                                <td> {reserveInfos.responsibleUserName} </td>
+                            }
+                            <td> {reserveInfos.reservationPurpose} </td>
+                        </tr>
+                    </table>
+                </div>
+                <div className="card-reservation-footer">
+                    <span> {reserveInfos.reservationStatus} </span>
+                    <div className="reservation-icons">
+                        {
+                            (localStorage.getItem("userId") === reservation.responsibleUserId ||
+                            localStorage.getItem("userId") === reservation.requestingUserId ) &&
+                            new Date().getTime() < reservation.checkinDate &&
+                            <div className="showFormReservation icon" onClick={showFormReservation.bind(event, reservation)}>
+                                <IconBxsEdit className="showFormReservation" />
+                            </div>
                         }
-                        <th> Finalidade </th>
-                    </tr>
-                    <tr>
-                        <td> {reserveInfos.checkin} - {reserveInfos.checkout} </td>
-                        <td> {reserveInfos.facilityName} </td>
-                        {/* <td> {reserveInfos.requestingUserName} </td> */}
-                        { reserveInfos.responsibleUserName &&
-                            <td> {reserveInfos.responsibleUserName} </td>
-                        }
-                        <td> {reserveInfos.reservationPurpose} </td>
-                    </tr>
-                </table>
-            </div>
-            <div className="card-reservation-footer">
-                <span> {reserveInfos.reservationStatus} </span>
-                <div className="reservation-icons">
-                    {
-                        (localStorage.getItem("userId") === reservation.responsibleUserId ||
-                         localStorage.getItem("userId") === reservation.requestingUserId ) &&
-                        new Date() < new Date(reservation.checkinDate) &&
-                        <div className="showFormReservation icon" onClick={showFormReservation.bind(event, reservation)}>
-                            <IconBxsEdit className="showFormReservation" />
-                        </div>
-                    }
 
-                    {   (localStorage.getItem("userType").includes("Administrador", "Secretário" ) ||
-                         localStorage.getItem("userId") === reservation.responsibleUserId ||
-                         localStorage.getItem("userId") === reservation.requestingUserId) &&
-                        <IconTrash className="icon"/>
-                    }
+                        {   (localStorage.getItem("userType").includes("Administrador", "Secretário" ) ||
+                            localStorage.getItem("userId") === reservation.responsibleUserId ||
+                            localStorage.getItem("userId") === reservation.requestingUserId) &&
+                            new Date().getTime() < reservation.checkinDate &&
+                            <IconTrash           
+                                onClick={(e) => showConfirmationCard()}
+                                className="icon"
+                            />
+                        }
+                    </div>
                 </div>
 
-            </div>
-        </div> 
+                {
+                    showCard &&
+                    <CardConfirmation
+                        message="Tem certeza que deseja excluir esta reserva?"
+                        showConfirmationCard={showConfirmationCard}
+                        action={() => deleteReservation(reservation.reservationId)}
+                    />
+                }
+            </div> 
+            <ToastContainer />
+        </>
     );
 }
 
