@@ -45,6 +45,19 @@
   color: black;
 }
 
+.card-facility-button-reserve {
+  background-color: rgb(132, 175, 132);
+  color: white;
+  border: 2px solid green;
+  transition: .5s;
+}
+
+.card-facility-button-reserve:hover {
+  color: green;
+  background-color: white;
+  transition: .5s;
+}
+
 .card-facility-button-box{
   display: flex;
   flex-direction: row;
