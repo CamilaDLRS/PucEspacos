@@ -144,6 +144,14 @@ function ReservationsCreate() {
                     getFacilitiesAvailables={getFacilitiesAvailables}
                 />
                 <div className="reservation-list">
+                    {
+                        (!facilities) 
+                        ? <h3>Não há espaços disponíveis com base nos filtros de busca.</h3>
+                        : facilities.length > 0 
+                          ? <></>
+                          : <h3>Selecione os Filtros...</h3>
+                    }
+
                     {facilities?.map((facility) => {
                         return facility.isActive ? (<CardFacility
                             facility={facility}
@@ -152,7 +160,7 @@ function ReservationsCreate() {
                             showCardReserve={showCardReserve}
                             isReserve={true}
                         />) : <></>
-                    })
+                        })
                     }
                 </div>
             </div>

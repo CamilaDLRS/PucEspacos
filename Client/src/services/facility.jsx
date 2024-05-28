@@ -20,10 +20,12 @@ export async function getAllAvailables(data) {
       return response.data.data;
     })
     .catch((e) => {
-      const mensages = e.response.data.error.message.split(",");
-      mensages.forEach(element => {
-        toast(element)
-      });
+      const mensages = e.response.data.error.message.split(",")
+      e.response.data.error.internalCode === "REGISTER_NOT_FOUND" 
+      ? console.log(e.response.data.error.message) 
+      : mensages.forEach(element => {
+          toast(element)
+        })
     })
 };
 
