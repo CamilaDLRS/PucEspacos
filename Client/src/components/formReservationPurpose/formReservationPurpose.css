@@ -1,0 +1,23 @@
+.reserve-purpose{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem 3rem;
+  border-radius: 5px;
+  width: 35%;
+  background-color: white;
+  gap: 5px
+}
+
+.reserve-purpose .filter-container {
+  border: none;
+}
+
+.reserve-purpose .select-area, .reserve-purpose .select-area div{
+  width: 100%;
+}
+
+.reserve-purpose .filter-select {
+  width: 100%;
+  margin: 0;
+}

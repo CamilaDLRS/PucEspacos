@@ -1,0 +1,46 @@
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    z-index: 1;
+    flex-direction: column;
+    background-color: #31458E;   
+}
+
+header .header-title{
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    padding: .625rem 2rem;
+}
+
+header h1, header h4, header .nav-link{
+    color: white;
+    text-decoration: none;
+}
+
+header nav {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    padding-inline: 2rem;
+    background-color: #610127;
+}
+
+nav .nav-link {
+    transition: .2s;
+    padding: .625rem 2rem; 
+}
+
+nav .nav-link:hover {
+    transition: .2s;
+    transform: scaleX(1.1);
+}
+
+nav .nav-link-leave {
+    padding: .625rem 0;
+    position: absolute;
+    right: 2rem;
+}

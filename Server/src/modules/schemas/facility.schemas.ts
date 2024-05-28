@@ -102,5 +102,32 @@ export const updateStatusFacilitySchema = yup.object({
     isActive: yup
       .boolean()
       .required("Status é obrigatório.")
+  }),
+  query: yup.object({
+    requestingUserId: yup
+      .string()
+      .required("Obrigatorio a identificação de usuario requisitante.")
+  })
+});
+
+export const getAvalableFacilitiesSchema =  yup.object({
+  body: yup.object().shape({
+    minimumCapacity: yup
+      .number()
+      .integer()
+      .positive("Capacidade deve ser um número positivo.")
+      .nullable(),
+    buildingId: yup
+      .string()
+      .required("Bloco é obrigatório."),
+    checkinDate: yup
+      .number()
+      .required("Início é obrigatório."),
+    checkoutDate: yup
+      .number()
+      .required("Saída é obrigatório."),
+    facilityTypeId: yup
+      .string()
+      .required("Tipo do espaço é obrigatório.")
   })
 });

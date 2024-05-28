@@ -1,4 +1,12 @@
 .page-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    margin: 10% auto;
+}
+
+.page-container-login {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -6,3 +14,62 @@
     padding-top: 2rem;
     gap: 5rem;
 }
+
+.create-reservation-link {
+    width: fit-content;
+    display: flex;
+    margin: 10px 0;
+    color: black;
+    text-decoration: none;
+}
+
+.create-reservation-link div {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 1px 20px;
+    border: 1px solid rgba(0, 0, 0, .6);
+    border-radius: 5px;
+    background-color: white;
+}
+
+.pages-filter-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pages-filter-area .pages-filter {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.pages-filter-area .pages-filter button {
+    padding: 2px 20px;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    border: 1px solid black;
+}
+
+.pages-filter-area .pages-filter button:hover {
+    background-color: lightgray;
+}
+
+.pages-filter-area select {
+    display: flex;
+    width: 10%;
+}
+.reservation-create-container{
+    display: flex;
+    flex-direction: row;
+    margin: 10% 0;
+    width: 100%;
+}
+
+.reservation-list{
+    width: 50%;
+}
+

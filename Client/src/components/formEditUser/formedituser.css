@@ -1,0 +1,58 @@
+.form-edit-user {
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+    width: 35%;
+    padding: 2rem 2rem;
+    background-color: white;
+    border: 3px solid rgba(0, 0, 0, .6);
+    border-radius: .6rem;
+}
+
+.form-edit-infos {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 3rem;
+}
+
+.form-edit-infos div {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-edit-user .right-side {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    width: 100%;
+}
+
+.form-edit-user .right-side .filter-container {
+    border: none;   
+    border-left: 1px solid black;
+    display: flex;
+    margin: 0;
+    gap: 1rem;
+    width: 100%;
+}
+
+.form-edit-user .right-side .select-area {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.form-edit-user .right-side .select-area div {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.right-side .filter-container div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}

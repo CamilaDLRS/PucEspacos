@@ -1,0 +1,47 @@
+.filter-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid black;
+  padding: 10px 10px;
+  margin: 10px auto;
+  gap: 30px;
+  font-weight: bold;
+}
+
+.filter-container label {
+  content: attr(data-title);
+  display: block;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.filter-container .select-area {
+  display: flex;
+  width: 80%;
+  gap: 30px;
+}
+
+.filter-select {
+  margin-left: -10px;
+  width: 200px;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.filter-option {
+  padding-top: 5px;
+}
+
+
+.filter-container+.filter-container {
+  margin-left: 20px;
+}
+
+.add-something {
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+  align-items: center;
+}

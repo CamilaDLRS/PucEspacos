@@ -4,15 +4,15 @@ export class UserDto {
 
   userId?: string;
   schoolId: string | null;
-  schoolName: string | null;
+  schoolName: string | null; //passar o dto school?
   email?: string;
   password?: string;
   userName?: string;
   userType?: UserType;
   isActive?: boolean;
 
-  createdDate?: Date;
-  updatedDate?: Date;
+  createdDate?: number;
+  updatedDate?: number;
 
   constructor(data: any, userId?: string) {
     this.schoolId = data.schoolId || null;

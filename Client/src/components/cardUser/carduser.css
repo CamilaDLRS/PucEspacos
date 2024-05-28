@@ -1,0 +1,37 @@
+.card-user {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid black;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin: 10px auto;
+  gap: 10px;
+  background-color: white;
+}
+
+.my-profile {
+  font-weight: bolder;
+  border: 2px solid #610127;
+}
+
+.card-user-header, .card-user-body, .card-header-user-type {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-header-user-type p {
+  margin-right: 10px;
+}
+
+
+.card-header-user-type .edit-icon {
+  cursor: pointer;
+  transition: .2s;
+}
+
+.card-header-user-type .edit-icon:hover {
+  transform: scale(1.1);
+  transition: .2s;
+}

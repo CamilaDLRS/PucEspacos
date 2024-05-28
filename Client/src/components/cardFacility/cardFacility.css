@@ -1,0 +1,65 @@
+.card-facility {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid black;
+  padding: 10px 10px;
+  border-radius: 5px;
+  margin: 10px auto;
+  gap: 10px;
+  font-weight: bold;
+  background-color: white;
+}
+
+.normal-font {
+  font-weight: lighter;
+}
+
+.card-facility-header,
+.card-facility-body,
+.card-header-facility-type {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-header-facility-type p {
+  margin-right: 10px;
+}
+
+.card-facility-icons {
+  align-self: self-end;
+}
+
+.card-facility-icon {
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+.card-facility-button {
+  border: 1px solid;
+  padding: 3px 10px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  background-color: lightgray;
+  border-radius: 5px;
+  color: black;
+}
+
+.card-facility-button-reserve {
+  background-color: rgb(132, 175, 132);
+  color: white;
+  border: 2px solid green;
+  transition: .5s;
+}
+
+.card-facility-button-reserve:hover {
+  color: green;
+  background-color: white;
+  transition: .5s;
+}
+
+.card-facility-button-box{
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}

@@ -13,7 +13,6 @@ try {
     process.exit(0);
   });
 
-
 } catch (error) {
   console.log(`Error at initiate the Puc Espaços app.`, error);
 }

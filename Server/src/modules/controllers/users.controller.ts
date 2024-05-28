@@ -65,7 +65,9 @@ export class UsersController {
   public static async update(req: Request, res: Response) {
     try {
       let user: UserDto = new UserDto(req.body, req.params.id);
-      await UsersServices.update(user);
+      let requestingUserId = String(req.query.requestingUserId);
+
+      await UsersServices.update(user, requestingUserId);
       user = await UsersServices.getById(req.params.id);
 
       await ExpressHandlers.handleResponse(req, res, user, "Usuário editado com sucesso!");

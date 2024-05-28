@@ -1,4 +1,7 @@
 import axios from "axios";
+import { toast } from 'react-toastify';
+import sha256 from 'crypto-js/sha256'
+
 
 const httpOptions = {
   headers: {
@@ -8,24 +11,29 @@ const httpOptions = {
 };
 
 export async function signUp(data) {
+
+  const dataCopy = { ...data }
+  dataCopy.password = sha256(dataCopy.password).toString();
+  dataCopy.passwordConfirmation = sha256(dataCopy.passwordConfirmation).toString();
+
   return await axios
     .post(
       "http://localhost:5001/users",
-      JSON.stringify(data),
+      JSON.stringify(dataCopy),
       httpOptions
     )
     .then((response) => {
-      alert(response.data.message);
+      localStorage.setItem("responseMessage", response.data.message)
       window.location = "/";
     })
     .catch((e) => {
-      alert(e.response.data.error.message);
+      toast(e.response.data.error.message);
     });
 }
 
 export async function login(data) {
 
-  const password = data.password;
+  const password = sha256(data.password).toString();
   const email = data.email;
 
   return await axios
@@ -35,40 +43,48 @@ export async function login(data) {
     )
     .then((response) => {
       const data = response.data.data;
+      localStorage.setItem("userId", data.userId);
+      localStorage.setItem("userName", data.userName);
       localStorage.setItem("userType", data.userType);
-      window.location = "/reservations";
+
+      if (data.userType == "Discente") {
+        window.location = "/facilities";
+      } 
+      else {
+        window.location = "/reservations";
+      }
     })
     .catch((e) => {
-      alert(e.response.data.error.message);
+      toast(e.response.data.error.message);
     });
 }
 
 export async function getAllUser() {
-    return await axios
+  return await axios
     .get(
       "http://localhost:5001/users",
       httpOptions
     )
     .then((response) => {
-        return response.data.data;
+      return response.data.data;
     })
     .catch((e) => {
-        alert(e.response.data.error.message);
+      toast(e.response.data.error.message);
     });
 }
 
 export async function getAllUserTypes() {
   return await axios
-  .get(
-    "http://localhost:5001/users/types",
-    httpOptions
-  )
-  .then((response) => {
+    .get(
+      "http://localhost:5001/users/types",
+      httpOptions
+    )
+    .then((response) => {
       return response.data.data;
-  })
-  .catch((e) => {
-      alert(e.response.data.error.message);
-  });
+    })
+    .catch((e) => {
+      toast(e.response.data.error.message);
+    });
 }
 
 export async function editUser(id, data) {
@@ -77,15 +93,15 @@ export async function editUser(id, data) {
   }
 
   return await axios.patch(
-    `http://localhost:5001/users/${id}`,
+    `http://localhost:5001/users/${id}?requestingUserId=${localStorage.getItem("userId")}`,
     JSON.stringify(data),
     httpOptions
   )
-  .then((response) => {
-      alert(response.data.message)
+    .then((response) => {
+      localStorage.setItem("responseMessage", response.data.message)
       window.location = "/users"
-  })
-  .catch((e) => {
-      alert(e.response.data.error.message);
-  })
+    })
+    .catch((e) => {
+      toast(e.response.data.error.message);
+    })
 }

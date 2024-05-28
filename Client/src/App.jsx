@@ -1,11 +1,12 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Login from "./pages/Login"
-import SignUp from "./pages/SignUp"
-import Users from "./pages/Users";
-import Return from "./pages/Return";
-import Facilities from "./pages/Facilities";
-import Reservations from "./pages/Reservations";
+import Login from "./pages/login"
+import SignUp from "./pages/signUp"
+import Users from "./pages/users";
+import Return from "./pages/return";
+import Facilities from "./pages/facilities";
+import Reservations from "./pages/reservations";
+import ReservationsCreate from "./pages/reservationsCreate";
 
 function App() {
   const listRoutes = [
@@ -24,6 +25,10 @@ function App() {
     {
       path: "/reservations",
       element: <Reservations />
+    },
+    {
+      path: "/reservationsCreate",
+      element: <ReservationsCreate />
     },
     {
       path: "/users",
