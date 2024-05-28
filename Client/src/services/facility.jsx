@@ -91,7 +91,7 @@ export async function updateFacility(id, data) {
 export async function updateFacilityStatus(id, isActive) {
 
   return await axios.patch(
-    `http://localhost:5001/facilities/${id}`,
+    `http://localhost:5001/facilities/${id}?requestingUserId=${localStorage.getItem("userId")}`,
     JSON.stringify({ isActive: isActive }),
     httpOptions
   )

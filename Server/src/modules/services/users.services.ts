@@ -102,13 +102,13 @@ export class UsersServices {
         await ReservationsServices.delete(reservation.reservationId, requestingUserId, true);
       }
       const admUser = await this.getById(requestingUserId);
-      await this.sendDeactivationEmail(user, admUser);
+      this.sendDeactivationEmail(user, admUser);
     }
 
     await UsersRepository.update(user);
   }
 
-  private static async sendDeactivationEmail(userDeactivated: UserDto, admUser: UserDto) {
+  private static sendDeactivationEmail(userDeactivated: UserDto, admUser: UserDto) {
     const nodemailer = require('nodemailer');
 
     let transporter = nodemailer.createTransport({
@@ -126,12 +126,14 @@ export class UsersServices {
         text: `Prezado(a),\n\n Informamos que, conforme decisão do usuário ${admUser.userName}, seu acesso ao sistema Pucpr Espaços foi desativado.\n\nAlém disso, todas as suas reservas de espaços que não foram concluídas ou iniciadas foram excluídas do sistema.\n\n Se você tiver alguma dúvida ou precisar de mais informações, por favor, entre em contato com o suporte do Pucpr Espaços.\n\nAtenciosamente,\n${admUser.userName}\n${admUser.email}\nSuporte do Sistema PUC Espaços`,
     };
 
-    try {
+    const sendEmail = async () => {
+      try {
         await transporter.sendMail(message);
-    } catch (e: any) {
-        console.error('Failed to send deactivation email:', e);
+      }
+      catch (e: any) {
         throw new ApiError(404, InternalCode.INTERNAL_ERROR);
-    }
-}
-
+      }
+    };
+    sendEmail();
+  }
 }

@@ -46,7 +46,13 @@ export async function login(data) {
       localStorage.setItem("userId", data.userId);
       localStorage.setItem("userName", data.userName);
       localStorage.setItem("userType", data.userType);
-      window.location = "/reservations";
+
+      if (data.userType == "Discente") {
+        window.location = "/facilities";
+      } 
+      else {
+        window.location = "/reservations";
+      }
     })
     .catch((e) => {
       toast(e.response.data.error.message);

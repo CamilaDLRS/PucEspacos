@@ -8,6 +8,7 @@ import { FacilitiesRepository } from "../repositories/facilities.repository";
 import * as uuid from "uuid";
 import { ReservationsServices } from "./reservations.services";
 import { ReservationAvailabilityQueryOptionsDto } from "../dtos/reservation/reservationAvailabilityOptions.dto";
+import { ReservationQueryOptionsDto } from "../dtos/reservation/reservationOptions.dto";
 
 export class FacilitiesServices {
   public static async getAll(buildingId: string | null, facilityTypeId: string | null, minimumCapacity: number | null, onlyActive: boolean | null): Promise<FacilityDto[]> {
@@ -116,10 +117,23 @@ export class FacilitiesServices {
     }
   }
 
-  public static async updateStatus(id: string, status: boolean): Promise<void> {
+  public static async updateStatus(id: string, status: boolean, requestingUserId: string): Promise<void> {
     const facility = await this.getById(id, { getAssets: false });
     facility.isActive = status;
 
+    if (!status) {
+      const optons: ReservationQueryOptionsDto = {
+        facilityIds: [id],
+        checkinDate: new Date().getTime()
+      }
+      const facilityReservations = await ReservationsServices.getAll(optons)
+      .then((reservations) => reservations)
+      .catch(() => []);
+
+      for await (const reservation of facilityReservations) {
+        await ReservationsServices.delete(reservation.reservationId, requestingUserId);
+      }
+    }
     await FacilitiesRepository.update(facility);
   }
 

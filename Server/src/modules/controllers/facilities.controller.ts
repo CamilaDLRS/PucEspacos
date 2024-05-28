@@ -80,8 +80,9 @@ export class FacilitiesController {
   public static async updateStatus(req: Request, res: Response) {
     try {
       let facilityId = String(req.params.id);
+      let requestingUserId = String(req.query.requestingUserId);
       let newStatus = Boolean(req.body.isActive);
-      await FacilitiesServices.updateStatus(facilityId, newStatus);
+      await FacilitiesServices.updateStatus(facilityId, newStatus, requestingUserId);
 
       const facility = await FacilitiesServices.getById(req.params.id);
 

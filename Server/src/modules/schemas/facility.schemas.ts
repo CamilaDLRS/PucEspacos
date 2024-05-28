@@ -102,6 +102,11 @@ export const updateStatusFacilitySchema = yup.object({
     isActive: yup
       .boolean()
       .required("Status é obrigatório.")
+  }),
+  query: yup.object({
+    requestingUserId: yup
+      .string()
+      .required("Obrigatorio a identificação de usuario requisitante.")
   })
 });
 
