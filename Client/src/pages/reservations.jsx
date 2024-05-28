@@ -122,7 +122,7 @@ function Reservations() {
                   triggerFunction={showFacilityList}
                   setSearch={setSearch}
                   search={search}
-                  inputs={ [ ["Administrador", "Secretário", "Docente"].includes(localStorage.getItem("userType")) &&
+                  inputs={ [ ["Administrador", "Secretário"].includes(localStorage.getItem("userType")) &&
                     {
                       type: "checkbox",
                       label: "Minhas",

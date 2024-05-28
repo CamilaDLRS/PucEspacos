@@ -29,15 +29,16 @@ export function convertToDateString(timestamp) {
 export function convertToTimeString(timestamp) {
 
   const dtToday = new Date(timestamp);
+  console.log(dtToday.getHours())
   const hours = (dtToday.getHours() < 10) ? "0" + dtToday.getHours().toString() : dtToday.getHours().toString();
-  const minutes = dtToday.getMinutes().toString();
+  const minutes = (dtToday.getMinutes() < 10) ? "0" + dtToday.getMinutes().toString() : dtToday.getMinutes().toString();
 
   return `${hours}:${minutes}`
 }
 
 export function convertToTimestamp(dateString, timeString) {
 
-    console.log(`chegou: ${dateString}  ${timeString}`);
+  console.log(`chegou: ${dateString}  ${timeString}`);
 
   const [year, month, day] = dateString.split('-');
   const [hours, minutes] = timeString.split(':');
