@@ -17,8 +17,11 @@ export class FacilitiesController {
       const minimumCapacity: number | null = req.query.minimumCapacity
         ? Number(req.query.minimumCapacity)
         : null;
+      const onlyActive: boolean | null = req.query.onlyActive
+        ? Boolean(req.query.onlyActive)
+        : null;
 
-      const facilities: FacilityDto[] = await FacilitiesServices.getAll(buildingId,facilityTypeId, minimumCapacity);
+      const facilities: FacilityDto[] = await FacilitiesServices.getAll(buildingId,facilityTypeId, minimumCapacity, onlyActive);
 
       await ExpressHandlers.handleResponse(req, res, facilities);
     } catch (error: any) {

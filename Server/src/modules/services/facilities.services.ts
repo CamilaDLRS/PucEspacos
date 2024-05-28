@@ -10,9 +10,9 @@ import { ReservationsServices } from "./reservations.services";
 import { ReservationAvailabilityQueryOptionsDto } from "../dtos/reservation/reservationAvailabilityOptions.dto";
 
 export class FacilitiesServices {
-  public static async getAll(buildingId: string | null, facilityTypeId: string | null, minimumCapacity: number | null): Promise<FacilityDto[]> {
+  public static async getAll(buildingId: string | null, facilityTypeId: string | null, minimumCapacity: number | null, onlyActive: boolean | null): Promise<FacilityDto[]> {
     
-    const facilities: FacilityDto[] = await FacilitiesRepository.getAll(buildingId, facilityTypeId, minimumCapacity);
+    const facilities: FacilityDto[] = await FacilitiesRepository.getAll(buildingId, facilityTypeId, minimumCapacity, onlyActive);
 
     if (facilities.length == 0) {
       throw new ApiError(404, InternalCode.REGISTER_NOT_FOUND);
@@ -53,7 +53,7 @@ export class FacilitiesServices {
 
   public static async getAvailables(query: FacilityAvailabilityQuery): Promise<FacilityDto[]> {
     
-    const facilities: FacilityDto[] = await this.getAll(query.buildingId, query.facilityTypeId, query.minimumCapacity);
+    const facilities: FacilityDto[] = await this.getAll(query.buildingId, query.facilityTypeId, query.minimumCapacity, true);
     const facilitiesAvailable: FacilityDto[] = [];
 
     for await (const facility of facilities) {

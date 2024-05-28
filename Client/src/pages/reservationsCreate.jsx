@@ -19,7 +19,7 @@ function ReservationsCreate() {
     useEffect(() => {
         toast(localStorage.getItem("responseMessage"))
         setTimeout(() => {
-            localStorage.removeItem("responseMessage")
+          localStorage.removeItem("responseMessage")
         }, 100)
     }, [localStorage.getItem("responseMessage")])
 
@@ -185,7 +185,8 @@ function ReservationsCreate() {
                     facilityName={facilityName}
                     buildingName={buildingName}
                     reservationDate={reservationDate}
-                    reservationTime={reservationTemplate.checkin}
+                    checkin={reservationTemplate.checkin}
+                    checkout={reservationTemplate.checkout}
                     reservationCreateData={reservationCreateData}
                 />
             }

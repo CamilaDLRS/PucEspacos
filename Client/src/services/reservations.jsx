@@ -34,7 +34,8 @@ export async function createReservation(data) {
       httpOptions
     )
     .then((response) => {
-      toast(response.data.message)
+      localStorage.setItem("responseMessage", response.data.message)
+      window.location = "/reservations";
     })
     .catch((e) => {
       const mensages = e.response.data.error.message.split(",");

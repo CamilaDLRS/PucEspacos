@@ -34,8 +34,8 @@ function Reservations() {
     onlyByRequestingUserId: false,
     reservationStatus: null,
     buildingId: null,
-    checkinDate: new Date().getTime(),
-    checkoutDate:  new Date().getTime() + (7 * 24 * 60 * 60 * 1000),
+    checkinDate: new Date().setHours(0, 0, 0, 0),
+    checkoutDate:  new Date().setHours(0, 0, 0, 0) + (7 * 24 * 60 * 60 * 1000) + (23 * 60 * 60 * 1000) + (59 * 60 * 1000),
     facilityIds: []
   });
 
@@ -154,7 +154,7 @@ function Reservations() {
                       label: "Fim",
                       id: "checkoutDate",
                       value: convertToDateString(inputTemplate.checkoutDate),
-                      onChange: (value) => setInputTemplate({...inputTemplate, checkoutDate: value}),
+                      onChange: (value) => setInputTemplate({...inputTemplate, checkoutDate: (value + (23 * 60 * 60 * 1000) + (59 * 60 * 1000))}),
                       min: convertToDateString(inputTemplate.checkinDate)
                     },
                     {

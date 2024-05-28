@@ -13,7 +13,7 @@ export class FacilitiesRepository {
   INNER JOIN tbBuildings b ON b.buildingId = f.buildingId
   INNER JOIN tbFacilityTypes t ON t.facilityTypeId = f.facilityTypeId`;
 
-  public static async getAll(buildingId: string | null, facilityTypeId: string | null, minimumCapacity: number | null): Promise<FacilityDto[]> {
+  public static async getAll(buildingId: string | null, facilityTypeId: string | null, minimumCapacity: number | null, onlyActive: boolean | null): Promise<FacilityDto[]> {
     
     const conditions = [];
     const bindParams = [];
@@ -29,6 +29,9 @@ export class FacilitiesRepository {
     if (minimumCapacity) {
       conditions.push("f.capacity >= ?");
       bindParams.push(minimumCapacity);
+    }
+    if (onlyActive) {
+      conditions.push("f.isActive = 1");
     }
 
     const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";

@@ -2,7 +2,7 @@ import "./cardReservationReview.css";
 import { createReservation } from "../../services/reservations";
 
 
-function CardReservationReview({ showCardReserve, facilityName, buildingName, reservationDate, reservationTime, createReserve, reservationCreateData }) {
+function CardReservationReview({ showCardReserve, facilityName, buildingName, reservationDate, checkin, checkout, createReserve, reservationCreateData }) {
 
     function createReserve(reservationCreateData, event) {
         if (event.target.classList.contains('createResereve')) {
@@ -18,11 +18,11 @@ function CardReservationReview({ showCardReserve, facilityName, buildingName, re
                 </div>
                 <div className="info espaco">
                     <h3>{facilityName}</h3>
-                    <h3>{buildingName}</h3>
+                    <h3>Bloco {buildingName}</h3>
                 </div>
                 <div className="info data-hora">
                     <h3>{reservationDate}</h3>
-                    <h3>{reservationTime}</h3>
+                    <h3>Das {checkin} até {checkout}</h3>
                 </div>
                 <div className="btn-area">
                     <div className="showConfirmReserve" >Não</div>
