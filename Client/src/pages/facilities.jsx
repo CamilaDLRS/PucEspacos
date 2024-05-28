@@ -19,8 +19,8 @@ function Facilities() {
   })
 
   useEffect(() => {
-    toast(localStorage.getItem("responseMessage"))
     setTimeout(() => {
+      toast(localStorage.getItem("responseMessage"))
       localStorage.removeItem("responseMessage")
     }, 100)
   }, [localStorage.getItem("responseMessage")])

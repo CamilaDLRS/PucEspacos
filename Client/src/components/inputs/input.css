@@ -73,3 +73,10 @@
     background-color: red;
     cursor: pointer;
 }
+
+.filter:has(#icon-search) {
+    width: fit-content;
+    padding-inline: .6rem;
+    gap: 3px;
+    
+}

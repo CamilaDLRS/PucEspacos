@@ -34,8 +34,8 @@ export async function createReservation(data) {
       httpOptions
     )
     .then((response) => {
-      localStorage.setItem("responseMessage", response.data.message)
       window.location = "/reservations";
+      localStorage.setItem("responseMessage", response.data.message);
     })
     .catch((e) => {
       const mensages = e.response.data.error.message.split(",");
@@ -59,10 +59,8 @@ export async function editReservation(id, data) {
     httpOptions
   )
   .then((response) => {
-    localStorage.setItem("responseMessage", response.data.message);
     window.location = "/reservations";
-    toast(response.data.message);
-
+    localStorage.setItem("responseMessage", response.data.message);
   })
   .catch((e) => {
     toast(e.response.data.error.message);
@@ -91,8 +89,8 @@ export async function deleteReservation(id) {
       httpOptions
     )
     .then((response) => {
-      localStorage.setItem("responseMessage", response.data.message);
       window.location = "/reservations";
+      localStorage.setItem("responseMessage", response.data.message);
       toast(response.data.message);
     })
     .catch((e) => {
