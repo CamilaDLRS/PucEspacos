@@ -11,6 +11,7 @@ import { showList, unShowlist, checkin, checkout, convertToTimeString } from "..
 
 function FormCreateReservation({ reservationTemplate, setReservationTemplate, getFacilitiesAvailables }) {
     const [minDate, setMinDate] = useState("");
+    const [maxDate, setMaxDate] = useState("");
 
     const [buildings, setBuildings] = useState([]);
     const [facilityTypes, setFacilityTypes] = useState([]);
@@ -26,8 +27,16 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate, ge
         month = month < 10 ? "0" + month.toString() : month.toString();
         var day = dtToday.getDate().toString();
         day = day < 10 ? "0" + day.toString() : day.toString();
-
         setMinDate(`${year}-${month}-${day}`)
+
+        const maxDate = new Date(new Date(`${year}-${month}-${day}`).getTime() + 180 * 24 * 60 * 60 * 1000);
+        const maxYear = maxDate.getFullYear().toString();
+        var maxMonth = maxDate.getMonth() + 1;
+        maxMonth = maxMonth < 10 ? "0" + maxMonth.toString() : maxMonth.toString();
+        var maxDay = maxDate.getDate().toString();
+        maxDay = maxDay < 10 ? "0" + maxDay.toString() : maxDay.toString();
+        setMaxDate(`${maxYear}-${maxMonth}-${maxDay}`)
+
         setReservationTemplate({ ...reservationTemplate, reservationDate: `${year}-${month}-${day}` })
     }, [])
 
@@ -113,7 +122,6 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate, ge
         }
     }
 
-
     return (
         <div className="form-create-reserve">
             <label className="form-field" htmlFor="date">
@@ -126,6 +134,7 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate, ge
                     id="date"
                     min={minDate}
                     value={reservationTemplate.reservationDate}
+                    max={maxDate}
                     onChange={(event) => {
                         setReservationTemplate({ ...reservationTemplate, reservationDate: event.target.value })
                         setErrors({ ...errors, reservationDate: '' });
@@ -178,7 +187,6 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate, ge
                     <ul className="reservation-list checkout-hours-list">
                         {
                             checkout.map(hour => {
-                                console.log(hour)
                                 if (reservationTemplate.checkin != "--:--" && hour > reservationTemplate.checkin) {
                                     return (<li onClick={(e) => {
                                         setReservationTemplate({ ...reservationTemplate, checkout: hour })
