@@ -87,7 +87,7 @@ export async function editUser(id, data) {
   }
 
   return await axios.patch(
-    `http://localhost:5001/users/${id}`,
+    `http://localhost:5001/users/${id}?requestingUserId=${localStorage.getItem("userId")}`,
     JSON.stringify(data),
     httpOptions
   )

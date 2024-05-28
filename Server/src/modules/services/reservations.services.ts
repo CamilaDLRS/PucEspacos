@@ -76,7 +76,7 @@ export class ReservationsServices {
     await ReservationsRepository.update(reservation);
   }
 
-  public static async delete(id: string, userId: string): Promise<void> {
+  public static async delete(id: string, userId: string, responsibleUserWasDeleted: boolean = false): Promise<void> {
 
     const reservation = await this.getById(id);
     const dateNow = new Date().getTime();
@@ -95,8 +95,8 @@ export class ReservationsServices {
 
       await ReservationsRepository.delete(id);
 
-      if (userId != responsibleUser.userId) {
-        this.sendEmail(responsibleUser, admUser)
+      if (!responsibleUserWasDeleted && userId != responsibleUser.userId) {
+        this.sendEmail(responsibleUser, admUser);
       }
 
     }

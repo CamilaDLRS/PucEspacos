@@ -72,6 +72,6 @@ export const deleteReservationSchema = yup.object({
   query: yup.object().shape({
     userId: yup
       .string()
-      .required("Obrigatorio a identificação de usuario."),
+      .required("Obrigatorio a identificação de usuario.")
   })
 });

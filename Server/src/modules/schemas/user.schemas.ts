@@ -37,6 +37,11 @@ export const updateUserSchema = yup.object({
     userType: yup
       .string()
       .required("Tipo do usuário é obrigatório.")
+  }),
+  query: yup.object({
+    requestingUserId: yup
+      .string()
+      .required("Obrigatorio a identificação de usuario requisitante.")
   })
 });
 

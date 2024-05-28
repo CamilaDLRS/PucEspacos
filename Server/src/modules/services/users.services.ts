@@ -5,6 +5,8 @@ import { UsersRepository } from "../repositories/users.repository";
 import { Utils } from '../../shared/utils/utils';
 import *  as uuid from 'uuid';
 import { UserType } from "../enums/userType.enum";
+import { ReservationsServices } from "./reservations.services";
+import { ReservationQueryOptionsDto } from "../dtos/reservation/reservationOptions.dto";
 
 export class UsersServices {
 
@@ -81,11 +83,55 @@ export class UsersServices {
     return user.userId;
   }
 
-  public static async update(userEdited: UserDto): Promise<void> {
+  public static async update(userEdited: UserDto, requestingUserId: string): Promise<void> {
     
     const user = await this.getById(userEdited.userId!);
     user.update(userEdited);
 
+    if (String(userEdited.isActive) === '0') {
+
+      const optons: ReservationQueryOptionsDto = {
+        responsibleUserId: userEdited.userId,
+        checkinDate: new Date().getTime()
+      }
+      const userReservations = await ReservationsServices.getAll(optons)
+      .then((reservations) => reservations)
+      .catch(() => []);
+
+      for await (const reservation of userReservations) {
+        await ReservationsServices.delete(reservation.reservationId, requestingUserId, true);
+      }
+      const admUser = await this.getById(requestingUserId);
+      await this.sendDeactivationEmail(user, admUser);
+    }
+
     await UsersRepository.update(user);
   }
+
+  private static async sendDeactivationEmail(userDeactivated: UserDto, admUser: UserDto) {
+    const nodemailer = require('nodemailer');
+
+    let transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: "pucespacos.noreply@gmail.com",
+            pass: "hztxqqgwilnulzlx",
+        },
+    });
+
+    const message = {
+        from: 'Puc Espaços <suport@pucespacos.no-reply.br>',
+        to: userDeactivated.email,
+        subject: 'Desativação de perfil no Sistema PUC Espaços',
+        text: `Prezado(a),\n\n Informamos que, conforme decisão do usuário ${admUser.userName}, seu acesso ao sistema Pucpr Espaços foi desativado.\n\nAlém disso, todas as suas reservas de espaços que não foram concluídas ou iniciadas foram excluídas do sistema.\n\n Se você tiver alguma dúvida ou precisar de mais informações, por favor, entre em contato com o suporte do Pucpr Espaços.\n\nAtenciosamente,\n${admUser.userName}\n${admUser.email}\nSuporte do Sistema PUC Espaços`,
+    };
+
+    try {
+        await transporter.sendMail(message);
+    } catch (e: any) {
+        console.error('Failed to send deactivation email:', e);
+        throw new ApiError(404, InternalCode.INTERNAL_ERROR);
+    }
+}
+
 }

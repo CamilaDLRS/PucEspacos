@@ -12,7 +12,7 @@ export class UsersRepository {
 
 
     await this.CONNECTION.connect();
-    const rows = await this.CONNECTION.execute(this.selectQuery);
+    const rows = await this.CONNECTION.execute(this.selectQuery + "  ORDER BY u.userName");
     await this.CONNECTION.disconnect();
 
     if (rows && rows.length > 0) {

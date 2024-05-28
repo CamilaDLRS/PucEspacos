@@ -111,7 +111,7 @@ function FormEditUser({user, showFormUser, userTypes}) {
                     message={ 
                         (user.isActive === 1 && dataEditUser.isActive === "0") ?
                         <div>
-                            Tem certeza que deseja editar este usuário? Você esta desativando ele, caso este tenha alguma reserva com situação 'Ativa' ou 'Solicitada', estas serão canceladas.
+                            Tem certeza que deseja editar este usuário? Você esta desativando ele, caso este tenha alguma reserva que ainda não foi concluída ou iniciada estas serão canceladas.
                         </div>
                         :
                         <div>
