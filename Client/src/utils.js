@@ -54,10 +54,11 @@ export function removeSpecialCharacters(string) {
 }
 
 export function validateCpf(num) {
+
   if (!num) {
     return false;
   }
-  return cpf.isValid(this.removeSpecialCharacters(num));
+  return cpf.isValid(removeSpecialCharacters(num));
 }
 
 export function validateCnpj(num) {
