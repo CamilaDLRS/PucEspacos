@@ -1,5 +1,6 @@
 import * as yup from 'yup';
 import YupPassword from 'yup-password';
+/* import { validateCnpj } from '../utils' */
 
 YupPassword(yup);
 
@@ -7,6 +8,13 @@ export const createUserSchema = yup.object().shape({
     userName: yup
       .string()
       .required("Campo nome é obrigatório."),
+ /*   cnpj: yup
+      .string()
+      .test({
+        message: "Campo CNPJ inválido",
+        test: (value) => validateCnpj(value)
+      })
+      .required("Campo CPNJ é obrigatório."), */
     password: yup
       .string()
       .required("Campo senha é obrigatório.")

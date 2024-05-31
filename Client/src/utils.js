@@ -1,3 +1,5 @@
+import { cnpj, cpf } from "cpf-cnpj-validator";
+
 export const checkin = ["06:15","07:00", "07:50", "08:35", "09:40", "10:25", "11:10", "11:55", "12:40", "13:25", "14:10", "15:15", "16:00", "16:45", "17:30", "18:15", "19:00", "19:45", "20:45", "21:30", "22:15", "23:00" ];
 
 export const checkout = [ "07:00", "07:50", "08:35", "09:20", "10:25", "11:10", "11:55", "12:40", "13:25", "14:10", "14:55", "16:00", "16:45", "17:30", "18:15", "19:00", "19:45", "20:30", "21:30", "22:15", "23:00", "23:30"];
@@ -45,4 +47,40 @@ export function convertToTimestamp(dateString, timeString) {
   const date = new Date(year, month - 1, day, hours, minutes, 0); // Mês é 0-indexado no Date
 
   return date.getTime();
+}
+
+export function removeSpecialCharacters(string) {
+  return string.replace(/[^a-zA-Z0-9 ]/g, "");
+}
+
+export function validateCpf(num) {
+  if (!num) {
+    return false;
+  }
+  return cpf.isValid(this.removeSpecialCharacters(num));
+}
+
+export function validateCnpj(num) {
+  
+  if (!num) {
+    return false;
+  }
+
+  return cnpj.isValid(removeSpecialCharacters(num));
+}
+
+export function formatCnpj(num) {
+  return cnpj.format(removeSpecialCharacters(num));
+}
+
+export function formatCpf(num) {
+  return cpf.format(removeSpecialCharacters(num));
+}
+
+export function validatePhone(num) {
+  if (!num) {
+    return false;
+  }
+  const phoneNumber = /0{0,2}(55)?(?:(11)(9[0-9]{4})|([1-9]{2})([0-9]{4}))([0-9]{4})/;
+  return phoneNumber.test(this.removeSpecialCharacters(num));
 }
