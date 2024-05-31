@@ -92,6 +92,7 @@ function FormEditUser({user, showFormUser, userTypes}) {
                     <div className="left-side">
                         <h1> {user.userName} </h1>
                         <h3> {user.email} </h3>
+                        {/* <h3> {new Date(user.foundDate).toLocaleDateString('pt-BR')} </h3> */}
                     </div>
 
                     <div className="right-side">
