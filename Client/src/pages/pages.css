@@ -73,6 +73,17 @@
     width: 50%;
 }
 
+.back-to-filters {
+    width: fit-content;
+    font-size: .8rem;
+    padding: .3rem 2rem;
+    background-color: white;
+    border: 2px solid rgba(0, 0, 0, .6);
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+
 @media (max-width: 1600px) {
     .page-container {
         margin: 9% auto;
@@ -91,13 +102,22 @@
     }
 }
 
-@media (max-width: 970px) {
+@media (max-width: 980px) {
     .page-container {
         margin: 16% auto;
         width: 80%;    
     }
     .pages-filter-area select {
         width: 30%;
+    }
+
+    .reservation-create-container{
+        flex-direction: column;
+        width: 90%;
+    }
+
+    .reservation-list {
+        width: 90%;
     }
 }
 
@@ -124,12 +144,12 @@
     }
 
     .page-container {
-        margin: 28% auto;
+        margin: 32% auto;
     }
 }   
 
 @media screen and (max-width: 400px) {
     .page-container {
-        margin: 35% auto;
+        margin: 37% auto;
     }
 }

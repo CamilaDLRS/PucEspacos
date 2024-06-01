@@ -5,8 +5,11 @@
     border-bottom: 1px solid black;
 }
 
-.options-area:has(*) {
+.options-area .all-filters {
+    display: flex;
+    flex-direction: row;
     gap: 7px;
+    width: 100%;
 }
 
 .options-area .filter:has(*) {
@@ -77,6 +80,44 @@
 .filter:has(#icon-search) {
     width: fit-content;
     padding-inline: .6rem;
-    gap: 3px;
-    
+    gap: 3px;   
 }
+
+@media screen and (max-width: 1024px) {
+    .options-area {
+        flex-direction: column;
+    }
+
+    .options-area .all-filters {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 30px;
+    }
+
+    .options-area .filter:has(*) {
+        width: 80%;
+    }
+
+    .filter:has(#icon-search) {
+        gap: 30px;
+    }
+}   
+
+@media screen and (max-width: 680px) {
+    .options-area {
+        flex-direction: column;
+    }
+
+    .options-area .all-filters {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .options-area .filter:has(*) {
+        width: 80%;
+    }
+
+    .filter:has(#icon-search) {
+        gap: 30px;
+    }
+}   

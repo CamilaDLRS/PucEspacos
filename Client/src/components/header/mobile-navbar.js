@@ -9,7 +9,6 @@ class MobileNavbar {
     }
  
     animateLinks() { 
-        console.log(this.navLinks);
         this.navLinks.forEach((link, index) => {
             link.style.animation
              ? (link.style.animation = "")
@@ -24,7 +23,6 @@ class MobileNavbar {
     } 
 
     addClickEvent() {
-        console.log(this);
         this.mobileMenu.addEventListener("click", this.handleClick);
     }
 

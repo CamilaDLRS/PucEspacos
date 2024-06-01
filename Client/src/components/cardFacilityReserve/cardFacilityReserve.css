@@ -54,3 +54,15 @@
     margin: 0;
     text-align: center;
 }
+
+@media screen and (max-width: 1024px) {
+    .facility-list-area {
+        width: 60%;
+    }
+} 
+
+@media screen and (max-width: 480px) {
+    .facility-list-area {
+        width: 80%;
+    }
+}   

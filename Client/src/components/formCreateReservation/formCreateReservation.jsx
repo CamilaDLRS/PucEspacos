@@ -119,6 +119,11 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate, ge
     function validateFields() {
         if (validate()) {
             getFacilitiesAvailables(reservationTemplate);
+            if (window.innerWidth <= 980 ) {
+                document.querySelector(".form-create-reserve").style.display = "none";
+                document.querySelector(".back-to-filters").style.display = "flex";
+                document.querySelector(".reservation-list").style.display = "block";
+            }
         }
     }
 
@@ -158,7 +163,7 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate, ge
                         {reservationTemplate.checkin}
                     </span>
                     <IconIconClock className="reservation-icon reservation-icon-clock" />
-                    <ul className="reservation-list checkin-hours-list">
+                    <ul className="reservation-list-filter checkin-hours-list">
                         {
                             checkin.map((hour) => {
                             if (!(reservationTemplate.reservationDate == minDate && hour <= convertToTimeString(new Date().getTime())))  {
@@ -184,7 +189,7 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate, ge
                     <span>{reservationTemplate.checkout}</span>
                     <IconIconClock className="reservation-icon reservation-icon-clock" />
 
-                    <ul className="reservation-list checkout-hours-list">
+                    <ul className="reservation-list-filter checkout-hours-list">
                         {
                             checkout.map(hour => {
                                 if (reservationTemplate.checkin != "--:--" && hour > reservationTemplate.checkin) {
@@ -214,7 +219,7 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate, ge
                 <span>{buildName}</span>
                 <IconDown className="reservation-icon" />
 
-                <ul className="reservation-list building-list">
+                <ul className="reservation-list-filter building-list">
                     {
                         buildings.map(build => (
                             <li onClick={(e) => {
@@ -244,7 +249,7 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate, ge
                 <IconDown className="reservation-icon" />
                 <span>{faciliTypeName}</span>
 
-                <ul className="reservation-list facility-type-list">
+                <ul className="reservation-list-filter facility-type-list">
                     {
                         facilityTypes.map(facilityType => (
                             <li onClick={(e) => {

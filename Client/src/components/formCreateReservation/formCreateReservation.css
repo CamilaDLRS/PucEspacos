@@ -38,7 +38,7 @@
 }
 
 
-.form-create-reserve .reservation-list {
+.form-create-reserve .reservation-list-filter {
     position: absolute;
     top: 100%;
     left: -2px;
@@ -56,12 +56,12 @@
     background-color: white;
 }
 
-.form-create-reserve .reservation-list li {
+.form-create-reserve .reservation-list-filter li {
     padding: 0 20px;
     border-bottom: 1px solid rgba(0, 0, 0, .3);
 }
 
-.form-create-reserve .reservation-list li:hover {
+.form-create-reserve .reservation-list-filter li:hover {
     background-color: rgb(190, 190, 190);
 }
 
@@ -102,3 +102,9 @@
     justify-content: space-between;
     margin-top: -4%;
 }
+
+@media screen and (max-width: 980px) {
+    .form-create-reserve {
+        width: 90%;
+    }
+}  

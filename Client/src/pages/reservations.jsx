@@ -121,18 +121,6 @@ function Reservations() {
                 search={search}
                 inputs={ [ ["Administrador", "Secretário"].includes(localStorage.getItem("userType")) &&
                   {
-                    type: "checkbox",
-                    label: "Minhas",
-                    id: "myReservations",
-                    onChange: (value) => {
-                      value 
-                      ? setInputTemplate({...inputTemplate, responsibleUserId: localStorage.getItem("userId"), onlyByResponsibleUserId: true})
-                      : localStorage.getItem("userType") === "Docente" 
-                        ? setInputTemplate({...inputTemplate, responsibleUserId: localStorage.getItem("userId"),  onlyByResponsibleUserId: false})
-                        : setInputTemplate({...inputTemplate, responsibleUserId: null,  onlyByResponsibleUserId: false})
-                    }
-                  },
-                  {
                     type: "date",
                     label: "Inicio",
                     id: "checkinDate",
@@ -153,6 +141,18 @@ function Reservations() {
                     value: convertToDateString(inputTemplate.checkoutDate),
                     onChange: (value) => setInputTemplate({...inputTemplate, checkoutDate: (value + (23 * 60 * 60 * 1000) + (59 * 60 * 1000))}),
                     min: convertToDateString(inputTemplate.checkinDate)
+                  },
+                  {
+                    type: "checkbox",
+                    label: "Minhas",
+                    id: "myReservations",
+                    onChange: (value) => {
+                      value 
+                      ? setInputTemplate({...inputTemplate, responsibleUserId: localStorage.getItem("userId"), onlyByResponsibleUserId: true})
+                      : localStorage.getItem("userType") === "Docente" 
+                        ? setInputTemplate({...inputTemplate, responsibleUserId: localStorage.getItem("userId"),  onlyByResponsibleUserId: false})
+                        : setInputTemplate({...inputTemplate, responsibleUserId: null,  onlyByResponsibleUserId: false})
+                    }
                   },
                   {
                     type: "select",

@@ -25,7 +25,6 @@ function Header(prop) {
     }
 
     mobileNavbar.Init();
-    console.log(mobileNavbar)
     return ( 
         <header>
             <div className="header-title">

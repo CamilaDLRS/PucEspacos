@@ -138,6 +138,18 @@ function ReservationsCreate() {
         <>
             <Header local="reservations" />
             <div className="reservation-create-container page-container">
+                <div 
+                    className="back-to-filters"
+                    style={{display: "none"}}
+                    onClick={() => {
+                        document.querySelector(".form-create-reserve").style.display = "flex";
+                        document.querySelector(".back-to-filters").style.display = "none";
+                        document.querySelector(".reservation-list").style.display = "none";
+                    }}
+                >
+                    Voltar
+                </div>
+
                 <FormCreateReservation
                     reservationTemplate={reservationTemplate}
                     setReservationTemplate={setReservationTemplate}
