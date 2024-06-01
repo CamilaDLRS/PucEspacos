@@ -56,3 +56,45 @@
     align-items: center;
     justify-content: space-between;
 }
+
+@media screen and (max-width: 1400px) {
+    .form-edit-user {
+        width: 45%;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .form-edit-user {
+        width: 60%;
+    }
+}
+
+@media screen and (max-width: 780px) {
+    .form-edit-user {
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 580px) {
+    .form-edit-infos {
+        flex-direction: column;
+        align-items: start;
+        gap: 0;
+    }
+
+    .form-edit-user .left-side {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .form-edit-user .right-side .select-area div select {
+        width: 60%;
+    }
+
+    .form-edit-user .right-side .filter-container {
+        border: none;
+    }
+}

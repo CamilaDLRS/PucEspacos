@@ -2,11 +2,29 @@
     transition: .3s;
     margin: 5rem 0;
     background-color: white;
-    padding: 1rem 5rem;
+    padding: 1rem 3rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
     width: 40%;
     font-size: .9rem;
+    border: 3px solid rgba(0, 0, 0, .6);
+    border-radius: .6rem;
 }
+
+@media screen and (max-width: 768px) {
+    .card-confirmation  {
+      width: 80%;
+      padding: 1rem 2rem;
+    }
+  }
+
+@media screen and (max-width: 480px) {
+    .card-confirmation  {
+      width: 80%;
+      padding: 1rem 2rem;
+      font-size: .7rem;
+      gap: 0px;
+    }
+  }

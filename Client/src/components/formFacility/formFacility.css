@@ -99,3 +99,30 @@
     display: flex;
     justify-content: space-between;
 }
+
+@media screen and (max-width: 1024px) {
+    .form-facility {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 790px) {
+    .form-facility {
+        width: 80%;
+        gap: .5rem;
+    }
+
+    .form-facility .facitityName-capacity {
+        flex-direction: column;
+        align-items: start;
+    }
+    
+    .form-facility .facitityName-capacity .facility-name {
+        width: 85.5%;
+        margin-bottom: 10px;
+    }
+
+    .form-facility .facitityName-capacity .facility-capacity {
+        width: 48%;
+    }
+}
