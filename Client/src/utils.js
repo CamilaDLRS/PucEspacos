@@ -85,3 +85,41 @@ export function validatePhone(num) {
   const phoneNumber = /0{0,2}(55)?(?:(11)(9[0-9]{4})|([1-9]{2})([0-9]{4}))([0-9]{4})/;
   return phoneNumber.test(this.removeSpecialCharacters(num));
 }
+
+export function formatPhone(num) {
+
+  // Remove caracteres especiais
+  const cleanNum = removeSpecialCharacters(num);
+
+  // Formatação de acordo com o comprimento do número
+  if (cleanNum.length === 10) {
+    // Telefone fixo (sem o dígito 9)
+    return `(${cleanNum.slice(0, 2)}) ${cleanNum.slice(2, 6)}-${cleanNum.slice(6, 10)}`;
+  } else if (cleanNum.length === 11) {
+    // Telefone celular (com o dígito 9)
+    return `(${cleanNum.slice(0, 2)}) ${cleanNum.slice(2, 7)}-${cleanNum.slice(7, 11)}`;
+  }
+
+  return null;
+}
+
+export function validateCEP(cep) {
+  
+  if (!cep) {
+    return false;
+  }
+  const cepPattern = /^[0-9]{8}$/;
+  return cepPattern.test(cep);
+}
+
+export function formatCEP(cep) {
+
+  console.log(cep);
+  console.log(cep.toString().replace(/(\d{5})(\d{3})/, '$1-$2'));
+  // Format the CEP as XXXXX-XXX
+  if (cep.toString().length === 8) {
+      return cep.toString().replace(/(\d{5})(\d{3})/, '$1-$2');
+  }
+
+  return null; // Or handle error as appropriate
+}
