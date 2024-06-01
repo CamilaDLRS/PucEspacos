@@ -53,13 +53,6 @@ export function removeSpecialCharacters(string) {
   return string.replace(/[^a-zA-Z0-9 ]/g, "");
 }
 
-export function validateCpf(num) {
-
-  if (!num) {
-    return false;
-  }
-  return cpf.isValid(removeSpecialCharacters(num));
-}
 
 export function validateCnpj(num) {
   
@@ -72,6 +65,14 @@ export function validateCnpj(num) {
 
 export function formatCnpj(num) {
   return cnpj.format(removeSpecialCharacters(num));
+}
+
+export function validateCpf(num) {
+
+  if (!num) {
+    return false;
+  }
+  return cpf.isValid(removeSpecialCharacters(num));
 }
 
 export function formatCpf(num) {
@@ -108,6 +109,7 @@ export function validateCEP(cep) {
   if (!cep) {
     return false;
   }
+  // return cep.replace(/(\d{5})(\d{3})/, '$1-$2');
   const cepPattern = /^[0-9]{8}$/;
   return cepPattern.test(cep);
 }
@@ -122,4 +124,29 @@ export function formatCEP(cep) {
   }
 
   return null; // Or handle error as appropriate
+}
+
+export function validateRG(rg) {
+  if (!rg) {
+    return false;
+  }
+  //const rgPattern = /^\d{2}\.\d{3}\.\d{3}-\d{1}$/;
+  const rgPattern =  /^[0-9]{9}$/;
+  return rgPattern.test(removeSpecialCharacters(rg));
+}
+
+export function formatRG(rg) {
+  if (!rg) {
+    return null;
+  }
+
+  const cleanRG = removeSpecialCharacters(rg);
+
+  // Validação básica do comprimento do RG
+  if (cleanRG.length !== 9) {
+    return null;
+  }
+
+  // Formatação do RG
+  return `${cleanRG.slice(0, 2)}.${cleanRG.slice(2, 5)}.${cleanRG.slice(5, 8)}-${cleanRG.slice(8, 9)}`;
 }
