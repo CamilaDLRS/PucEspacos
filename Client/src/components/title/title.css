@@ -9,3 +9,18 @@
 h1 {
     color: black;
 }
+
+@media screen and (max-width: 480px) {
+    .content-title {
+        font-size: 2rem;
+        line-height: 4rem;
+    }
+}   
+
+
+@media (min-width: 481px) and (max-width: 768px) {
+    .content-title {
+        font-size: 2.5rem;
+        line-height: 5rem;
+    }
+}   

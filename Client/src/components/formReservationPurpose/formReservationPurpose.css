@@ -6,7 +6,9 @@
   border-radius: 5px;
   width: 35%;
   background-color: white;
-  gap: 5px
+  gap: 5px;
+  border: 3px solid rgba(0, 0, 0, .6);
+  border-radius: .6rem;
 }
 
 .reserve-purpose .filter-container {
@@ -21,3 +23,17 @@
   width: 100%;
   margin: 0;
 }
+
+@media screen and (max-width: 980px) {
+  .reserve-purpose {
+    width: 60%;
+  }
+}   
+
+@media screen and (max-width: 480px) {
+  .reserve-purpose {
+    width: 80%;
+    padding: 1rem 2rem;
+    gap: 0;
+  }
+}   

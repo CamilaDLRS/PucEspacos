@@ -49,3 +49,16 @@
     display: flex;
     gap: 5px;
 }
+
+@media screen and (max-width: 680px) {
+    .card-reservation {
+        font-size: .8rem;
+    }
+
+    .card-reservation .card-reservation-body table th {
+        padding: 0;
+    }
+    .card-reservation .card-reservation-body table td {
+        padding: 0px;
+    }
+}   

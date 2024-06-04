@@ -22,6 +22,10 @@
   justify-content: space-between;
 }
 
+.card-facility-body {
+  align-items: start;
+}
+
 .card-header-facility-type p {
   margin-right: 10px;
 }

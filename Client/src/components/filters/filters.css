@@ -45,3 +45,24 @@
   flex-direction: row;
   align-items: center;
 }
+
+@media (max-width: 1024px) {
+  .add-something {
+    display: flex;
+    justify-content: end;
+    width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .filter-container {
+    align-items: end;
+  }
+  .filter-container .select-area {
+
+    gap: .6rem;
+  }
+  .filter-select {
+    width: 100%;
+  }
+}

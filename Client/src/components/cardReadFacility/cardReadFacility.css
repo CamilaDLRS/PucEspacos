@@ -30,3 +30,19 @@
   padding-left: 8px;
   padding-top: 4px;
 }
+
+@media screen and (max-width: 768px) {
+  .read-facility {
+    width: 80%;
+    padding: 1.5rem 2rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .read-facility {
+    width: 80%;
+    padding: 1.5rem 2rem;
+    font-size: .8rem;
+    gap: 8px;
+  }
+}
