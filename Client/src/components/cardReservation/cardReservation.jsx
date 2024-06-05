@@ -16,6 +16,7 @@ function CardReservation({reservation, showFormReservation}) {
         checkin: "",
         checkout: "",
         facilityName: "",
+        buildingName: "",
         requestingUserName: "",
         responsibleUserName: "",
         reservationPurpose: "",
@@ -54,6 +55,7 @@ function CardReservation({reservation, showFormReservation}) {
             checkin: checkin, 
             checkout: checkout,
             facilityName: reservation.facilityName,
+            buildingName: reservation.buildingName,
             requestingUserName: reservation.requestingUserName,
             responsibleUserName: reservation.responsibleUserName,
             reservationPurpose: reservation.reservationPurpose,
@@ -81,7 +83,7 @@ function CardReservation({reservation, showFormReservation}) {
                         </tr>
                         <tr>
                             <td> {reserveInfos.checkin} - {reserveInfos.checkout} </td>
-                            <td> {reserveInfos.facilityName} </td>
+                            <td> ({reserveInfos.buildingName}) - {reserveInfos.facilityName} </td>
                             {/* <td> {reserveInfos.requestingUserName} </td> */}
                             { reserveInfos.responsibleUserName &&
                                 <td> {reserveInfos.responsibleUserName} </td>
