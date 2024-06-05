@@ -11,6 +11,8 @@ import 'react-toastify/dist/ReactToastify.css';
 function FormEditReservation({ reservation, showFormReservation }) {
 
   const [minDate, setMinDate] = useState("");
+  const [maxDate, setMaxDate] = useState("");
+
   const [reservationPurposes, setReservationPurposes] = useState([]);
   const [reservationPurpose, setReservationPurpose] = useState("--");
 
@@ -40,6 +42,14 @@ function FormEditReservation({ reservation, showFormReservation }) {
     var day = dtToday.getDate() < 10 ? "0" + dtToday.getDate().toString() : dtToday.getDate().toString();
 
     setMinDate(`${year}-${month}-${day}`)
+
+    const maxDate = new Date(new Date(`${year}-${month}-${day}`).getTime() + 180 * 24 * 60 * 60 * 1000);
+    const maxYear = maxDate.getFullYear().toString();
+    var maxMonth = maxDate.getMonth() + 1;
+    maxMonth = maxMonth < 10 ? "0" + maxMonth.toString() : maxMonth.toString();
+    var maxDay = maxDate.getDate().toString();
+    maxDay = maxDay < 10 ? "0" + maxDay.toString() : maxDay.toString();
+    setMaxDate(`${maxYear}-${maxMonth}-${maxDay}`)
   }, []);
 
 
@@ -100,6 +110,7 @@ function validateFields() {
               name=""
               id="date"
               min={minDate}
+              max={maxDate}
               value={dataEditReservation.date}
               onChange={(event) => {
                 setDataEditReservation({ ...dataEditReservation, date: event.target.value, checkin: "--:--", checkout: "--:--" });
