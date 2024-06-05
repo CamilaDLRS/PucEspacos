@@ -99,6 +99,58 @@ function Reservations() {
   }
   //#endregion
 
+  const inputs = [
+    {
+      type: "date",
+      label: "Inicio",
+      id: "checkinDate",
+      value: convertToDateString(inputTemplate.checkinDate),
+      onChange: (value) => {
+        if (value > inputTemplate.checkoutDate) {
+          setInputTemplate({...inputTemplate, checkinDate: value, checkoutDate: null})
+        } else {
+          setInputTemplate({...inputTemplate, checkinDate: value})
+        }
+      }
+    },
+    {
+      type: "date",
+      label: "Fim",
+      id: "checkoutDate",
+      value: convertToDateString(inputTemplate.checkoutDate),
+      onChange: (value) => setInputTemplate({...inputTemplate, checkoutDate: (value + (23 * 60 * 60 * 1000) + (59 * 60 * 1000))}),
+      min: convertToDateString(inputTemplate.checkinDate)
+    }
+  ];
+  
+  if (["Administrador", "Secretário"].includes(localStorage.getItem("userType"))) {
+    inputs.push({
+      type: "checkbox",
+      label: "Minhas",
+      id: "myReservations",
+      onChange: (value) => {
+        value 
+          ? setInputTemplate({...inputTemplate, responsibleUserId: localStorage.getItem("userId"), onlyByResponsibleUserId: true})
+          : localStorage.getItem("userType") === "Docente" 
+            ? setInputTemplate({...inputTemplate, responsibleUserId: localStorage.getItem("userId"), onlyByResponsibleUserId: false})
+            : setInputTemplate({...inputTemplate, responsibleUserId: null, onlyByResponsibleUserId: false})
+      }
+    });
+  }
+  
+  inputs.push(
+    {
+      type: "select",
+      title: "Todos Blocos",
+      options: buildingFilterOptions // lista blocos
+    },
+    {
+      type: "button",
+      label: "Espaços",
+      id: "button"
+    }
+  );
+
   return (
     <>
       <Header local="reservations" />
@@ -119,52 +171,7 @@ function Reservations() {
                 triggerFunction={showFacilityList}
                 setSearch={setSearch}
                 search={search}
-                inputs={ [ ["Administrador", "Secretário"].includes(localStorage.getItem("userType")) &&
-                  {
-                    type: "date",
-                    label: "Inicio",
-                    id: "checkinDate",
-                    value: convertToDateString(inputTemplate.checkinDate),
-                    onChange: (value) => {
-                      if (value > inputTemplate.checkoutDate) {
-                        setInputTemplate({...inputTemplate, checkinDate: value, checkoutDate: null})
-                      }
-                      else {
-                        setInputTemplate({...inputTemplate, checkinDate: value})
-                      }
-                    } 
-                  }, 
-                  {
-                    type: "date",
-                    label: "Fim",
-                    id: "checkoutDate",
-                    value: convertToDateString(inputTemplate.checkoutDate),
-                    onChange: (value) => setInputTemplate({...inputTemplate, checkoutDate: (value + (23 * 60 * 60 * 1000) + (59 * 60 * 1000))}),
-                    min: convertToDateString(inputTemplate.checkinDate)
-                  },
-                  {
-                    type: "checkbox",
-                    label: "Minhas",
-                    id: "myReservations",
-                    onChange: (value) => {
-                      value 
-                      ? setInputTemplate({...inputTemplate, responsibleUserId: localStorage.getItem("userId"), onlyByResponsibleUserId: true})
-                      : localStorage.getItem("userType") === "Docente" 
-                        ? setInputTemplate({...inputTemplate, responsibleUserId: localStorage.getItem("userId"),  onlyByResponsibleUserId: false})
-                        : setInputTemplate({...inputTemplate, responsibleUserId: null,  onlyByResponsibleUserId: false})
-                    }
-                  },
-                  {
-                    type: "select",
-                    title: "Todos Blocos",
-                    options: buildingFilterOptions // lista blocos
-                  },
-                  {
-                    type: "button",
-                    label: "Espaços",
-                    id: "butoon"
-                  }
-                ]}          
+                inputs={ inputs }          
               />
             </div>
             
