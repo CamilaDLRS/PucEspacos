@@ -13,7 +13,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function ReservationsCreate() {
     if (!localStorage.getItem("userType")) {
-        window.location = "/users";
+        window.location = "/";
+    } else if (localStorage.getItem("userType") === "Discente") {
+        window.location = "/facilities";
     }
 
     useEffect(() => {
@@ -78,6 +80,10 @@ function ReservationsCreate() {
         }
     }, [reservationData])
 
+    useEffect(() => {
+        setFacilities([]);
+    }, [reservationTemplate])
+
     function getDateTime(reservationTemplate) {
         setReservationCreateData({
             ...reservationCreateData,
@@ -136,73 +142,78 @@ function ReservationsCreate() {
 
     return (
         <>
-            <Header local="reservations" />
-            <div className="reservation-create-container page-container">
-                <div 
-                    className="back-to-filters"
-                    style={{display: "none"}}
-                    onClick={() => {
-                        document.querySelector(".form-create-reserve").style.display = "flex";
-                        document.querySelector(".back-to-filters").style.display = "none";
-                        document.querySelector(".reservation-list").style.display = "none";
-                    }}
-                >
-                    Voltar
+            { localStorage.getItem("userType") &&
+              localStorage.getItem("userType") !== "Discente" &&
+              <>
+                <Header local="reservations" />
+                <div className="reservation-create-container page-container">
+                    <div 
+                        className="back-to-filters"
+                        style={{display: "none"}}
+                        onClick={() => {
+                            document.querySelector(".form-create-reserve").style.display = "flex";
+                            document.querySelector(".back-to-filters").style.display = "none";
+                            document.querySelector(".reservation-list").style.display = "none";
+                        }}
+                    >
+                        Voltar
+                    </div>
+    
+                    <FormCreateReservation
+                        reservationTemplate={reservationTemplate}
+                        setReservationTemplate={setReservationTemplate}
+                        getFacilitiesAvailables={getFacilitiesAvailables}
+                    />
+                    <div className="reservation-list">
+                        {
+                            (!facilities) 
+                            ? <h3>Não há espaços disponíveis com base nos filtros de busca.</h3>
+                            : facilities.length > 0 
+                                ? <></>
+                                : <h3>Selecione os Filtros...</h3>
+                        }
+    
+                        {facilities?.map((facility) => {
+                            return facility.isActive ? (<CardFacility
+                                facility={facility}
+                                showFacility={showFacility}
+                                showFacilityForm={showFacilityForm}
+                                showCardReserve={showCardReserve}
+                                isReserve={true}
+                            />) : <></>
+                            })
+                        }
+                    </div>
                 </div>
-
-                <FormCreateReservation
-                    reservationTemplate={reservationTemplate}
-                    setReservationTemplate={setReservationTemplate}
-                    getFacilitiesAvailables={getFacilitiesAvailables}
-                />
-                <div className="reservation-list">
-                    {
-                        (!facilities) 
-                        ? <h3>Não há espaços disponíveis com base nos filtros de busca.</h3>
-                        : facilities.length > 0 
-                          ? <></>
-                          : <h3>Selecione os Filtros...</h3>
-                    }
-
-                    {facilities?.map((facility) => {
-                        return facility.isActive ? (<CardFacility
-                            facility={facility}
-                            showFacility={showFacility}
-                            showFacilityForm={showFacilityForm}
-                            showCardReserve={showCardReserve}
-                            isReserve={true}
-                        />) : <></>
-                        })
-                    }
-                </div>
-            </div>
-
-            {showReadFacility &&
-                <CardReadFacility
-                    showFacility={showFacility}
-                    facility={facilityById}
-                />
+    
+                {showReadFacility &&
+                    <CardReadFacility
+                        showFacility={showFacility}
+                        facility={facilityById}
+                    />
+                }
+    
+                {showReserve &&
+                    <FormResrvationPurpose
+                        showCardReserve={showCardReserve}
+                        setReservationPurposesData={setReservationPurposes}
+                    />
+                }
+    
+                {showConfirmReserve &&
+                    <CardReservationReview
+                        showCardReserve={showCardReserve}
+                        facilityName={facilityName}
+                        buildingName={buildingName}
+                        reservationDate={reservationDate}
+                        checkin={reservationTemplate.checkin}
+                        checkout={reservationTemplate.checkout}
+                        reservationCreateData={reservationCreateData}
+                    />
+                }
+                <ToastContainer />
+              </>
             }
-
-            {showReserve &&
-                <FormResrvationPurpose
-                    showCardReserve={showCardReserve}
-                    setReservationPurposesData={setReservationPurposes}
-                />
-            }
-
-            {showConfirmReserve &&
-                <CardReservationReview
-                    showCardReserve={showCardReserve}
-                    facilityName={facilityName}
-                    buildingName={buildingName}
-                    reservationDate={reservationDate}
-                    checkin={reservationTemplate.checkin}
-                    checkout={reservationTemplate.checkout}
-                    reservationCreateData={reservationCreateData}
-                />
-            }
-            <ToastContainer />
         </>
     );
 }

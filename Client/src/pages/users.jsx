@@ -95,76 +95,80 @@ function Users() {
 
   return (
     <>
-      <Header local="users" />
-      <div className="page-container">
-        <Filters
-          filters={[
-            {
-              title: "Tipo",
-              label: false,
-              onChange: (value) => setTypeFilter(value),
-              options: typeFilterOptions,
-            },
-            {
-              title: "Status",
-              label: false,
-              onChange: (value) => setStatusFilter(value),
-              options: statusFilterOptions,
-            },
-          ]}
-        />  
-
-        <div className="pages-filter-area"> 
-            <div className="pages-filter">
-              {Array.from(Array(pages), (item, index) => {
-                return (
-                  <button 
-                    value={index} 
-                    onClick={(e) => setCurrentPage(Number(e.target.value))}
-                    style={index === currentPage ? {background: "rgb(177, 173, 173)"} : null}
-                  > {index + 1} </button >
-                )
-              })} 
+      {localStorage.getItem("userType") === "Administrador" &&
+        <>
+          <Header local="users" />
+          <div className="page-container">
+            <Filters
+              filters={[
+                {
+                  title: "Tipo",
+                  label: false,
+                  onChange: (value) => setTypeFilter(value),
+                  options: typeFilterOptions,
+                },
+                {
+                  title: "Status",
+                  label: false,
+                  onChange: (value) => setStatusFilter(value),
+                  options: statusFilterOptions,
+                },
+              ]}
+            />  
+    
+            <div className="pages-filter-area"> 
+                <div className="pages-filter">
+                  {Array.from(Array(pages), (item, index) => {
+                    return (
+                      <button 
+                        value={index} 
+                        onClick={(e) => setCurrentPage(Number(e.target.value))}
+                        style={index === currentPage ? {background: "rgb(177, 173, 173)"} : null}
+                      > {index + 1} </button >
+                    )
+                  })} 
+                </div>
+                
+                {filteredUsers && filteredUsers.length > 5 
+                  ? <select value={itensPerPage} onChange={(e) => setItensPerPage(Number(e.target.value))}>
+                    <option value={5}>5</option>
+                    <option value={8}>8</option>
+                    <option value={12}>12</option>
+                  </select>
+                  : <></>
+                }
             </div>
-            
-            {filteredUsers && filteredUsers.length > 5 
-              ? <select value={itensPerPage} onChange={(e) => setItensPerPage(Number(e.target.value))}>
-                <option value={5}>5</option>
-                <option value={8}>8</option>
-                <option value={12}>12</option>
-              </select>
-              : <></>
+    
+            {loggedUser &&
+              <div className="user-profile">
+                <CardUser 
+                    user = {loggedUser}
+                    showFormUser = {showFormUser}
+                    myProfile="my-profile"
+                />
+              </div>
             }
-        </div>
-
-        {loggedUser &&
-          <div className="user-profile">
-            <CardUser 
-                user = {loggedUser}
-                showFormUser = {showFormUser}
-                myProfile="my-profile"
-            />
+    
+            {currentUsers.map((user) => {
+              return user.userId != localStorage.getItem("userId") ? (
+                <CardUser 
+                  user = {user}
+                  showFormUser = {showFormUser}
+                />
+              ) : <div></div>;
+            })}
+    
+            { showFormEditUser && 
+              <FormEditUser 
+                showFormUser={showFormUser} 
+                user={userById}
+                userTypes={userTypes}
+              />
+            }    
           </div>
-        }
-
-        {currentUsers.map((user) => {
-          return user.userId != localStorage.getItem("userId") ? (
-            <CardUser 
-              user = {user}
-              showFormUser = {showFormUser}
-            />
-          ) : <div></div>;
-        })}
-
-        { showFormEditUser && 
-          <FormEditUser 
-            showFormUser={showFormUser} 
-            user={userById}
-            userTypes={userTypes}
-          />
-        }    
-      </div>
-      <ToastContainer />
+          <ToastContainer />
+        </>
+      }
     </>
   );
 }

@@ -9,11 +9,15 @@ function SignUp() {
     }
 
     return ( 
-        <div className="page-container-login">
-            <Title />
-            <FormSignUp />
-            <ToastContainer />
-        </div>
+        <>
+            {!localStorage.getItem("userType") &&
+                <div className="page-container-login">
+                    <Title />
+                    <FormSignUp />
+                    <ToastContainer />
+                </div>    
+            }
+        </>
      );
 }
 

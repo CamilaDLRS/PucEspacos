@@ -290,11 +290,11 @@ function FormCreateReservation({ reservationTemplate, setReservationTemplate, ge
             </div>
 
             <div className="btn-area">
-                <div>
-                    <Link to="/reservations" className="btn-link">
-                            Cancelar
-                    </Link>
-                </div>
+                <Link to="/reservations" className="btn-link">
+                    <div>
+                        Cancelar
+                    </div>
+                </Link>
                 <div onClick={validateFields}>
                     Buscar
                 </div>

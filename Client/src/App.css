@@ -79,7 +79,18 @@ input[type=number] {
   transition: .5s;
 }
 
+.btn-area a + div {
+  border: 2px solid green;
+  background-color: lightgreen; 
+  transition: .5s;
+}
+
 .btn-area div + div:hover {
+  color: green;
+  transition: .5s;
+}
+
+.btn-area a + div:hover {
   color: green;
   transition: .5s;
 }

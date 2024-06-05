@@ -92,6 +92,11 @@ function Facilities() {
   }
 
   const [itensPerPage, setItensPerPage] = useState(5);
+  useEffect(() => {
+    if (window.innerWidth <= 980 ) {
+      setItensPerPage(8)
+    }
+  }, [])
   const [currentPage, setCurrentPage] = useState(0);
   let pages = 0;
   let currentFacilities = [];
@@ -104,88 +109,92 @@ function Facilities() {
 
   return (
     <>
-      <Header local="facilities" />
-      <div className="page-container">
-        <Filters
-          filters={[
-            {
-              title: "Bloco",
-              label: false,
-              onChange: (value) => setBuildingFilter(value),
-              options: buildingFilterOptions,
-            },
-            {
-              title: "Tipo",
-              onChange: (value) => setTypeFilter(value),
-              options: typeFilterOptions,
-            },
-          ]}
-
-          showAddButton={true}
-          triggerFunction={showFacilityForm}
-          addSomething="Adicionar Espaço"
-        />
-
-        <div className="pages-filter-area"> 
-            <div className="pages-filter">
-              {Array.from(Array(pages), (item, index) => {
-                return (
-                  <button 
-                    value={index} 
-                    onClick={(e) => setCurrentPage(Number(e.target.value))}
-                    style={index === currentPage ? {background: "rgb(177, 173, 173)"} : null}
-                  > {index + 1} </button >
-                )
-              })} 
+      {localStorage.getItem("userType") &&
+        <>
+          <Header local="facilities" />
+          <div className="page-container">
+            <Filters
+              filters={[
+                {
+                  title: "Bloco",
+                  label: false,
+                  onChange: (value) => setBuildingFilter(value),
+                  options: buildingFilterOptions,
+                },
+                {
+                  title: "Tipo",
+                  onChange: (value) => setTypeFilter(value),
+                  options: typeFilterOptions,
+                },
+              ]}
+    
+              showAddButton={true}
+              triggerFunction={showFacilityForm}
+              addSomething="Adicionar Espaço"
+            />
+    
+            <div className="pages-filter-area"> 
+                <div className="pages-filter">
+                  {Array.from(Array(pages), (item, index) => {
+                    return (
+                      <button 
+                        value={index} 
+                        onClick={(e) => setCurrentPage(Number(e.target.value))}
+                        style={index === currentPage ? {background: "rgb(177, 173, 173)"} : null}
+                      > {index + 1} </button >
+                    )
+                  })} 
+                </div>
+                
+                {filteredFacilities && filteredFacilities.length > 5 
+                  ? <select value={itensPerPage} onChange={(e) => setItensPerPage(Number(e.target.value))}>
+                    <option value={5}>5</option>
+                    <option value={8}>8</option>
+                    <option value={12}>12</option>
+                  </select>
+                  : <></>
+                }
             </div>
-            
-            {filteredFacilities && filteredFacilities.length > 5 
-              ? <select value={itensPerPage} onChange={(e) => setItensPerPage(Number(e.target.value))}>
-                <option value={5}>5</option>
-                <option value={8}>8</option>
-                <option value={12}>12</option>
-              </select>
-              : <></>
+    
+    
+    
+            {(localStorage.getItem("userType") === "Docente" ||
+              localStorage.getItem("userType") === "Discente") 
+              ? currentFacilities.map((facility) => { 
+                return facility.isActive ? (<CardFacility
+                  facility={facility}
+                  showFacility={showFacility}
+                  showFacilityForm={showFacilityForm}
+                />) : <></>
+              })
+              : currentFacilities.map((facility) => { 
+                return (<CardFacility
+                  facility={facility}
+                  showFacility={showFacility}
+                  showFacilityForm={showFacilityForm}
+                />)
+              })
             }
-        </div>
-
-
-
-        {(localStorage.getItem("userType") === "Docente" ||
-          localStorage.getItem("userType") === "Discente") 
-          ? currentFacilities.map((facility) => { 
-            return facility.isActive ? (<CardFacility
-              facility={facility}
-              showFacility={showFacility}
-              showFacilityForm={showFacilityForm}
-            />) : <></>
-          })
-          : currentFacilities.map((facility) => { 
-            return (<CardFacility
-              facility={facility}
-              showFacility={showFacility}
-              showFacilityForm={showFacilityForm}
-            />)
-          })
-        }
-
-        {triggerFacilityForm &&
-          <FormFacility
-            facilityFunction={showFacilityForm}
-            facility={facilityById}
-            buildings={buildings}
-            facilityTypes={facilityTypes}
-          />
-        }
-
-        {showReadFacility &&
-          <CardReadFacility
-            showFacility={showFacility}
-            facility={facilityById}
-          />
-        }
-      </div>
-      <ToastContainer />
+    
+            {triggerFacilityForm &&
+              <FormFacility
+                facilityFunction={showFacilityForm}
+                facility={facilityById}
+                buildings={buildings}
+                facilityTypes={facilityTypes}
+              />
+            }
+    
+            {showReadFacility &&
+              <CardReadFacility
+                showFacility={showFacility}
+                facility={facilityById}
+              />
+            }
+          </div>
+          <ToastContainer />
+        </>
+      }
     </>
   );
 }

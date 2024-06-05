@@ -17,11 +17,15 @@ function Login() {
   }, [localStorage.getItem("responseMessage")])
 
   return (
-    <div className="page-container-login">
-      <Title />
-      <FormLogin />
-      <ToastContainer />
-    </div>
+    <>
+      {!localStorage.getItem("userType") &&
+        <div className="page-container-login">
+          <Title />
+          <FormLogin />
+          <ToastContainer />
+        </div>
+      }
+    </>
   );
 }
 

@@ -15,11 +15,11 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function Reservations() {
   if (!localStorage.getItem("userType")) {
-    window.location = "/users";
+    window.location = "/";
   } else if (localStorage.getItem("userType") === "Discente") {
     window.location = "/facilities";
   }
-
+  
   useEffect(() => {
     setTimeout(() => {
       toast(localStorage.getItem("responseMessage"))
@@ -153,88 +153,93 @@ function Reservations() {
 
   return (
     <>
-      <Header local="reservations" />
-      
-      <div className="page-container">
-          <div>
-            <Link to="/reservationsCreate" className="create-reservation-link"> 
-              <div className="icon">
-                Nova Reserva
-                <IconPlusCircle className="icon" /> 
-              </div>
-            </Link>
+      { localStorage.getItem("userType") &&
+        localStorage.getItem("userType") !== "Discente" &&
+        <>
+          <Header local="reservations" />
 
-            <div className="reservation-filter">
-              <Inputs 
-                inputTemplate={inputTemplate}
-                setInputTemplate={setInputTemplate}
-                triggerFunction={showFacilityList}
-                setSearch={setSearch}
-                search={search}
-                inputs={ inputs }          
-              />
+          <div className="page-container">
+              <div>
+                <Link to="/reservationsCreate" className="create-reservation-link"> 
+                  <div className="icon">
+                    Nova Reserva
+                    <IconPlusCircle className="icon" /> 
+                  </div>
+                </Link>
+
+                <div className="reservation-filter">
+                  <Inputs 
+                    inputTemplate={inputTemplate}
+                    setInputTemplate={setInputTemplate}
+                    triggerFunction={showFacilityList}
+                    setSearch={setSearch}
+                    search={search}
+                    inputs={ inputs }          
+                  />
+                </div>
+                
+                <div className="pages-filter-area"> 
+                  <div className="pages-filter">
+                    {Array.from(Array(pages), (item, index) => {
+                      return (
+                        <button 
+                          value={index} 
+                          onClick={(e) => setCurrentPage(Number(e.target.value))}
+                          style={index === currentPage ? {background: "rgb(177, 173, 173)"} : null}
+                        > {index + 1} </button >
+                      )
+                    })} 
+                  </div>
+                  
+                  {reservations && reservations.length > 5 
+                  ? <select value={itensPerPage} onChange={(e) => setItensPerPage(Number(e.target.value))}>
+                      <option value={5}>5</option>
+                      <option value={8}>8</option>
+                      <option value={12}>12</option>
+                    </select>
+                  : <></>
+                  }
+              </div>
             </div>
-            
-            <div className="pages-filter-area"> 
-              <div className="pages-filter">
-                {Array.from(Array(pages), (item, index) => {
-                  return (
-                    <button 
-                      value={index} 
-                      onClick={(e) => setCurrentPage(Number(e.target.value))}
-                      style={index === currentPage ? {background: "rgb(177, 173, 173)"} : null}
-                    > {index + 1} </button >
-                  )
-                })} 
-              </div>
-              
-              {reservations && reservations.length > 5 
-              ? <select value={itensPerPage} onChange={(e) => setItensPerPage(Number(e.target.value))}>
-                  <option value={5}>5</option>
-                  <option value={8}>8</option>
-                  <option value={12}>12</option>
-                </select>
-              : <></>
-              }
+
+            { currentReservations.length < 1 &&
+              <>
+                <h3>Sem Reservas com base nos filtros selecionados!</h3>
+                <h3>Tente outros...</h3>
+              </>
+
+            }
+
+            {currentReservations.map((reserve) => ( 
+                <CardReservation 
+                  reservation={reserve} 
+                  showFormReservation={showFormReservation}
+                />
+              ))
+            }
+
           </div>
-        </div>
 
-        { currentReservations.length < 1 &&
-          <>
-            <h3>Sem Reservas com base nos filtros selecionados!</h3>
-            <h3>Tente outros...</h3>
-          </>
-
-        }
-
-        {currentReservations.map((reserve) => ( 
-            <CardReservation 
-              reservation={reserve} 
-              showFormReservation={showFormReservation}
+          {
+            triggerFacilityList && 
+            <CardFacilityReserve 
+              triggerFunction={showFacilityList}
+              buildingId={inputTemplate.buildingId}
+              setInputTemplate={setInputTemplate}
+              inputTemplate={inputTemplate}
             />
-          ))
-        }
+          }
 
-      </div>
+            { showFormEditReservation && 
+              <FormEditReservation 
+                showFormReservation={showFormReservation} 
+                reservation={reservationById}
+              />
+            }    
 
-      {
-        triggerFacilityList && 
-        <CardFacilityReserve 
-          triggerFunction={showFacilityList}
-          buildingId={inputTemplate.buildingId}
-          setInputTemplate={setInputTemplate}
-          inputTemplate={inputTemplate}
-        />
+          <ToastContainer />
+        </>
       }
-
-        { showFormEditReservation && 
-          <FormEditReservation 
-            showFormReservation={showFormReservation} 
-            reservation={reservationById}
-          />
-        }    
-      
-      <ToastContainer />
     </>
   );
 }

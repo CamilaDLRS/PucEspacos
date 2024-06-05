@@ -11,7 +11,9 @@ function Header(prop) {
 
     useEffect(() => {
         if (localStorage.getItem("userType")) {
-            document.getElementById(prop.local).style.background =  "rgb(128, 9, 54)";
+            setTimeout(() => {
+                document.getElementById(prop.local).style.background =  "rgb(128, 9, 54)"; 
+            }, 200);
         }
     }, [])
 
